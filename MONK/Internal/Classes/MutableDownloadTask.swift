@@ -53,7 +53,7 @@ final class MutableDownloadTask: DownloadTask, CompletableTask {
     }
     
     func didComplete(statusCode: Int?, error: NSError?) {
-        let result: DownloadTaskResult = {
+        let taskResult: DownloadTaskResult = {
             if let existingResult = self.result {
                 // We could already have a failure result from trying to move the file from the temp URL to the localURL. If we do, preserve that result/error.
                 return existingResult
@@ -63,8 +63,8 @@ final class MutableDownloadTask: DownloadTask, CompletableTask {
                 return .failure(error: error)
             }
         }()
-        self.result = result
-        completionHandlers.forEach { $0(result: result) }
+        result = taskResult
+        completionHandlers.forEach { $0(result: taskResult) }
         removeHandlers()
     }
     

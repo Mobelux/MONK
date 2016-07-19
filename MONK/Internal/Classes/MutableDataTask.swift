@@ -52,15 +52,15 @@ final class MutableDataTask: DataTask, CompletableTask {
     }
     
     func didComplete(statusCode: Int?, error: NSError?) {
-        let result: TaskResult = {
+        let taskResult: TaskResult = {
             if let statusCode = statusCode {
                 return .success(statusCode: statusCode, responseData: data)
             } else {
                 return .failure(error: error)
             }
         }()
-        self.result = result
-        completionHandlers.forEach { $0(result: result) }
+        result = taskResult
+        completionHandlers.forEach { $0(result: taskResult) }
         removeHandlers()
     }
     
