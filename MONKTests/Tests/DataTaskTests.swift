@@ -20,7 +20,7 @@ class DataTaskTests: XCTestCase {
     }
     
     func testSystemDataTask() {
-        let expectation = self.expectation(withDescription: "Network request")
+        let expectation = self.expectation(description: "Network request")
         
         let url = URL(string: "http://jsonplaceholder.typicode.com/posts/1")!
 
@@ -38,11 +38,11 @@ class DataTaskTests: XCTestCase {
             expectation.fulfill()
         }
         task.resume()
-        waitForExpectations(withTimeout: 4, handler: nil)
+        waitForExpectations(timeout: 4, handler: nil)
     }
     
     func testBasicDataTask() {
-        let expectation = self.expectation(withDescription: "Network request")
+        let expectation = self.expectation(description: "Network request")
         
         let url = URL(string: "http://jsonplaceholder.typicode.com/posts/1")!
         let request = DataRequest(url: url, httpMethod: .get)
@@ -73,11 +73,11 @@ class DataTaskTests: XCTestCase {
         }
         
         task.resume()
-        waitForExpectations(withTimeout: 4, handler: nil)
+        waitForExpectations(timeout: 4, handler: nil)
     }
     
     func testDataTaskProgress() {
-        let expectation = self.expectation(withDescription: "Large network request")
+        let expectation = self.expectation(description: "Large network request")
         
         let url = URL(string: "http://jsonplaceholder.typicode.com/photos")!
         let request = DataRequest(url: url, httpMethod: .get)
@@ -114,11 +114,11 @@ class DataTaskTests: XCTestCase {
         }
         
         task.resume()
-        waitForExpectations(withTimeout: 4, handler: nil)
+        waitForExpectations(timeout: 4, handler: nil)
     }
     
     func testAutomaticRedirection() {
-        let expectation = self.expectation(withDescription: "Redirection network request")
+        let expectation = self.expectation(description: "Redirection network request")
         let finalURLString = "https://jsonplaceholder.typicode.com/posts/1".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
         
         let url = URL(string: "https://httpbin.org/redirect-to?url=\(finalURLString!)")!
@@ -160,11 +160,11 @@ class DataTaskTests: XCTestCase {
         }
         
         task.resume()
-        waitForExpectations(withTimeout: 4, handler: nil)
+        waitForExpectations(timeout: 4, handler: nil)
     }
     
     func testPostWithoutBody() {
-        let expectation = self.expectation(withDescription: "Network request")
+        let expectation = self.expectation(description: "Network request")
         
         let url = URL(string: "http://httpbin.org/post")!
         
@@ -219,11 +219,11 @@ class DataTaskTests: XCTestCase {
         }
         
         task.resume()
-        waitForExpectations(withTimeout: 4, handler: nil)
+        waitForExpectations(timeout: 4, handler: nil)
     }
 
     func testPutWithoutBody() {
-        let expectation = self.expectation(withDescription: "Network request")
+        let expectation = self.expectation(description: "Network request")
         
         let url = URL(string: "http://httpbin.org/put")!
         
@@ -278,6 +278,6 @@ class DataTaskTests: XCTestCase {
         }
         
         task.resume()
-        waitForExpectations(withTimeout: 4, handler: nil)
+        waitForExpectations(timeout: 4, handler: nil)
     }
 }

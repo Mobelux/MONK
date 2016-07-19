@@ -20,7 +20,7 @@ class NetworkControllerDelegateTests: XCTestCase {
     }
     
     func testDelegateDidFinishAllEvents() {
-        expectation = self.expectation(withDescription: "Network request")
+        expectation = self.expectation(description: "Network request")
         
         let url = URL(string: "http://jsonplaceholder.typicode.com/posts/1")!
         let request = DataRequest(url: url, httpMethod: .get)
@@ -49,7 +49,7 @@ class NetworkControllerDelegateTests: XCTestCase {
         }
         
         task.resume()
-        waitForExpectations(withTimeout: 4, handler: nil)
+        waitForExpectations(timeout: 4, handler: nil)
     }
 }
 

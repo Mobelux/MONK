@@ -13,7 +13,7 @@ struct FileValidator {
     
     /// Validates files we upload are the same as the ones in the response from HTTPBin.org
     static func validate(files: [UploadableData.FileData], response: JSON) -> Bool {
-        guard let responseFiles = response["files"] as? [String : String] where responseFiles.count == files.count else { return false }
+        guard let responseFiles = response["files"] as? [String : String], responseFiles.count == files.count else { return false }
         
         for file in files {
             guard let responseFile = responseFiles[file.name]?.fileData(),

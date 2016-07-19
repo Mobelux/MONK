@@ -19,7 +19,7 @@ class DownloadTaskTests: XCTestCase {
     }
     
     func testDownloadTaskProgress() {
-        let expectation = self.expectation(withDescription: "Download network request")
+        let expectation = self.expectation(description: "Download network request")
         
         let url = URL(string: "https://httpbin.org/image/jpeg")!
         let requestedLocalURL = URL(fileURLWithPath: NSTemporaryDirectory() + "image.jpg")
@@ -70,7 +70,7 @@ class DownloadTaskTests: XCTestCase {
         }
         
         task.resume()
-        waitForExpectations(withTimeout: 4, handler: nil)
+        waitForExpectations(timeout: 4, handler: nil)
     }
     
     func testDownloadTaskCancellation() {

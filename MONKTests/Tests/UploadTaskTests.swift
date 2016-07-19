@@ -19,7 +19,7 @@ class UploadTaskTests: XCTestCase {
     }
     
     func testUploadJSONTask() {
-        let expectation = self.expectation(withDescription: "Network request")
+        let expectation = self.expectation(description: "Network request")
         
         let url = URL(string: "http://httpbin.org/post")!
         let json = try! DataHelper.data(for: .posts1).json()
@@ -81,11 +81,11 @@ class UploadTaskTests: XCTestCase {
         }
         
         task.resume()
-        waitForExpectations(withTimeout: 4, handler: nil)
+        waitForExpectations(timeout: 4, handler: nil)
     }
     
     func testUploadImageFromURLTask() {
-        let expectation = self.expectation(withDescription: "Network request")
+        let expectation = self.expectation(description: "Network request")
         
         let imageURL = DataHelper.imageURL(for: .compiling)
         let file = UploadableData.FileData.init(name: "imageFile", fileName: "compiling.png", mimeType: ContentType.png, data: .file(url: imageURL))
@@ -147,11 +147,11 @@ class UploadTaskTests: XCTestCase {
         }
         
         task.resume()
-        waitForExpectations(withTimeout: 4, handler: nil)
+        waitForExpectations(timeout: 4, handler: nil)
     }
     
     func testUploadJSONAndImageFromURLTask() {
-        let expectation = self.expectation(withDescription: "Network request")
+        let expectation = self.expectation(description: "Network request")
         
         let json = try! DataHelper.data(for: .posts1).json()
         let imageURL = DataHelper.imageURL(for: .compiling)
@@ -217,11 +217,11 @@ class UploadTaskTests: XCTestCase {
         }
         
         task.resume()
-        waitForExpectations(withTimeout: 4, handler: nil)
+        waitForExpectations(timeout: 4, handler: nil)
     }
     
     func testUploadJSONAndImageFromDataTask() {
-        let expectation = self.expectation(withDescription: "Network request")
+        let expectation = self.expectation(description: "Network request")
         
         let json = try! DataHelper.data(for: .posts1).json()
         let imageData = DataHelper.imageData(for: .compiling)
@@ -288,11 +288,11 @@ class UploadTaskTests: XCTestCase {
         }
         
         task.resume()
-        waitForExpectations(withTimeout: 4, handler: nil)
+        waitForExpectations(timeout: 4, handler: nil)
     }
     
     func testUploadImageFromRawData() {
-        let expectation = self.expectation(withDescription: "Network request")
+        let expectation = self.expectation(description: "Network request")
         
         let imageData = DataHelper.imageData(for: .compiling)
         let dataToUpload = UploadableData.data(data: imageData, contentType: ContentType.png)
@@ -351,6 +351,6 @@ class UploadTaskTests: XCTestCase {
         }
         
         task.resume()
-        waitForExpectations(withTimeout: 4, handler: nil)
+        waitForExpectations(timeout: 4, handler: nil)
     }
 }

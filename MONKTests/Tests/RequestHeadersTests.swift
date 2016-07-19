@@ -21,7 +21,7 @@ class RequestHeadersTests: XCTestCase {
     func testAdditionalHeaders() {
         networkController = NetworkController(configuration: URLSessionConfiguration.default, description: "Tests", delegate: nil)
         
-        let expectation = self.expectation(withDescription: "Network request")
+        let expectation = self.expectation(description: "Network request")
         let additionalHeaders: [String : String] = ["DummyKey" : "DummyValue"]
         let settings = RequestSettings(additionalHeaders: additionalHeaders, allowsCellularAccess: true, networkServiceType: .default, cachePolicy: .useProtocolCachePolicy)
         
@@ -59,13 +59,13 @@ class RequestHeadersTests: XCTestCase {
         }
         
         task.resume()
-        waitForExpectations(withTimeout: 4, handler: nil)
+        waitForExpectations(timeout: 4, handler: nil)
     }
     
     func testAdditionalHeadersOverridingSessionHeaders() {
         networkController = NetworkController(configuration: URLSessionConfiguration.mobeluxDefault, description: "Tests", delegate: nil)
         
-        let expectation = self.expectation(withDescription: "Network request")
+        let expectation = self.expectation(description: "Network request")
         let additionalHeaders: [String : String] = ["Accept" : ContentType.plainText.rawValue]
         let settings = RequestSettings(additionalHeaders: additionalHeaders, allowsCellularAccess: true, networkServiceType: .default, cachePolicy: .useProtocolCachePolicy)
         
@@ -104,6 +104,6 @@ class RequestHeadersTests: XCTestCase {
         }
         
         task.resume()
-        waitForExpectations(withTimeout: 4, handler: nil)
+        waitForExpectations(timeout: 4, handler: nil)
     }
 }

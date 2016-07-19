@@ -19,7 +19,7 @@ class TaskStateTests: XCTestCase {
     }
     
     func testSuccessfulTaskState() {
-        let expectation = self.expectation(withDescription: "Network request")
+        let expectation = self.expectation(description: "Network request")
         
         let url = URL(string: "http://jsonplaceholder.typicode.com/posts/1")!
         let request = DataRequest(url: url, httpMethod: .get)
@@ -55,7 +55,7 @@ class TaskStateTests: XCTestCase {
             XCTAssert(false, "Task wasn't running")
         }
         
-        waitForExpectations(withTimeout: 4, handler: nil)
+        waitForExpectations(timeout: 4, handler: nil)
     }
     
     func testCanceledTaskState() {
@@ -87,7 +87,7 @@ class TaskStateTests: XCTestCase {
     }
     
     func testFailedTaskState() {
-        let expectation = self.expectation(withDescription: "Network request")
+        let expectation = self.expectation(description: "Network request")
         
         let url = URL(string: "http://someInvalidURLToNonexistantHost.com")!
         let request = DataRequest(url: url, httpMethod: .get)
@@ -130,7 +130,7 @@ class TaskStateTests: XCTestCase {
             XCTAssert(false, "Task wasn't running")
         }
         
-        waitForExpectations(withTimeout: 4, handler: nil)
+        waitForExpectations(timeout: 4, handler: nil)
     }
     
     func testSuspendedTaskState() {
