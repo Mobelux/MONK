@@ -17,7 +17,7 @@ extension URLSession {
      
         - returns: Based on the `request.httpMethod` and any `bodyData` it might have, this will return either a `URLSessionDataTask` or a `URLSessionUploadTask` that is ready to start
     */
-    func dataTask(with request: Request) -> URLSessionDataTask {
+    public func dataTask(with request: Request) -> URLSessionDataTask {
         switch request.httpMethod {
         case .delete, .get, .patch:
             return dataTask(with: request.urlRequest())
@@ -52,7 +52,7 @@ extension URLSession {
      
         - returns: A `URLSessionDownloadTask` ready to start
     */
-    func downloadTask(with request: DownloadRequestType) -> URLSessionDownloadTask {
+    public func downloadTask(with request: DownloadRequestType) -> URLSessionDownloadTask {
         return downloadTask(with: request.urlRequest())
     }
 }

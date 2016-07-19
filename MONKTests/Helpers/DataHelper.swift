@@ -49,3 +49,21 @@ extension Data {
 func ==(lhs: JSON, rhs: JSON) -> Bool {
     return NSDictionary(dictionary: lhs).isEqual(to: rhs)
 }
+
+public class MockSession : URLSessionProtocol {
+    public var sessionDescription: String? = "com.mocksession.network_controller"
+    
+    public func invalidateAndCancel() {
+        
+    }
+    
+    public func dataTask(with request: Request) -> URLSessionDataTask {
+        var mockSessionDataTask = URLSessionDataTask()
+        
+        return mockSessionDataTask
+    }
+    
+    public func downloadTask(with request: DownloadRequestType) -> URLSessionDownloadTask {
+        return URLSessionDownloadTask()
+    }
+}

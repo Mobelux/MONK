@@ -11,7 +11,7 @@ import Foundation
 /// A `DownloadTask` that allows it's `result` and `downloadProgress` to be mutated, so that we can update a task as it recieves the file
 final class MutableDownloadTask: DownloadTask, CompletableTask {
     let downloadRequest: DownloadRequestType
-    let downloadTask: URLSessionDownloadTask
+    let downloadTask: URLSessionDownloadTaskProtocol
     
     var result: DownloadTaskResult?
     
@@ -20,7 +20,7 @@ final class MutableDownloadTask: DownloadTask, CompletableTask {
     
     var completionHandlers: [DownloadCompletionHandler] = []
     
-    init(request: DownloadRequestType, task: URLSessionDownloadTask) {
+    init(request: DownloadRequestType, task: URLSessionDownloadTaskProtocol) {
         downloadRequest = request
         downloadTask = task
     }

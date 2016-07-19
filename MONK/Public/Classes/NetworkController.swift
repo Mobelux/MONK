@@ -8,10 +8,121 @@
 
 import Foundation
 
+extension URLSession : URLSessionProtocol {
+    public func dataTask(with request: Request) -> URLSessionDataTaskProtocol {
+        return dataTask(with: request) as URLSessionDataTask
+    }
+    
+    public func downloadTask(with request: DownloadRequestType) -> URLSessionDownloadTaskProtocol {
+        return downloadTask(with: request) as URLSessionDownloadTask
+    }
+}
+
+extension URLSessionConfiguration : URLSessionConfigurationProtocol {
+    public static var mobeluxDefault: URLSessionConfigurationProtocol {
+        get {
+            let config = URLSessionConfiguration.default
+            config.httpAdditionalHeaders = ["Accept" : ContentType.json.rawValue,
+                                           "Accept-Language" : "en",
+                                           "Accept-Encoding" : "gzip",
+                                           "User-Agent" : userAgent]
+            return config
+        }
+    }
+}
+
+private var userAgent: String = {
+    let osVersionAndBuild = ProcessInfo.processInfo.operatingSystemVersionString
+    let bundle = Bundle.main
+    let deviceInfo = "(\(modelName()), \(displayScale()), \(osVersionAndBuild))"
+    
+    guard let info = bundle.infoDictionary,
+        let appName = info["CFBundleDisplayName"],
+        let appVersion = info["CFBundleShortVersionString"],
+        let appBuild = info[kCFBundleVersionKey as String] else {
+            
+            return "Mobelux NetworkKit - \(deviceInfo)"
+    }
+    
+    return "\(appName) v\(appVersion) (\(appBuild)) - \(deviceInfo)"
+}()
+
+private func modelName() -> String {
+    var systemInfo = utsname()
+    let _  = uname(&systemInfo)
+    let machineMirror = Mirror(reflecting: systemInfo.machine)
+    let identifier = machineMirror.children.reduce("") { identifier, element in
+        guard let value = element.value as? Int8 where value != 0 else { return identifier }
+        return identifier + String(UnicodeScalar(UInt8(value)))
+    }
+    return identifier
+}
+
+private func displayScale() -> String {
+    var scale: CGFloat = 1
+    #if os(iOS) || os(watchOS) || os(tvOS)
+        scale = UIScreen.main().scale
+    #elseif os(OSX)
+        if let screens = NSScreen.screens() {
+            for screen in screens {
+                if screen.backingScaleFactor > scale {
+                    scale = screen.backingScaleFactor
+                }
+            }
+        }
+    #endif
+    
+    return String(format: "%0.1fx", scale)
+}
+
+public protocol URLSessionConfigurationProtocol {
+    static var mobeluxDefault: URLSessionConfigurationProtocol { get }
+}
+
+public protocol URLSessionDataTaskProtocol : URLSessionTaskProtocol {
+    func cancel()
+}
+
+public protocol URLSessionDownloadTaskProtocol : URLSessionDataTaskProtocol {
+    
+}
+public protocol URLSessionUploadTaskProtocol : URLSessionDataTaskProtocol {
+    
+}
+
+public protocol URLSessionTaskProtocol {
+    func resume()
+    func suspend()
+}
+
+extension URLSessionTask : URLSessionTaskProtocol {
+    
+}
+
+extension URLSessionDataTask : URLSessionDataTaskProtocol {
+    
+}
+
+extension URLSessionDownloadTask : URLSessionDownloadTaskProtocol {
+    
+}
+
+extension URLSessionUploadTask : URLSessionUploadTaskProtocol {
+    
+}
+
+public protocol URLSessionProtocol {
+    var sessionDescription: String? { get set}
+    //init(configuration: URLSessionConfigurationProtocol, delegate: URLSessionDelegate?, delegateQueue queue: OperationQueue?)
+    func invalidateAndCancel()
+    func dataTask(with request: Request) -> URLSessionDataTaskProtocol
+    func downloadTask(with request: DownloadRequestType) -> URLSessionDownloadTaskProtocol
+}
+
 /// A simple networking controller. The goal isn't to handle all networking tasks, but to provide a very simple and safe controller that can be used in 95% of use cases.
 public final class NetworkController {
     
-    private let session: URLSession
+    private let session: URLSessionProtocol
     private let sessionDelegate: NetworkSessionDelegate
     
     /// The number of tasks that are active on this network controller. This includes paused/suspended tasks.
@@ -26,11 +137,11 @@ public final class NetworkController {
         - parameter description:    A string to be used to label this controller. It will be handy when debugging since it is visible in the stack trace in Xcode.
         - parameter delegate:       An optional delegate that can recieve some basic notifications about metrics and things.
     */
-    public init (configuration: URLSessionConfiguration = URLSessionConfiguration.mobeluxDefault, description: String = "com.mobelux.network_controller", delegate: NetworkControllerDelegate? = nil) {
+    public init (configuration: URLSessionConfigurationProtocol = URLSessionConfiguration.mobeluxDefault, description: String = "com.mobelux.network_controller", delegate: NetworkControllerDelegate? = nil, sessionProtocol: URLSessionProtocol) {
         
         sessionDelegate = NetworkSessionDelegate(delegate: delegate)
         
-        session = URLSession(configuration: configuration, delegate: sessionDelegate, delegateQueue: sessionDelegate.operationQueue)
+        session = sessionProtocol//URLSession(configuration: configuration, delegate: sessionDelegate, delegateQueue: sessionDelegate.operationQueue)
         session.sessionDescription = description
         
         sessionDelegate.networkController = self
@@ -65,7 +176,7 @@ public extension NetworkControllerActions {
     public func data(with request: Request) -> DataTask {
         let urlDataTask = session.dataTask(with: request)
         let task: MutableDataTask = {
-            if let uploadTask = urlDataTask as? URLSessionUploadTask {
+            if let uploadTask = urlDataTask as? URLSessionUploadTaskProtocol {
                 return MutableDataTask(request: request, task: uploadTask)
             } else {
                 return MutableDataTask(request: request, task: urlDataTask)

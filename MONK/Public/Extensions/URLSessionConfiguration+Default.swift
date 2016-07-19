@@ -23,11 +23,11 @@ public extension URLSessionConfiguration {
      
         Modifying the returned session configuration object does not affect any configuration objects returned by future calls to this method, and does not change the default behavior for existing sessions. It is therefore always safe to use the returned object as a starting point for additional customization.
     */
-    public static var mobeluxDefault: URLSessionConfiguration {
-        let config = URLSessionConfiguration.default
-        config.configureMobeluxAdditionalHeaders()
-        return config
-    }
+//    public static var mobeluxDefault: URLSessionConfiguration {
+//        let config = URLSessionConfiguration.default
+//        config.configureMobeluxAdditionalHeaders()
+//        return config
+//    }
     
     /**
         Returns a session configuration object that allows HTTP and HTTPS uploads or downloads to be performed in the background. This is just a simple wrapper around `background(withIdentifier:)` that calls `configureMobeluxAdditionalHeaders()` before returning

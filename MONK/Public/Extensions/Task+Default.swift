@@ -36,10 +36,10 @@ public extension Task {
 }
 
 public extension DataTask {
-    public var task: URLSessionTask { return dataTask }
+    public var task: URLSessionTaskProtocol { return dataTask }
 }
 
 public extension DownloadTask {
     public var request: Request { return downloadRequest }
-    public var task: URLSessionTask { return downloadTask }
+    public var task: URLSessionTaskProtocol { return downloadTask }
 }

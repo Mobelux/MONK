@@ -73,7 +73,7 @@ public protocol Task: class {
     var request: Request { get }
     
     /// The underlying system task. You should NEVER use `task.cancel()` on this task or your app will leak memory. Instad call `cancel()` on the `Task`
-    var task: URLSessionTask { get }
+    var task: URLSessionTaskProtocol { get }
     
     /// The current state of this task
     var state: TaskState { get }
@@ -126,10 +126,10 @@ public protocol DataTask: Task {
     func addCompletion(handler: CompletionHandler)
     
     /// The underlying system data task. Since `URLSessionDataTask` is a superclass of `URLSessionUploadTask`, this property and `uploadTask` may point to the same task. `task` will also point to the same task as this
-    var dataTask: URLSessionDataTask { get }
+    var dataTask: URLSessionDataTaskProtocol { get }
     
     /// The underlying system upload task if, this task is uploading data. Since `URLSessionDataTask` is a superclass of `URLSessionUploadTask`, this property `task` and `dataTask` point to the same task when this is not `nil`
-    var uploadTask: URLSessionUploadTask? { get }
+    var uploadTask: URLSessionUploadTaskProtocol? { get }
 }
 
 /// Download task that extends `Task` and downloads files to disk
@@ -149,5 +149,5 @@ public protocol DownloadTask: Task {
     var downloadRequest: DownloadRequestType { get }
     
     /// The underlying system download task. Since `URLSessionTask` is a superclass of `URLSessionDownloadTask`, this property and `task` point to the same task
-    var downloadTask: URLSessionDownloadTask { get }
+    var downloadTask: URLSessionDownloadTaskProtocol { get }
 }

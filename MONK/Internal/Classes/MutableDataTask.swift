@@ -11,8 +11,8 @@ import Foundation
 /// A `DataTask` that allows it's `data`, `result`, `downloadProgress` and `uploadProgress` to be mutated, so that we can update a task as it sends/recieves data
 final class MutableDataTask: DataTask, CompletableTask {
     let request: Request
-    let dataTask: URLSessionDataTask
-    let uploadTask: URLSessionUploadTask?
+    let dataTask: URLSessionDataTaskProtocol
+    let uploadTask: URLSessionUploadTaskProtocol?
     
     var data: Data?
     
@@ -26,13 +26,13 @@ final class MutableDataTask: DataTask, CompletableTask {
     
     var completionHandlers: [CompletionHandler] = []
     
-    init(request: Request, task: URLSessionDataTask) {
+    init(request: Request, task: URLSessionDataTaskProtocol) {
         dataTask = task
         uploadTask = nil
         self.request = request
     }
     
-    init(request: Request, task: URLSessionUploadTask) {
+    init(request: Request, task: URLSessionUploadTaskProtocol) {
         self.request = request
         uploadTask = task
         dataTask = task
