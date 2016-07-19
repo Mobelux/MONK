@@ -21,13 +21,7 @@ extension URLSession {
         switch request.httpMethod {
         case .delete, .get, .patch:
             return dataTask(with: request.urlRequest())
-        case .post(let bodyData):
-            do {
-                return try uploadTask(with: request, bodyData: bodyData)
-            } catch {
-                return dataTask(with: request.urlRequest())
-            }
-        case .put(let bodyData):
+        case .post(let bodyData), .put(let bodyData):
             do {
                 return try uploadTask(with: request, bodyData: bodyData)
             } catch {

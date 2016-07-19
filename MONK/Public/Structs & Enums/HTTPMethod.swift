@@ -44,9 +44,7 @@ public enum HTTPMethod {
         switch self {
         case .get, .patch, .delete:
             return false
-        case .post(let bodyData):
-            return bodyData?.isMultiPart ?? false
-        case .put(let bodyData):
+        case .post(let bodyData), .put(let bodyData):
             return bodyData?.isMultiPart ?? false
         }
     }
