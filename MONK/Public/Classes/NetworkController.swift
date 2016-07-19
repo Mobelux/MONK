@@ -75,24 +75,28 @@ private func displayScale() -> String {
     return String(format: "%0.1fx", scale)
 }
 
-public protocol URLSessionConfigurationProtocol {
+public protocol URLSessionConfigurationProtocol : class {
     static var mobeluxDefault: URLSessionConfigurationProtocol { get }
 }
 
-public protocol URLSessionDataTaskProtocol : URLSessionTaskProtocol {
+public protocol URLSessionDataTaskProtocol : class, URLSessionTaskProtocol {
     func cancel()
 }
 
-public protocol URLSessionDownloadTaskProtocol : URLSessionDataTaskProtocol {
+public protocol URLSessionDownloadTaskProtocol : class, URLSessionDataTaskProtocol {
     
 }
-public protocol URLSessionUploadTaskProtocol : URLSessionDataTaskProtocol {
+public protocol URLSessionUploadTaskProtocol : class, URLSessionDataTaskProtocol {
     
 }
 
-public protocol URLSessionTaskProtocol {
+public protocol URLSessionTaskProtocol : class {
     func resume()
     func suspend()
+    var countOfBytesReceived: Int64 { get }
+    var countOfBytesExpectedToReceive: Int64 { get }
+    var state: URLSessionTask.State { get }
+    var error: NSError? { get }
 }
 
 extension URLSessionTask : URLSessionTaskProtocol {
@@ -111,7 +115,7 @@ extension URLSessionUploadTask : URLSessionUploadTaskProtocol {
     
 }
 
-public protocol URLSessionProtocol {
+public protocol URLSessionProtocol : class {
     var sessionDescription: String? { get set}
     //init(configuration: URLSessionConfigurationProtocol, delegate: URLSessionDelegate?, delegateQueue queue: OperationQueue?)
     func invalidateAndCancel()

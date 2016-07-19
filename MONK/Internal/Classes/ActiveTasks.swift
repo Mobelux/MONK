@@ -52,12 +52,12 @@ final class ActiveTasks {
      - parameter task:   The task to deactivate
      */
     func deactivate(task: Task) {
-        let dataTasks = self.dataTasks.filter { $0.task == task.task }
-        let downloadTasks = self.downloadTasks.filter { $0.task == task.task }
+        let dataTasks = self.dataTasks.filter { $0.task === task.task }
+        let downloadTasks = self.downloadTasks.filter { $0.task === task.task }
         
         for task in dataTasks {
             let index = self.dataTasks.index(where: { (innerTask) -> Bool in
-                innerTask.task == task.task
+                innerTask.task === task.task
             })
             
             if let index = index {
@@ -67,7 +67,7 @@ final class ActiveTasks {
         
         for task in downloadTasks {
             let index = self.downloadTasks.index(where: { (innerTask) -> Bool in
-                innerTask.task == task.task
+                innerTask.task === task.task
             })
             
             if let index = index {
@@ -84,7 +84,7 @@ final class ActiveTasks {
         - returns: The active `MutableDataTask` that corrisponds to the `urlTask` if there is one
     */
     func dataTask(fromURLTask urlTask: URLSessionDataTask) -> MutableDataTask? {
-        let tasks = dataTasks.filter { $0.dataTask == urlTask }
+        let tasks = dataTasks.filter { $0.dataTask === urlTask }
         return tasks.first
     }
     
@@ -96,7 +96,7 @@ final class ActiveTasks {
      - returns: The active `MutableDownloadTask` that corrisponds to the `urlTask` if there is one
      */
     func downloadTask(fromURLTask urlTask: URLSessionDownloadTask) -> MutableDownloadTask? {
-        let tasks = downloadTasks.filter { $0.downloadTask == urlTask }
+        let tasks = downloadTasks.filter { $0.downloadTask === urlTask }
         return tasks.first
     }
     
@@ -108,12 +108,12 @@ final class ActiveTasks {
      - returns: The active `CompletableTask` that corrisponds to the `urlTask` if there is one either in the `downloadTasks` or `dataTasks` arrays
      */
     func task(fromURLTask urlTask: URLSessionTask) -> CompletableTask? {
-        let dataTasks = self.dataTasks.filter { $0.task == urlTask }
+        let dataTasks = self.dataTasks.filter { $0.task === urlTask }
         guard dataTasks.count == 0 else {
             return dataTasks.first
         }
         
-        let downloadTasks = self.downloadTasks.filter { $0.task == urlTask }
+        let downloadTasks = self.downloadTasks.filter { $0.task === urlTask }
         return downloadTasks.first
     }
 }
