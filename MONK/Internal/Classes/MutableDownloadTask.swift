@@ -65,16 +65,19 @@ final class MutableDownloadTask: DownloadTask, CompletableTask {
         }()
         self.result = result
         completionHandlers.forEach { $0(result: result) }
-        completionHandlers.removeAll()
-        progressHandlers.removeAll()
+        removeHandlers()
     }
     
     func cancel() {
         downloadTask.cancel()
         
-        progressHandlers.removeAll()
-        completionHandlers.removeAll()
+        removeHandlers()
         
         let _ = try? FileManager.default.removeItem(at: downloadRequest.localURL)
+    }
+    
+    private func removeHandlers() {
+        progressHandlers.removeAll()
+        completionHandlers.removeAll()
     }
 }

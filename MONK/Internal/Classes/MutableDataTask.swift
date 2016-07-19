@@ -61,14 +61,16 @@ final class MutableDataTask: DataTask, CompletableTask {
         }()
         self.result = result
         completionHandlers.forEach { $0(result: result) }
-        completionHandlers.removeAll()
-        progressHandlers.removeAll()
-        uploadProgressHandlers.removeAll()
+        removeHandlers()
     }
     
     func cancel() {
         dataTask.cancel()
         
+        removeHandlers()
+    }
+    
+    private func removeHandlers() {
         progressHandlers.removeAll()
         uploadProgressHandlers.removeAll()
         completionHandlers.removeAll()
