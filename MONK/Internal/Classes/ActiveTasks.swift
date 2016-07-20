@@ -22,6 +22,11 @@ final class ActiveTasks {
         return dataTasks.count + downloadTasks.count
     }
     
+    init() {
+        let uuid = UUID().uuidString
+        print("ActiveTasks.init \(uuid)")
+    }
+    
     /**
         Activates a task
      
@@ -52,8 +57,8 @@ final class ActiveTasks {
      - parameter task:   The task to deactivate
      */
     func deactivate(task: Task) {
-        let dataTasks = self.dataTasks.filter { $0.task === task.task }
-        let downloadTasks = self.downloadTasks.filter { $0.task === task.task }
+        let dataTasks = self.dataTasks.filter { $0.task.taskIdentifier == task.task.taskIdentifier }
+        let downloadTasks = self.downloadTasks.filter { $0.task.taskIdentifier == task.task.taskIdentifier }
         
         for task in dataTasks {
             let index = self.dataTasks.index(where: { (innerTask) -> Bool in
@@ -84,7 +89,7 @@ final class ActiveTasks {
         - returns: The active `MutableDataTask` that corrisponds to the `urlTask` if there is one
     */
     func dataTask(fromURLTask urlTask: URLSessionDataTask) -> MutableDataTask? {
-        let tasks = dataTasks.filter { $0.dataTask === urlTask }
+        let tasks = dataTasks.filter { $0.dataTask.taskIdentifier == urlTask.taskIdentifier }
         return tasks.first
     }
     
@@ -96,7 +101,7 @@ final class ActiveTasks {
      - returns: The active `MutableDownloadTask` that corrisponds to the `urlTask` if there is one
      */
     func downloadTask(fromURLTask urlTask: URLSessionDownloadTask) -> MutableDownloadTask? {
-        let tasks = downloadTasks.filter { $0.downloadTask === urlTask }
+        let tasks = downloadTasks.filter { $0.downloadTask.taskIdentifier == urlTask.taskIdentifier }
         return tasks.first
     }
     
@@ -108,12 +113,12 @@ final class ActiveTasks {
      - returns: The active `CompletableTask` that corrisponds to the `urlTask` if there is one either in the `downloadTasks` or `dataTasks` arrays
      */
     func task(fromURLTask urlTask: URLSessionTask) -> CompletableTask? {
-        let dataTasks = self.dataTasks.filter { $0.task === urlTask }
+        let dataTasks = self.dataTasks.filter { $0.task.taskIdentifier == urlTask.taskIdentifier }
         guard dataTasks.count == 0 else {
             return dataTasks.first
         }
         
-        let downloadTasks = self.downloadTasks.filter { $0.task === urlTask }
+        let downloadTasks = self.downloadTasks.filter { $0.task.taskIdentifier == urlTask.taskIdentifier }
         return downloadTasks.first
     }
 }

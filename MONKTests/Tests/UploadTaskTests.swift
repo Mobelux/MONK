@@ -11,7 +11,7 @@ import XCTest
 
 class UploadTaskTests: XCTestCase {
 
-    private let networkController = NetworkController(sessionProtocol: MockSession())
+    private let networkController = NetworkController()
     
     override func tearDown() {
         super.tearDown()

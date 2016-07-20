@@ -80,7 +80,7 @@ public protocol URLSessionConfigurationProtocol : class {
 }
 
 public protocol URLSessionDataTaskProtocol : class, URLSessionTaskProtocol {
-    func cancel()
+    
 }
 
 public protocol URLSessionDownloadTaskProtocol : class, URLSessionDataTaskProtocol {
@@ -91,6 +91,7 @@ public protocol URLSessionUploadTaskProtocol : class, URLSessionDataTaskProtocol
 }
 
 public protocol URLSessionTaskProtocol : class {
+    func cancel()
     func resume()
     func suspend()
     var countOfBytesReceived: Int64 { get }
@@ -98,6 +99,7 @@ public protocol URLSessionTaskProtocol : class {
     var state: URLSessionTask.State { get }
     var error: NSError? { get }
     var currentRequest: URLRequest? { get }
+    var taskIdentifier: Int { get }
 }
 
 extension URLSessionTask : URLSessionTaskProtocol {
@@ -142,12 +144,19 @@ public final class NetworkController {
         - parameter description:    A string to be used to label this controller. It will be handy when debugging since it is visible in the stack trace in Xcode.
         - parameter delegate:       An optional delegate that can recieve some basic notifications about metrics and things.
     */
-    public init (configuration: URLSessionConfigurationProtocol = URLSessionConfiguration.mobeluxDefault, description: String = "com.mobelux.network_controller", delegate: NetworkControllerDelegate? = nil, sessionProtocol: URLSessionProtocol) {
+    public init (configuration: URLSessionConfigurationProtocol = URLSessionConfiguration.mobeluxDefault, description: String = "com.mobelux.network_controller", delegate: NetworkControllerDelegate? = nil) {
         
         sessionDelegate = NetworkSessionDelegate(delegate: delegate)
-        
-        session = sessionProtocol//URLSession(configuration: configuration, delegate: sessionDelegate, delegateQueue: sessionDelegate.operationQueue)
+        session = URLSession()
+        //session = URLSession(configuration: configuration, delegate: sessionDelegate, delegateQueue: sessionDelegate.operationQueue)
         session.sessionDescription = description
+        
+        sessionDelegate.networkController = self
+    }
+    
+    internal init (sessionProtocol: URLSessionProtocol, sessionDelegate: NetworkSessionDelegate) {
+        session = sessionProtocol
+        self.sessionDelegate = sessionDelegate
         
         sessionDelegate.networkController = self
     }

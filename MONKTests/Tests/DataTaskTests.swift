@@ -11,7 +11,7 @@ import XCTest
 
 class DataTaskTests: XCTestCase {
     
-    private let networkController = NetworkController(sessionProtocol: MockSession())
+    private let networkController = NetworkController()
     
     private let sessionController = URLSession.shared
     
