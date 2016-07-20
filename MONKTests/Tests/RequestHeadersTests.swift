@@ -11,7 +11,7 @@ import XCTest
 
 class RequestHeadersTests: XCTestCase {
 
-    private var networkController = NetworkController()
+    private var networkController = NetworkController(serverTrustSettings: nil)
     
     override func tearDown() {
         super.tearDown()
@@ -19,7 +19,7 @@ class RequestHeadersTests: XCTestCase {
     }
     
     func testAdditionalHeaders() {
-        networkController = NetworkController(configuration: URLSessionConfiguration.default, description: "Tests", delegate: nil)
+        networkController = NetworkController(serverTrustSettings: nil, configuration: URLSessionConfiguration.default, description: "Tests", delegate: nil)
         
         let expectation = self.expectation(description: "Network request")
         let additionalHeaders: [String : String] = ["DummyKey" : "DummyValue"]
@@ -63,7 +63,7 @@ class RequestHeadersTests: XCTestCase {
     }
     
     func testAdditionalHeadersOverridingSessionHeaders() {
-        networkController = NetworkController(configuration: URLSessionConfiguration.mobeluxDefault, description: "Tests", delegate: nil)
+        networkController = NetworkController(serverTrustSettings: nil, configuration: URLSessionConfiguration.mobeluxDefault, description: "Tests", delegate: nil)
         
         let expectation = self.expectation(description: "Network request")
         let additionalHeaders: [String : String] = ["Accept" : ContentType.plainText.rawValue]

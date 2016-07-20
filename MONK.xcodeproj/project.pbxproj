@@ -7,8 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6B50AC8E1D3E787000AC3D77 /* ServerTrustSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B50AC8D1D3E787000AC3D77 /* ServerTrustSettings.swift */; };
 		6B50AC901D3E78F900AC3D77 /* FileDataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B50AC8F1D3E78F900AC3D77 /* FileDataType.swift */; };
 		6B50AC921D3E794600AC3D77 /* FileDataType+Internal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B50AC911D3E794600AC3D77 /* FileDataType+Internal.swift */; };
+		6B50AC941D3E9B6100AC3D77 /* SecTrust+CertsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B50AC931D3E9B6100AC3D77 /* SecTrust+CertsKeys.swift */; };
+		6B50AC961D3EAD4400AC3D77 /* ServerTrustTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B50AC951D3EAD4400AC3D77 /* ServerTrustTests.swift */; };
+		6B50AC991D3ECCE600AC3D77 /* CertificateHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B50AC981D3ECCE600AC3D77 /* CertificateHelper.swift */; };
+		6B50AC9B1D3ECDCF00AC3D77 /* *.badssl.com.cer in Resources */ = {isa = PBXBuildFile; fileRef = 6B50AC9A1D3ECDCF00AC3D77 /* *.badssl.com.cer */; };
+		6B50AC9D1D3ECF9900AC3D77 /* www.google.com.cer in Resources */ = {isa = PBXBuildFile; fileRef = 6B50AC9C1D3ECF9900AC3D77 /* www.google.com.cer */; };
 		6B8CEC871D36CDFC00C224A8 /* MONK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B8CEC7D1D36CDFC00C224A8 /* MONK.framework */; };
 		6B8CEC8E1D36CDFC00C224A8 /* MONK.h in Headers */ = {isa = PBXBuildFile; fileRef = 6B8CEC801D36CDFC00C224A8 /* MONK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6BAB2A311D36CEFA00AB6DCF /* ActiveTasks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BAB2A151D36CEFA00AB6DCF /* ActiveTasks.swift */; };
@@ -56,8 +62,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6B50AC8D1D3E787000AC3D77 /* ServerTrustSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerTrustSettings.swift; sourceTree = "<group>"; };
 		6B50AC8F1D3E78F900AC3D77 /* FileDataType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileDataType.swift; sourceTree = "<group>"; };
 		6B50AC911D3E794600AC3D77 /* FileDataType+Internal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FileDataType+Internal.swift"; sourceTree = "<group>"; };
+		6B50AC931D3E9B6100AC3D77 /* SecTrust+CertsKeys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SecTrust+CertsKeys.swift"; sourceTree = "<group>"; };
+		6B50AC951D3EAD4400AC3D77 /* ServerTrustTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerTrustTests.swift; sourceTree = "<group>"; };
+		6B50AC981D3ECCE600AC3D77 /* CertificateHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CertificateHelper.swift; sourceTree = "<group>"; };
+		6B50AC9A1D3ECDCF00AC3D77 /* *.badssl.com.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = "*.badssl.com.cer"; sourceTree = "<group>"; };
+		6B50AC9C1D3ECF9900AC3D77 /* www.google.com.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = www.google.com.cer; sourceTree = "<group>"; };
 		6B8CEC7D1D36CDFC00C224A8 /* MONK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MONK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B8CEC801D36CDFC00C224A8 /* MONK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MONK.h; sourceTree = "<group>"; };
 		6B8CEC811D36CDFC00C224A8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -184,6 +196,7 @@
 				6BAB2A1B1D36CEFA00AB6DCF /* UploadableData+Internal.swift */,
 				6BAB2A1C1D36CEFA00AB6DCF /* URLSession+Task.swift */,
 				6B50AC911D3E794600AC3D77 /* FileDataType+Internal.swift */,
+				6B50AC931D3E9B6100AC3D77 /* SecTrust+CertsKeys.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -244,6 +257,7 @@
 				6BAB2A2E1D36CEFA00AB6DCF /* JSON.swift */,
 				6BAB2A2F1D36CEFA00AB6DCF /* RequestSettings.swift */,
 				6BAB2A301D36CEFA00AB6DCF /* UploadableData.swift */,
+				6B50AC8D1D3E787000AC3D77 /* ServerTrustSettings.swift */,
 				6B50AC8F1D3E78F900AC3D77 /* FileDataType.swift */,
 			);
 			path = "Structs & Enums";
@@ -252,6 +266,8 @@
 		6BAB2A461D36CF0300AB6DCF /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				6B50AC9C1D3ECF9900AC3D77 /* www.google.com.cer */,
+				6B50AC9A1D3ECDCF00AC3D77 /* *.badssl.com.cer */,
 				6BAB2A471D36CF0300AB6DCF /* compiling.png */,
 				6BAB2A481D36CF0300AB6DCF /* photos.json */,
 				6BAB2A491D36CF0300AB6DCF /* posts1.json */,
@@ -264,6 +280,7 @@
 			children = (
 				6BAB2A4B1D36CF0300AB6DCF /* DataHelper.swift */,
 				6BAB2A4C1D36CF0300AB6DCF /* FileValidator.swift */,
+				6B50AC981D3ECCE600AC3D77 /* CertificateHelper.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -277,6 +294,7 @@
 				6BAB2A521D36CF0300AB6DCF /* RequestHeadersTests.swift */,
 				6BAB2A531D36CF0300AB6DCF /* TaskStateTests.swift */,
 				6BAB2A541D36CF0300AB6DCF /* UploadTaskTests.swift */,
+				6B50AC951D3EAD4400AC3D77 /* ServerTrustTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -387,6 +405,8 @@
 			files = (
 				6BAB2A561D36CF0300AB6DCF /* photos.json in Resources */,
 				6BAB2A551D36CF0300AB6DCF /* compiling.png in Resources */,
+				6B50AC9B1D3ECDCF00AC3D77 /* *.badssl.com.cer in Resources */,
+				6B50AC9D1D3ECF9900AC3D77 /* www.google.com.cer in Resources */,
 				6BAB2A571D36CF0300AB6DCF /* posts1.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -402,11 +422,13 @@
 				6BAB2A3D1D36CEFA00AB6DCF /* Request.swift in Sources */,
 				6B50AC921D3E794600AC3D77 /* FileDataType+Internal.swift in Sources */,
 				6BAB2A451D36CEFA00AB6DCF /* UploadableData.swift in Sources */,
+				6B50AC8E1D3E787000AC3D77 /* ServerTrustSettings.swift in Sources */,
 				6BAB2A381D36CEFA00AB6DCF /* CompleteableTask.swift in Sources */,
 				6B50AC901D3E78F900AC3D77 /* FileDataType.swift in Sources */,
 				6BAB2A351D36CEFA00AB6DCF /* Double+Progress.swift in Sources */,
 				6BAB2A411D36CEFA00AB6DCF /* DownloadRequest.swift in Sources */,
 				6BAB2A3B1D36CEFA00AB6DCF /* URLSessionConfiguration+Default.swift in Sources */,
+				6B50AC941D3E9B6100AC3D77 /* SecTrust+CertsKeys.swift in Sources */,
 				6BAB2A3F1D36CEFA00AB6DCF /* ContentType.swift in Sources */,
 				6BAB2A371D36CEFA00AB6DCF /* URLSession+Task.swift in Sources */,
 				6BAB2A431D36CEFA00AB6DCF /* JSON.swift in Sources */,
@@ -433,8 +455,10 @@
 				6BAB2A581D36CF0300AB6DCF /* DataHelper.swift in Sources */,
 				6BAB2A5A1D36CF0300AB6DCF /* DataTaskTests.swift in Sources */,
 				6BAB2A5E1D36CF0300AB6DCF /* RequestHeadersTests.swift in Sources */,
+				6B50AC991D3ECCE600AC3D77 /* CertificateHelper.swift in Sources */,
 				6BAB2A5C1D36CF0300AB6DCF /* NetworkControllerDelegateTests.swift in Sources */,
 				6BAB2A5B1D36CF0300AB6DCF /* DownloadTaskTests.swift in Sources */,
+				6B50AC961D3EAD4400AC3D77 /* ServerTrustTests.swift in Sources */,
 				6BAB2A591D36CF0300AB6DCF /* FileValidator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

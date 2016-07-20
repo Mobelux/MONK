@@ -11,7 +11,7 @@ import XCTest
 
 class DataTaskTests: XCTestCase {
     
-    private let networkController = NetworkController()
+    private let networkController = NetworkController(serverTrustSettings: nil)
     private let sessionController = URLSession.shared
     
     override func tearDown() {

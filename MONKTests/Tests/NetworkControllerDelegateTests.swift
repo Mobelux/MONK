@@ -11,7 +11,7 @@ import XCTest
 
 class NetworkControllerDelegateTests: XCTestCase {
     
-    private lazy var networkController: NetworkController = NetworkController(configuration: URLSessionConfiguration.default, description: "NetworkControllerDelegateTests", delegate: self)
+    private lazy var networkController: NetworkController = NetworkController(serverTrustSettings: nil, configuration: URLSessionConfiguration.default, description: "NetworkControllerDelegateTests", delegate: self)
     private var expectation: XCTestExpectation?
     
     override func tearDown() {
