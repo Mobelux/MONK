@@ -57,13 +57,13 @@ public class MockSession : URLSessionProtocol {
         
     }
     
-    public func dataTask(with request: Request) -> URLSessionDataTask {
+    public func dataTask(with request: Request) -> URLSessionDataTaskProtocol {
         var mockSessionDataTask = URLSessionDataTask()
         
         return mockSessionDataTask
     }
     
-    public func downloadTask(with request: DownloadRequestType) -> URLSessionDownloadTask {
+    public func downloadTask(with request: DownloadRequestType) -> URLSessionDownloadTaskProtocol {
         return URLSessionDownloadTask()
     }
 }

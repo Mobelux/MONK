@@ -97,6 +97,7 @@ public protocol URLSessionTaskProtocol : class {
     var countOfBytesExpectedToReceive: Int64 { get }
     var state: URLSessionTask.State { get }
     var error: NSError? { get }
+    var currentRequest: URLRequest? { get }
 }
 
 extension URLSessionTask : URLSessionTaskProtocol {

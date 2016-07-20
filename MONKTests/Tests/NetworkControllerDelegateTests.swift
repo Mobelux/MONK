@@ -11,14 +11,28 @@ import XCTest
 
 class NetworkControllerDelegateTests: XCTestCase {
     
-    private lazy var networkController: NetworkController = NetworkController(configuration: URLSessionConfiguration.default, description: "NetworkControllerDelegateTests", delegate: self, sessionProtocol: MockSession())
+    private lazy var networkController: NetworkController = NetworkController(configuration: URLSessionConfiguration.default, description: "NetworkControllerDelegateTests", delegate: self, sessionProtocol: self.mockSession)
     
     private var expectation: XCTestExpectation?
     
+    private var mockSession = URLSession()//MockSession
     override func tearDown() {
         super.tearDown()
         networkController.cancelAllTasks()
     }
+    
+    override func setUp() {
+        let sessionDelegate = NetworkSessionDelegate(delegate: self)
+        mockSession = URLSession(configuration: URLSessionConfiguration.default, delegate: sessionDelegate, delegateQueue: sessionDelegate.operationQueue)
+    }
+    
+//    override init() {
+//        super.init()
+//
+//        let sessionDelegate = NetworkSessionDelegate(delegate: self)
+//        mockSession = URLSession(configuration: URLSessionConfiguration.default, delegate: sessionDelegate, delegateQueue: sessionDelegate.operationQueue)
+//
+//    }
     
     func testDelegateDidFinishAllEvents() {
         expectation = self.expectation(withDescription: "Network request")
@@ -50,7 +64,7 @@ class NetworkControllerDelegateTests: XCTestCase {
         }
         
         task.resume()
-        waitForExpectations(withTimeout: 4, handler: nil)
+        waitForExpectations(withTimeout: 20, handler: nil)
     }
 }
 
