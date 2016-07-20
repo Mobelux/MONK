@@ -21,17 +21,6 @@ public enum UploadableData {
     /// A struct that defines a single file to be uploaded
     public struct FileData {
         
-        /**
-            An enum that defines how to access the `FileData`
-         
-            - file: The data is on disk, and should be accessed via `url`
-            - data: The data is in memory, and should be accessed via `data`
-        */
-        public enum FileDataType {
-            case file(url: URL)
-            case data(data: Data)
-        }
-        
         /// The name/key to be used for this file in the upload
         public let name: String
         
