@@ -22,11 +22,6 @@ final class ActiveTasks {
         return dataTasks.count + downloadTasks.count
     }
     
-    init() {
-        let uuid = UUID().uuidString
-        print("ActiveTasks.init \(uuid)")
-    }
-    
     /**
         Activates a task
      
@@ -88,7 +83,7 @@ final class ActiveTasks {
      
         - returns: The active `MutableDataTask` that corrisponds to the `urlTask` if there is one
     */
-    func dataTask(fromURLTask urlTask: URLSessionDataTask) -> MutableDataTask? {
+    func dataTask(fromURLTask urlTask: URLSessionDataTaskProtocol) -> MutableDataTask? {
         let tasks = dataTasks.filter { $0.dataTask.taskIdentifier == urlTask.taskIdentifier }
         return tasks.first
     }
@@ -112,7 +107,7 @@ final class ActiveTasks {
      
      - returns: The active `CompletableTask` that corrisponds to the `urlTask` if there is one either in the `downloadTasks` or `dataTasks` arrays
      */
-    func task(fromURLTask urlTask: URLSessionTask) -> CompletableTask? {
+    func task(fromURLTask urlTask: URLSessionTaskProtocol) -> CompletableTask? {
         let dataTasks = self.dataTasks.filter { $0.task.taskIdentifier == urlTask.taskIdentifier }
         guard dataTasks.count == 0 else {
             return dataTasks.first

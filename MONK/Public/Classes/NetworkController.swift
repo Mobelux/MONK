@@ -18,67 +18,6 @@ extension URLSession : URLSessionProtocol {
     }
 }
 
-extension URLSessionConfiguration : URLSessionConfigurationProtocol {
-    public static var mobeluxDefault: URLSessionConfigurationProtocol {
-        get {
-            let config = URLSessionConfiguration.default
-            config.httpAdditionalHeaders = ["Accept" : ContentType.json.rawValue,
-                                           "Accept-Language" : "en",
-                                           "Accept-Encoding" : "gzip",
-                                           "User-Agent" : userAgent]
-            return config
-        }
-    }
-}
-
-private var userAgent: String = {
-    let osVersionAndBuild = ProcessInfo.processInfo.operatingSystemVersionString
-    let bundle = Bundle.main
-    let deviceInfo = "(\(modelName()), \(displayScale()), \(osVersionAndBuild))"
-    
-    guard let info = bundle.infoDictionary,
-        let appName = info["CFBundleDisplayName"],
-        let appVersion = info["CFBundleShortVersionString"],
-        let appBuild = info[kCFBundleVersionKey as String] else {
-            
-            return "Mobelux NetworkKit - \(deviceInfo)"
-    }
-    
-    return "\(appName) v\(appVersion) (\(appBuild)) - \(deviceInfo)"
-}()
-
-private func modelName() -> String {
-    var systemInfo = utsname()
-    let _  = uname(&systemInfo)
-    let machineMirror = Mirror(reflecting: systemInfo.machine)
-    let identifier = machineMirror.children.reduce("") { identifier, element in
-        guard let value = element.value as? Int8 where value != 0 else { return identifier }
-        return identifier + String(UnicodeScalar(UInt8(value)))
-    }
-    return identifier
-}
-
-private func displayScale() -> String {
-    var scale: CGFloat = 1
-    #if os(iOS) || os(watchOS) || os(tvOS)
-        scale = UIScreen.main().scale
-    #elseif os(OSX)
-        if let screens = NSScreen.screens() {
-            for screen in screens {
-                if screen.backingScaleFactor > scale {
-                    scale = screen.backingScaleFactor
-                }
-            }
-        }
-    #endif
-    
-    return String(format: "%0.1fx", scale)
-}
-
-public protocol URLSessionConfigurationProtocol : class {
-    static var mobeluxDefault: URLSessionConfigurationProtocol { get }
-}
-
 public protocol URLSessionDataTaskProtocol : class, URLSessionTaskProtocol {
     
 }
@@ -94,6 +33,7 @@ public protocol URLSessionTaskProtocol : class {
     func cancel()
     func resume()
     func suspend()
+    var response: URLResponse? { get }
     var countOfBytesReceived: Int64 { get }
     var countOfBytesExpectedToReceive: Int64 { get }
     var state: URLSessionTask.State { get }
@@ -120,7 +60,6 @@ extension URLSessionUploadTask : URLSessionUploadTaskProtocol {
 
 public protocol URLSessionProtocol : class {
     var sessionDescription: String? { get set}
-    //init(configuration: URLSessionConfigurationProtocol, delegate: URLSessionDelegate?, delegateQueue queue: OperationQueue?)
     func invalidateAndCancel()
     func dataTask(with request: Request) -> URLSessionDataTaskProtocol
     func downloadTask(with request: DownloadRequestType) -> URLSessionDownloadTaskProtocol
@@ -144,11 +83,11 @@ public final class NetworkController {
         - parameter description:    A string to be used to label this controller. It will be handy when debugging since it is visible in the stack trace in Xcode.
         - parameter delegate:       An optional delegate that can recieve some basic notifications about metrics and things.
     */
-    public init (configuration: URLSessionConfigurationProtocol = URLSessionConfiguration.mobeluxDefault, description: String = "com.mobelux.network_controller", delegate: NetworkControllerDelegate? = nil) {
+    public init (configuration: URLSessionConfiguration = URLSessionConfiguration.mobeluxDefault, description: String = "com.mobelux.network_controller", delegate: NetworkControllerDelegate? = nil) {
         
         sessionDelegate = NetworkSessionDelegate(delegate: delegate)
-        session = URLSession()
-        //session = URLSession(configuration: configuration, delegate: sessionDelegate, delegateQueue: sessionDelegate.operationQueue)
+        
+        session = URLSession(configuration: configuration, delegate: sessionDelegate, delegateQueue: sessionDelegate.operationQueue)
         session.sessionDescription = description
         
         sessionDelegate.networkController = self

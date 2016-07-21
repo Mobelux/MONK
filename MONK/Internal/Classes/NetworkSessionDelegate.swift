@@ -63,8 +63,11 @@ extension NetworkSessionDelegate: URLSessionDelegate {
 
 typealias NetworkSessionTaskDelegate = NetworkSessionDelegate
 extension NetworkSessionTaskDelegate: URLSessionTaskDelegate {
+    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: NSError?) {        
+        urlSession(session as URLSessionProtocol, task: task as URLSessionTaskProtocol, didCompleteWithError: error)
+    }
     
-    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: NSError?) {
+    func urlSession(_ session: URLSessionProtocol, task: URLSessionTaskProtocol, didCompleteWithError error: NSError?) {
         guard let internalTask = tasks.task(fromURLTask: task) else { return }
         let statusCode: Int? = {
             let response = task.response as? HTTPURLResponse
@@ -98,9 +101,32 @@ extension NetworkSessionTaskDelegate: URLSessionTaskDelegate {
     }
 }
 
+
+//extension Todd : Temp {
+//    
+//}
+//
+//public protocol Todd {
+//    
+//}
+//
+//
+//public protocol Temp : URLSessionDataDelegateProtocol {
+//    
+//}
+//
+//
+//public protocol URLSessionDataDelegateProtocol {
+//    func urlSession(_ session: URLSessionProtocol, dataTask: URLSessionDataTaskProtocol, didReceive data: Data)
+//}
+
 typealias NetworkSessionDataDelegate = NetworkSessionDelegate
 extension NetworkSessionDataDelegate: URLSessionDataDelegate {
     func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
+        urlSession(session as URLSessionProtocol, dataTask: dataTask as URLSessionDataTaskProtocol, didReceive: data)
+    }
+    
+    func urlSession(_ session: URLSessionProtocol, dataTask: URLSessionDataTaskProtocol, didReceive data: Data) {
         guard let task = tasks.dataTask(fromURLTask: dataTask) else { return }
         
         if var existingData = task.data {

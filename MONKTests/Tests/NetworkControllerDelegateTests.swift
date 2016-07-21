@@ -13,9 +13,7 @@ class NetworkControllerDelegateTests: XCTestCase {
     
     private lazy var networkController: NetworkController = {
         let sessionDelegate = NetworkSessionDelegate(delegate: self)
-        let mockSession = URLSession(configuration: URLSessionConfiguration.default, delegate: sessionDelegate, delegateQueue: sessionDelegate.operationQueue)
-        
-        //let controller = NetworkController(configuration: URLSessionConfiguration.default, description: "NetworkControllerDelegateTests", delegate: self, sessionProtocol: mockSession)
+        let mockSession: URLSessionProtocol = self.e2eTest ? URLSession(configuration: URLSessionConfiguration.default, delegate: sessionDelegate, delegateQueue: sessionDelegate.operationQueue) : MockSession(sessionDelegate: sessionDelegate)
         
         let controller = NetworkController(sessionProtocol: mockSession, sessionDelegate: sessionDelegate)
         
@@ -24,22 +22,15 @@ class NetworkControllerDelegateTests: XCTestCase {
     
     
     private var expectation: XCTestExpectation?
-    
-//    private var mockSession = URLSession()//MockSession
+    private var e2eTest: Bool = true
+
     override func tearDown() {
         super.tearDown()
         networkController.cancelAllTasks()
     }
+
     
-//    override init() {
-//        super.init()
-//
-//        let sessionDelegate = NetworkSessionDelegate(delegate: self)
-//        mockSession = URLSession(configuration: URLSessionConfiguration.default, delegate: sessionDelegate, delegateQueue: sessionDelegate.operationQueue)
-//
-//    }
-    
-    func testDelegateDidFinishAllEvents() {
+    func testDelegateDidFinishAllEventsE2E() {
         expectation = self.expectation(withDescription: "Network request")
         
         let url = URL(string: "http://jsonplaceholder.typicode.com/posts/1")!
@@ -69,7 +60,7 @@ class NetworkControllerDelegateTests: XCTestCase {
         }
         
         task.resume()
-        waitForExpectations(withTimeout: 20, handler: nil)
+        waitForExpectations(withTimeout: 4, handler: nil)
     }
 }
 
