@@ -65,7 +65,7 @@ public class MockSession : URLSessionProtocol {
     
     public func dataTask(with request: Request) -> URLSessionDataTaskProtocol {
         let mockSessionDataTask = MockDataTask()
-        
+        mockSessionDataTask.session = self
         return mockSessionDataTask
     }
     
@@ -75,9 +75,14 @@ public class MockSession : URLSessionProtocol {
     }
     
     private func resumeTask(mockDataTask: MockDataTask){
-        guard let dataToReceive = mockDataTask.dataToReceive, let delegate = delegate as? NetworkSessionDelegate else {
+        let delegate = self.delegate as! NetworkSessionDelegate
+        
+        guard let dataToReceive = mockDataTask.dataToReceive  else {
             mockDataTask.state = .completed
-            mockDataTask.error = NSError(domain: "shooot", code: 1, userInfo: nil)
+            mockDataTask.error = NSError(domain: "man we need some data bruh", code: 1, userInfo: nil)
+            delegate.urlSession(self, task: mockDataTask, didCompleteWithError: mockDataTask.error)
+            mockDataTask.session = nil
+
             return
         }
         
@@ -86,7 +91,7 @@ public class MockSession : URLSessionProtocol {
         let chunkSize = dataToReceive.count / numChunks
         
         for byteIndex in stride(from: 0, to: dataToReceive.count, by: chunkSize) {
-            let rangeEnd = max(byteIndex + chunkSize, dataToReceive.count)
+            let rangeEnd = min(byteIndex + chunkSize, dataToReceive.count)
             let range = byteIndex ..< rangeEnd as Range
             let chunk = dataToReceive.subdata(in: range)
             
@@ -97,6 +102,8 @@ public class MockSession : URLSessionProtocol {
         mockDataTask.response = HTTPURLResponse(url: mockDataTask.currentRequest!.url!, statusCode: 200, httpVersion: "1.1", headerFields: nil)
         
         delegate.urlSession(self, task: mockDataTask, didCompleteWithError: nil)
+        
+        mockDataTask.session = nil
     }
 }
 

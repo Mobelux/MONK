@@ -102,24 +102,6 @@ extension NetworkSessionTaskDelegate: URLSessionTaskDelegate {
 }
 
 
-//extension Todd : Temp {
-//    
-//}
-//
-//public protocol Todd {
-//    
-//}
-//
-//
-//public protocol Temp : URLSessionDataDelegateProtocol {
-//    
-//}
-//
-//
-//public protocol URLSessionDataDelegateProtocol {
-//    func urlSession(_ session: URLSessionProtocol, dataTask: URLSessionDataTaskProtocol, didReceive data: Data)
-//}
-
 typealias NetworkSessionDataDelegate = NetworkSessionDelegate
 extension NetworkSessionDataDelegate: URLSessionDataDelegate {
     func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {

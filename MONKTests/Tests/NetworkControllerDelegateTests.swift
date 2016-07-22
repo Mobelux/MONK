@@ -36,6 +36,11 @@ class NetworkControllerDelegateTests: XCTestCase {
         let url = URL(string: "http://jsonplaceholder.typicode.com/posts/1")!
         let request = DataRequest(url: url, httpMethod: .get)
         let task = networkController.data(with: request)
+        let expectedData = DataHelper.data(for: .posts1)
+        
+        if let mockDataTask = task.dataTask as? MockDataTask {
+            mockDataTask.dataToReceive = expectedData
+        }
         
         task.addCompletion { (result) in
             switch result {
@@ -44,7 +49,7 @@ class NetworkControllerDelegateTests: XCTestCase {
             case .success(let statusCode, let responseData):
                 XCTAssert(statusCode == 200, "Invalid status code found")
                 XCTAssertNotNil(responseData, "Data was nil")
-                let expectedData = DataHelper.data(for: .posts1)
+                
                 let expectedJSON = try! expectedData.json()
                 let recievedJSON = try? responseData!.json()
                 
