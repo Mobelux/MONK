@@ -83,6 +83,11 @@ class MockDataTaskTests: XCTestCase {
         let url = URL(string: "http://jsonplaceholder.typicode.com/photos")!
         let request = DataRequest(url: url, httpMethod: .get)
         let task = networkController.data(with: request)
+        let expectedData = DataHelper.data(for: .posts1)
+
+        if let mockDataTask = task.dataTask as? MockDataTask {
+            mockDataTask.dataToReceive = expectedData
+        }
         
         var progressCalled = false
         
@@ -109,8 +114,6 @@ class MockDataTaskTests: XCTestCase {
             XCTAssert(progress.totalBytes == task.downloadProgress!.totalBytes, "Total bytes don't match")
             XCTAssert(progress.completeBytes == task.downloadProgress!.completeBytes, "Complete bytes don't match")
             XCTAssert(progress.progress == task.downloadProgress!.progress, "Progresses don't match")
-            XCTAssertNil(progress.progress, "Progress wasn't nil, but we expected it to be nil")
-            XCTAssert(progress.totalBytes == -1, "This API doesn't return the total bytes for a data request")
             progressCalled = true
         }
         
@@ -126,6 +129,11 @@ class MockDataTaskTests: XCTestCase {
         let request = DataRequest(url: url, httpMethod: .get)
         let task = networkController.data(with: request)
         
+        let expectedData = DataHelper.data(for: .posts1)
+        if let mockDataTask = task.dataTask as? MockDataTask {
+            mockDataTask.dataToReceive = expectedData
+        }
+        
         var progressCalled = false
         
         task.addCompletion { (result) in
@@ -136,7 +144,7 @@ class MockDataTaskTests: XCTestCase {
             case .success(let statusCode, let responseData):
                 XCTAssert(statusCode == 200, "Invalid status code found")
                 XCTAssertNotNil(responseData, "Data was nil")
-                let expectedData = DataHelper.data(for: .posts1)
+                
                 let expectedJSON = try! expectedData.json()
                 let recievedJSON = try? responseData!.json()
                 
@@ -171,6 +179,11 @@ class MockDataTaskTests: XCTestCase {
         
         let request = DataRequest(url: url, httpMethod: .post(bodyData: nil))
         let task = networkController.data(with: request)
+        
+        let expectedData = DataHelper.data(for: .posts1)
+        if let mockDataTask = task.dataTask as? MockDataTask {
+            mockDataTask.dataToReceive = expectedData
+        }
         
         var downloadProgressCalled = false
         var uploadProgressCalled = false
@@ -230,7 +243,10 @@ class MockDataTaskTests: XCTestCase {
         
         let request = DataRequest(url: url, httpMethod: .put(bodyData: nil))
         let task = networkController.data(with: request)
-        
+        let expectedData = DataHelper.data(for: .posts1)
+        if let mockDataTask = task.dataTask as? MockDataTask {
+            mockDataTask.dataToReceive = expectedData
+        }
         var downloadProgressCalled = false
         var uploadProgressCalled = false
         

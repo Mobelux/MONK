@@ -114,12 +114,13 @@ public class MockDataTask: URLSessionDataTaskProtocol {
         currentRequest = URLRequest(url: URL(string: "http://mobelux.com/datatask")!)
         state = .suspended
         taskIdentifier = 1
+        downloadProgress = (totalBytes: 1, completeBytes: 1, progress: -1.0) as BytesProgress
     }
     
     private var session: MockSession?
     
     public var response: URLResponse?
-    
+    var downloadProgress: BytesProgress?
     public var countOfBytesExpectedToReceive: Int64
     public var countOfBytesReceived: Int64
     public var currentRequest: URLRequest?
@@ -147,10 +148,11 @@ public class MockDownloadTask: URLSessionDownloadTaskProtocol {
         currentRequest = URLRequest(url: URL(string: "http://mobelux.com/downloadtask")!)
         state = .suspended
         taskIdentifier = 1
+        downloadProgress = (totalBytes: 1, completeBytes: 1, progress: -1.0) as BytesProgress
     }
     
     public var response: URLResponse?
-
+    var downloadProgress: BytesProgress?
     public func cancel() {}
     public var countOfBytesExpectedToReceive: Int64
     public var countOfBytesReceived: Int64
