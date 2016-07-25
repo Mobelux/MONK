@@ -160,7 +160,7 @@ class DataTaskTests: XCTestCase {
         }
         
         task.resume()
-        waitForExpectations(timeout: 4, handler: nil)
+        waitForExpectations(timeout: 8, handler: nil)
     }
     
     func testPostWithoutBody() {
