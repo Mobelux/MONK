@@ -92,7 +92,7 @@ class RequestHeadersTests: XCTestCase {
                 let requestHeaders = task.dataTask.currentRequest?.allHTTPHeaderFields
                 XCTAssertNotNil(requestHeaders, "Headers shouldn't be nil")
                 if let requestHeaders = requestHeaders {
-                    // After a task is started the `requestHeaders` will contain the `additionalHeaders` plus any headers configured on the `NetworkController` as controller defaults.
+                    // After a task is started the `requestHeaders` will contain the `additionalHeaders` plus any headers configured on the `NetworkController` as controller defaults
                     XCTAssert(requestHeaders != additionalHeaders, "Headers not equal")
                     for (key, value) in additionalHeaders {
                         XCTAssert(requestHeaders[key] == value, "Headers doesn't contain additionalHeaders")
