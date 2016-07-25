@@ -81,7 +81,7 @@ class UploadTaskTests: XCTestCase {
         }
         
         task.resume()
-        waitForExpectations(timeout: 4, handler: nil)
+        waitForExpectations(timeout: TestConstants.testTimeout, handler: nil)
     }
     
     func testUploadImageFromURLTask() {
@@ -147,7 +147,7 @@ class UploadTaskTests: XCTestCase {
         }
         
         task.resume()
-        waitForExpectations(timeout: 4, handler: nil)
+        waitForExpectations(timeout: TestConstants.testTimeout, handler: nil)
     }
     
     func testUploadJSONAndImageFromURLTask() {
@@ -217,7 +217,7 @@ class UploadTaskTests: XCTestCase {
         }
         
         task.resume()
-        waitForExpectations(timeout: 4, handler: nil)
+        waitForExpectations(timeout: TestConstants.testTimeout, handler: nil)
     }
     
     func testUploadJSONAndImageFromDataTask() {
@@ -288,7 +288,7 @@ class UploadTaskTests: XCTestCase {
         }
         
         task.resume()
-        waitForExpectations(timeout: 4, handler: nil)
+        waitForExpectations(timeout: TestConstants.testTimeout, handler: nil)
     }
     
     func testUploadImageFromRawData() {
@@ -351,6 +351,6 @@ class UploadTaskTests: XCTestCase {
         }
         
         task.resume()
-        waitForExpectations(timeout: 4, handler: nil)
+        waitForExpectations(timeout: TestConstants.testTimeout, handler: nil)
     }
 }

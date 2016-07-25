@@ -49,7 +49,7 @@ class NetworkControllerDelegateTests: XCTestCase {
         }
         
         task.resume()
-        waitForExpectations(timeout: 4, handler: nil)
+        waitForExpectations(timeout: TestConstants.testTimeout, handler: nil)
     }
 }
 

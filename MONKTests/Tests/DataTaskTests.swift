@@ -38,7 +38,7 @@ class DataTaskTests: XCTestCase {
             expectation.fulfill()
         }
         task.resume()
-        waitForExpectations(timeout: 4, handler: nil)
+        waitForExpectations(timeout: TestConstants.testTimeout, handler: nil)
     }
     
     func testBasicDataTask() {
@@ -73,7 +73,7 @@ class DataTaskTests: XCTestCase {
         }
         
         task.resume()
-        waitForExpectations(timeout: 4, handler: nil)
+        waitForExpectations(timeout: TestConstants.testTimeout, handler: nil)
     }
     
     func testDataTaskProgress() {
@@ -114,7 +114,7 @@ class DataTaskTests: XCTestCase {
         }
         
         task.resume()
-        waitForExpectations(timeout: 4, handler: nil)
+        waitForExpectations(timeout: TestConstants.testTimeout, handler: nil)
     }
     
     func testAutomaticRedirection() {
@@ -160,7 +160,7 @@ class DataTaskTests: XCTestCase {
         }
         
         task.resume()
-        waitForExpectations(timeout: 8, handler: nil)
+        waitForExpectations(timeout: TestConstants.testTimeout, handler: nil)
     }
     
     func testPostWithoutBody() {
@@ -219,7 +219,7 @@ class DataTaskTests: XCTestCase {
         }
         
         task.resume()
-        waitForExpectations(timeout: 4, handler: nil)
+        waitForExpectations(timeout: TestConstants.testTimeout, handler: nil)
     }
 
     func testPutWithoutBody() {
@@ -278,6 +278,6 @@ class DataTaskTests: XCTestCase {
         }
         
         task.resume()
-        waitForExpectations(timeout: 4, handler: nil)
+        waitForExpectations(timeout: TestConstants.testTimeout, handler: nil)
     }
 }

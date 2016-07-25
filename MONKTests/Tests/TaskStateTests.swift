@@ -55,7 +55,7 @@ class TaskStateTests: XCTestCase {
             XCTAssert(false, "Task wasn't running")
         }
         
-        waitForExpectations(timeout: 4, handler: nil)
+        waitForExpectations(timeout: TestConstants.testTimeout, handler: nil)
     }
     
     func testCanceledTaskState() {
@@ -130,7 +130,7 @@ class TaskStateTests: XCTestCase {
             XCTAssert(false, "Task wasn't running")
         }
         
-        waitForExpectations(timeout: 4, handler: nil)
+        waitForExpectations(timeout: TestConstants.testTimeout, handler: nil)
     }
     
     func testSuspendedTaskState() {
@@ -160,5 +160,4 @@ class TaskStateTests: XCTestCase {
             XCTAssert(false, "Task wasn't suspended")
         }
     }
-
 }

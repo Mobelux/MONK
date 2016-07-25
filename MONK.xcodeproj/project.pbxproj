@@ -49,6 +49,7 @@
 		6BAB2A5E1D36CF0300AB6DCF /* RequestHeadersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BAB2A521D36CF0300AB6DCF /* RequestHeadersTests.swift */; };
 		6BAB2A5F1D36CF0300AB6DCF /* TaskStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BAB2A531D36CF0300AB6DCF /* TaskStateTests.swift */; };
 		6BAB2A601D36CF0300AB6DCF /* UploadTaskTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BAB2A541D36CF0300AB6DCF /* UploadTaskTests.swift */; };
+		6BAC4ECF1D46A81100E223F2 /* TestConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BAC4ECE1D46A81100E223F2 /* TestConstants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -107,6 +108,7 @@
 		6BAB2A521D36CF0300AB6DCF /* RequestHeadersTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestHeadersTests.swift; sourceTree = "<group>"; };
 		6BAB2A531D36CF0300AB6DCF /* TaskStateTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskStateTests.swift; sourceTree = "<group>"; };
 		6BAB2A541D36CF0300AB6DCF /* UploadTaskTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadTaskTests.swift; sourceTree = "<group>"; };
+		6BAC4ECE1D46A81100E223F2 /* TestConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestConstants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -281,6 +283,7 @@
 				6BAB2A4B1D36CF0300AB6DCF /* DataHelper.swift */,
 				6BAB2A4C1D36CF0300AB6DCF /* FileValidator.swift */,
 				6B50AC981D3ECCE600AC3D77 /* CertificateHelper.swift */,
+				6BAC4ECE1D46A81100E223F2 /* TestConstants.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -452,6 +455,7 @@
 			files = (
 				6BAB2A5F1D36CF0300AB6DCF /* TaskStateTests.swift in Sources */,
 				6BAB2A601D36CF0300AB6DCF /* UploadTaskTests.swift in Sources */,
+				6BAC4ECF1D46A81100E223F2 /* TestConstants.swift in Sources */,
 				6BAB2A581D36CF0300AB6DCF /* DataHelper.swift in Sources */,
 				6BAB2A5A1D36CF0300AB6DCF /* DataTaskTests.swift in Sources */,
 				6BAB2A5E1D36CF0300AB6DCF /* RequestHeadersTests.swift in Sources */,

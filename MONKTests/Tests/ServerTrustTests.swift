@@ -101,7 +101,7 @@ class ServerTrustTests: XCTestCase {
         
         task.resume()
         
-        waitForExpectations(timeout: 4, handler: nil)
+        waitForExpectations(timeout: TestConstants.testTimeout, handler: nil)
     }
     
     func testPolicyHostMismatchCertPin() {
@@ -131,7 +131,7 @@ class ServerTrustTests: XCTestCase {
         
         task.resume()
         
-        waitForExpectations(timeout: 4, handler: nil)
+        waitForExpectations(timeout: TestConstants.testTimeout, handler: nil)
     }
     
     func testCustomEvaluationNotAllowed() {
@@ -166,7 +166,7 @@ class ServerTrustTests: XCTestCase {
         
         task.resume()
         
-        waitForExpectations(timeout: 4, handler: nil)
+        waitForExpectations(timeout: TestConstants.testTimeout, handler: nil)
     }
     
     func testDefaultPolicy() {
@@ -193,7 +193,7 @@ class ServerTrustTests: XCTestCase {
         
         task.resume()
         
-        waitForExpectations(timeout: 4, handler: nil)
+        waitForExpectations(timeout: TestConstants.testTimeout, handler: nil)
     }
     
     func testDisablePolicy() {
@@ -220,7 +220,7 @@ class ServerTrustTests: XCTestCase {
         
         task.resume()
         
-        waitForExpectations(timeout: 4, handler: nil)
+        waitForExpectations(timeout: TestConstants.testTimeout, handler: nil)
     }
     
     func testSuccessfulCertificatePinningFromURL() {
@@ -250,7 +250,7 @@ class ServerTrustTests: XCTestCase {
         
         task.resume()
         
-        waitForExpectations(timeout: 4, handler: nil)
+        waitForExpectations(timeout: TestConstants.testTimeout, handler: nil)
     }
     
     func testSuccessfulCertificatePinningFromData() {
@@ -281,7 +281,7 @@ class ServerTrustTests: XCTestCase {
         
         task.resume()
         
-        waitForExpectations(timeout: 4, handler: nil)
+        waitForExpectations(timeout: TestConstants.testTimeout, handler: nil)
     }
     
     func testUnsuccessfulCertificatePinningFromURL() {
@@ -311,7 +311,7 @@ class ServerTrustTests: XCTestCase {
         
         task.resume()
         
-        waitForExpectations(timeout: 4, handler: nil)
+        waitForExpectations(timeout: TestConstants.testTimeout, handler: nil)
     }
     
     func testUnsuccessfulCertificatePinningFromData() {
@@ -342,7 +342,7 @@ class ServerTrustTests: XCTestCase {
         
         task.resume()
         
-        waitForExpectations(timeout: 4, handler: nil)
+        waitForExpectations(timeout: TestConstants.testTimeout, handler: nil)
     }
     
     func testSuccessfulPublicKeyPinningFromURL() {
@@ -373,7 +373,7 @@ class ServerTrustTests: XCTestCase {
         
         task.resume()
         
-        waitForExpectations(timeout: 4, handler: nil)
+        waitForExpectations(timeout: TestConstants.testTimeout, handler: nil)
     }
     
     func testSuccessfulPublicKeyPinningFromData() {
@@ -404,7 +404,7 @@ class ServerTrustTests: XCTestCase {
         
         task.resume()
         
-        waitForExpectations(timeout: 4, handler: nil)
+        waitForExpectations(timeout: TestConstants.testTimeout, handler: nil)
     }
     
     func testUnsuccessfulPublicKeyPinningFromURL() {
@@ -434,7 +434,7 @@ class ServerTrustTests: XCTestCase {
         
         task.resume()
         
-        waitForExpectations(timeout: 4, handler: nil)
+        waitForExpectations(timeout: TestConstants.testTimeout, handler: nil)
     }
     
     func testUnsuccessfulPublicKeyPinningFromData() {
@@ -465,6 +465,6 @@ class ServerTrustTests: XCTestCase {
         
         task.resume()
         
-        waitForExpectations(timeout: 4, handler: nil)
+        waitForExpectations(timeout: TestConstants.testTimeout, handler: nil)
     }
 }
