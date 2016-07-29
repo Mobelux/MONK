@@ -76,6 +76,7 @@
 		6B8CEC811D36CDFC00C224A8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6B8CEC861D36CDFC00C224A8 /* MONKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MONKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B8CEC8D1D36CDFC00C224A8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6B971ADD1D3FF90400532C38 /* MONK.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = MONK.podspec; sourceTree = "<group>"; };
 		6BAB2A151D36CEFA00AB6DCF /* ActiveTasks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveTasks.swift; sourceTree = "<group>"; };
 		6BAB2A161D36CEFA00AB6DCF /* MutableDataTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MutableDataTask.swift; sourceTree = "<group>"; };
 		6BAB2A171D36CEFA00AB6DCF /* MutableDownloadTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MutableDownloadTask.swift; sourceTree = "<group>"; };
@@ -133,6 +134,7 @@
 		6B8CEC731D36CDFC00C224A8 = {
 			isa = PBXGroup;
 			children = (
+				6B971ADD1D3FF90400532C38 /* MONK.podspec */,
 				6B8CEC7F1D36CDFC00C224A8 /* MONK */,
 				6B8CEC8A1D36CDFC00C224A8 /* MONKTests */,
 				6B8CEC7E1D36CDFC00C224A8 /* Products */,
