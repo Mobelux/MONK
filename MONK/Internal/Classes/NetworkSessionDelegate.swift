@@ -20,6 +20,8 @@ final class NetworkSessionDelegate: NSObject {
     /// The active `Tasks` managed by this object. Any access to this should be done when on the `queue`
     let tasks: ActiveTasks
     
+    private let serverTrustSettings: ServerTrustSettings?
+    
     private weak var delegate: NetworkControllerDelegate?
     
     /// The `NetworkController` that this is the delegate for
@@ -28,9 +30,11 @@ final class NetworkSessionDelegate: NSObject {
     /**
         Initialize the `NetworkSessionDelegate`
      
-        - parameter delegate:   The delegate that should be notified about things like metrics being gathered
+        - parameter serverTrustSettings:    The settings to use to evaluate server trust, if you want none default settings.
+        - parameter delegate:               The delegate that should be notified about things like metrics being gathered
     */
-    init(delegate: NetworkControllerDelegate?) {
+    init(serverTrustSettings: ServerTrustSettings?, delegate: NetworkControllerDelegate?) {
+        self.serverTrustSettings = serverTrustSettings
         self.delegate = delegate
         
         let queueLabel = "com.mobelux.networkController.networkSessionDelegate"
@@ -46,7 +50,6 @@ final class NetworkSessionDelegate: NSObject {
     }
 }
 
-
 extension NetworkSessionDelegate: URLSessionDelegate {
     func urlSessionDidFinishEvents(forBackgroundURLSession session: URLSession) {
         guard let networkController = networkController, let delegate = delegate else { return }
@@ -56,9 +59,14 @@ extension NetworkSessionDelegate: URLSessionDelegate {
         }
     }
     
-//    func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
-//        
-//    }
+    func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+        guard let serverTrustSettings = serverTrustSettings else {
+            completionHandler(.performDefaultHandling, nil)
+            return
+        }
+        
+        serverTrustSettings.evaluateChallange(challange: challenge, completionHandler: completionHandler)
+    }
 }
 
 typealias NetworkSessionTaskDelegate = NetworkSessionDelegate
@@ -87,9 +95,9 @@ extension NetworkSessionTaskDelegate: URLSessionTaskDelegate {
         }
     }
     
-//    func urlSession(_ session: URLSession, task: URLSessionTask, didReceive challenge: URLAuthenticationChallenge, completionHandler: (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
-//        
-//    }
+    func urlSession(_ session: URLSession, task: URLSessionTask, didReceive challenge: URLAuthenticationChallenge, completionHandler: (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+        urlSession(session, didReceive: challenge, completionHandler: completionHandler)
+    }
     
     @objc(URLSession:task:didFinishCollectingMetrics:) func urlSession(_ session: URLSession, task: URLSessionTask, didFinishCollecting metrics: URLSessionTaskMetrics) {
         guard let networkController = networkController, let delegate = delegate, let internalTask = tasks.task(fromURLTask: task) else { return }

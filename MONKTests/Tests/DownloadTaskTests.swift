@@ -11,7 +11,7 @@ import XCTest
 
 class DownloadTaskTests: XCTestCase {
     
-    private let networkController = NetworkController()
+    private let networkController = NetworkController(serverTrustSettings: nil)
     
     override func tearDown() {
         super.tearDown()
@@ -70,7 +70,7 @@ class DownloadTaskTests: XCTestCase {
         }
         
         task.resume()
-        waitForExpectations(timeout: 4, handler: nil)
+        waitForExpectations(timeout: TestConstants.testTimeout, handler: nil)
     }
     
     func testDownloadTaskCancellation() {

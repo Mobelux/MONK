@@ -21,14 +21,15 @@ public final class NetworkController {
     
     /**
         Create a `NetworkController` 
-     
-        - parameter configuration:  A `URLSessionConfiguration` who's settings will be used for all tasks created by this instance of the `NetworkController`. `.mobeluxDefault` is used as the default value, and is sufficient for most use cases. If you are wanting a `DownloadTask` that can keep running when your app is backgrounded, you use `.background(withIdentifier:)` or `.mobeluxBackground(withIdentifier:)`
-        - parameter description:    A string to be used to label this controller. It will be handy when debugging since it is visible in the stack trace in Xcode.
-        - parameter delegate:       An optional delegate that can recieve some basic notifications about metrics and things.
-    */
-    public init (configuration: URLSessionConfiguration = URLSessionConfiguration.mobeluxDefault, description: String = "com.mobelux.network_controller", delegate: NetworkControllerDelegate? = nil) {
         
-        sessionDelegate = NetworkSessionDelegate(delegate: delegate)
+        - parameter serverTrustSettings:    The settings to use to evaluate server trust, if you want none default settings.
+        - parameter configuration:          A `URLSessionConfiguration` who's settings will be used for all tasks created by this instance of the `NetworkController`. `.mobeluxDefault` is used as the default value, and is sufficient for most use cases. If you are wanting a `DownloadTask` that can keep running when your app is backgrounded, you use `.background(withIdentifier:)` or `.mobeluxBackground(withIdentifier:)`
+        - parameter description:            A string to be used to label this controller. It will be handy when debugging since it is visible in the stack trace in Xcode.
+        - parameter delegate:               An optional delegate that can recieve some basic notifications about metrics and things.
+    */
+    public init(serverTrustSettings: ServerTrustSettings?, configuration: URLSessionConfiguration = URLSessionConfiguration.mobeluxDefault, description: String = "com.mobelux.network_controller", delegate: NetworkControllerDelegate? = nil) {
+        
+        sessionDelegate = NetworkSessionDelegate(serverTrustSettings: serverTrustSettings, delegate: delegate)
         
         session = URLSession(configuration: configuration, delegate: sessionDelegate, delegateQueue: sessionDelegate.operationQueue)
         session.sessionDescription = description
