@@ -103,8 +103,8 @@ extension ServerTrustSettings {
         
         // We didn't find an exact host match, so look for a wildcard match
         let wildcardPrefix = "*."
-        let definesPolicyHosts: [Host?] = policies.keys.map({ return $0.hasPrefix(wildcardPrefix) ? $0 : nil })
-        for definedHost in definesPolicyHosts.flatMap({ $0 }) {
+        let definesPolicyHosts: [Host] = policies.keys.flatMap({ return $0.hasPrefix(wildcardPrefix) ? $0 : nil })
+        for definedHost in definesPolicyHosts {
             if let wildcardRange = definedHost.range(of: wildcardPrefix), definedHost.characters.count > 2 {
                 let baseDefinedHost = definedHost.substring(from: wildcardRange.upperBound)
                 if host.hasSuffix(".\(baseDefinedHost)") {
@@ -204,7 +204,7 @@ extension ServerTrustSettings {
     }
     
     private static func certificates(for fileData: [FileDataType]) -> [SecCertificate] {
-        let certs = fileData.map { SecCertificateCreateWithData(fileData: $0) }
-        return certs.flatMap { $0 }
+        let certs = fileData.flatMap { SecCertificateCreateWithData(fileData: $0) }
+        return certs
     }
 }
