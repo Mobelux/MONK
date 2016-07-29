@@ -21,8 +21,8 @@ extension SecTrust {
     }
     
     func publicKeys() -> [SecKey] {
-        let publicKeys = certificates().map { $0.publicKey() }
-        return publicKeys.flatMap { $0 }
+        let publicKeys = certificates().flatMap { $0.publicKey() }
+        return publicKeys
     }
     
     var isValid: Bool {
