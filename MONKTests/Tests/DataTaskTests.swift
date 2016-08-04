@@ -63,7 +63,7 @@ class DataTaskTests: XCTestCase {
                 XCTAssert(recievedJSON != nil && recievedJSON! == expectedJSON, "Unexpected data found")
                 XCTAssert(self.networkController.activeTasksCount == 0, "Tasks still active")
                 
-                DispatchQueue.main.after(when: DispatchTime.now() + 0.1, execute: {
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1, execute: {
                     let mutableTask = task as! MutableDataTask
                     XCTAssert(mutableTask.completionHandlers.count == 0, "Completion handlers aren't dealocated")
                     XCTAssert(mutableTask.progressHandlers.count == 0, "Progress handlers aren't dealocated")
@@ -94,7 +94,7 @@ class DataTaskTests: XCTestCase {
                 XCTAssert(statusCode == 200, "Invalid status code found")
                 XCTAssertNotNil(responseData, "Data was nil")
                 XCTAssert(progressCalled, "Progress was never called")
-                DispatchQueue.main.after(when: DispatchTime.now() + 0.1, execute: {
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1, execute: {
                     let mutableTask = task as! MutableDataTask
                     XCTAssert(mutableTask.completionHandlers.count == 0, "Completion handlers aren't dealocated")
                     XCTAssert(mutableTask.progressHandlers.count == 0, "Progress handlers aren't dealocated")
@@ -142,7 +142,7 @@ class DataTaskTests: XCTestCase {
                 XCTAssert(recievedJSON != nil && recievedJSON! == expectedJSON, "Unexpected data found")
                 
                 XCTAssert(progressCalled, "Progress was never called")
-                DispatchQueue.main.after(when: DispatchTime.now() + 0.1, execute: {
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1, execute: {
                     let mutableTask = task as! MutableDataTask
                     XCTAssert(mutableTask.completionHandlers.count == 0, "Completion handlers aren't dealocated")
                     XCTAssert(mutableTask.progressHandlers.count == 0, "Progress handlers aren't dealocated")
@@ -188,7 +188,7 @@ class DataTaskTests: XCTestCase {
                 XCTAssert(downloadProgressCalled, "Download progress was never called")
                 XCTAssertFalse(uploadProgressCalled, "Upload progress was called")
                 
-                DispatchQueue.main.after(when: DispatchTime.now() + 0.1, execute: {
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1, execute: {
                     let mutableTask = task as! MutableDataTask
                     XCTAssert(mutableTask.completionHandlers.count == 0, "Completion handlers aren't dealocated")
                     XCTAssert(mutableTask.progressHandlers.count == 0, "Progress handlers aren't dealocated")
@@ -247,7 +247,7 @@ class DataTaskTests: XCTestCase {
                 XCTAssert(downloadProgressCalled, "Download progress was never called")
                 XCTAssertFalse(uploadProgressCalled, "Upload progress was called")
                 
-                DispatchQueue.main.after(when: DispatchTime.now() + 0.1, execute: {
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1, execute: { 
                     let mutableTask = task as! MutableDataTask
                     XCTAssert(mutableTask.completionHandlers.count == 0, "Completion handlers aren't dealocated")
                     XCTAssert(mutableTask.progressHandlers.count == 0, "Progress handlers aren't dealocated")

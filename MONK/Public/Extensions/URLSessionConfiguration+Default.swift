@@ -91,7 +91,7 @@ private func modelName() -> String {
 private func displayScale() -> String {
     var scale: CGFloat = 1
     #if os(iOS) || os(watchOS) || os(tvOS)
-        scale = UIScreen.main().scale
+        scale = UIScreen.main.scale
     #elseif os(OSX)
         if let screens = NSScreen.screens() {
             for screen in screens {

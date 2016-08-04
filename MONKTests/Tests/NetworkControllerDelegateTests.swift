@@ -40,7 +40,7 @@ class NetworkControllerDelegateTests: XCTestCase {
                 XCTAssert(recievedJSON != nil && recievedJSON! == expectedJSON, "Unexpected data found")
                 XCTAssert(self.networkController.activeTasksCount == 0, "Tasks still active")
                 
-                DispatchQueue.main.after(when: DispatchTime.now() + 0.1, execute: {
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1, execute: { 
                     let mutableTask = task as! MutableDataTask
                     XCTAssert(mutableTask.completionHandlers.count == 0, "Completion handlers aren't dealocated")
                     XCTAssert(mutableTask.progressHandlers.count == 0, "Progress handlers aren't dealocated")

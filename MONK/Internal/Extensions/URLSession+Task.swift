@@ -31,7 +31,7 @@ extension URLSession {
     }
     
     private func uploadTask(with request: Request, bodyData: UploadableData?) throws -> URLSessionUploadTask {
-        guard let bodyData = bodyData else { throw UploadableData.Error.noBodyData }
+        guard let bodyData = bodyData else { throw UploadableData.UploadError.noBodyData }
         
         var urlRequest = request.urlRequest()
         let data = try bodyData.bodyData()

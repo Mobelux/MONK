@@ -23,14 +23,14 @@ private class Dummy { }
 struct DataHelper {
     static func data(for json: DataJSON) -> Data {
         let bundle = Bundle(for: Dummy.self)
-        let url = bundle.urlForResource(json.rawValue, withExtension: "json")!
+        let url = bundle.url(forResource: json.rawValue, withExtension: "json")!
         let data = try! Data(contentsOf: url)
         return data
     }
     
     static func imageURL(for image: DataImage) -> URL {
         let bundle = Bundle(for: Dummy.self)
-        let url = bundle.urlForResource(image.rawValue, withExtension: "png")
+        let url = bundle.url(forResource: image.rawValue, withExtension: "png")
         return url!
     }
     

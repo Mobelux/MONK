@@ -9,7 +9,7 @@
 import Foundation
 
 extension UploadableData {
-    enum Error: ErrorProtocol {
+    enum UploadError: Error {
         case noFilesToUpload
         case couldNotReadDataFromURL
         case couldNotConvertStringToUTF8Data
@@ -38,7 +38,7 @@ extension UploadableData {
     }
     
     private func createBodyData(files: [FileData], json: JSON?) throws -> BodyData {
-        guard files.count > 0 else { throw Error.noFilesToUpload }
+        guard files.count > 0 else { throw UploadError.noFilesToUpload }
         
         let newline = "\r\n"
         let boundary = "__Mobelux_Network_Kit_Boundary__"
@@ -46,7 +46,7 @@ extension UploadableData {
         let boundaryEnd = "--\(boundary)--\(newline)"
         guard let boundaryStartData = boundaryStart.data(using: .utf8),
             let boundaryEndData = boundaryEnd.data(using: .utf8),
-            let newlineData = newline.data(using: .utf8) else { throw Error.couldNotConvertStringToUTF8Data }
+            let newlineData = newline.data(using: .utf8) else { throw UploadError.couldNotConvertStringToUTF8Data }
         
         let contentDeposition = "Content-Disposition: form-data;"
         
@@ -54,7 +54,7 @@ extension UploadableData {
         
         if let json = json {
             for (key, value) in json {
-                guard let jsonHeader = "\(contentDeposition) name=\"\(key)\"".data(using: .utf8) else { throw Error.couldNotConvertStringToUTF8Data }
+                guard let jsonHeader = "\(contentDeposition) name=\"\(key)\"".data(using: .utf8) else { throw UploadError.couldNotConvertStringToUTF8Data }
                 data.append(boundaryStartData)
                 data.append(jsonHeader)
                 data.append(newlineData)
@@ -63,7 +63,7 @@ extension UploadableData {
                     data.append(jsonData)
                     data.append(newlineData)
                 } else {
-                    guard let valueData = "\(value)".data(using: .utf8) else { throw Error.couldNotConvertStringToUTF8Data }
+                    guard let valueData = "\(value)".data(using: .utf8) else { throw UploadError.couldNotConvertStringToUTF8Data }
                     data.append(valueData)
                     data.append(newlineData)
                 }
@@ -73,9 +73,9 @@ extension UploadableData {
         for file in files {
             guard let fileHeader = "\(contentDeposition) name=\"\(file.name)\"; filename=\"\(file.fileName)\"".data(using: .utf8),
                 let fileContentType = "Content-Type: \(file.mimeType.rawValue)".data(using: .utf8),
-                let fileDataEnd = "\r\n".data(using: .utf8) else { throw Error.couldNotConvertStringToUTF8Data }
+                let fileDataEnd = "\r\n".data(using: .utf8) else { throw UploadError.couldNotConvertStringToUTF8Data }
             
-            guard let fileData = try? file.data.readData() else { throw Error.couldNotReadDataFromURL }
+            guard let fileData = try? file.data.readData() else { throw UploadError.couldNotReadDataFromURL }
             
             data.append(boundaryStartData)
             data.append(fileHeader)
@@ -92,7 +92,7 @@ extension UploadableData {
             
             return (bodyData: data, contentTypeHeader: .multipartForm(boundary: boundary))
         } else {
-            throw Error.noBodyData
+            throw UploadError.noBodyData
         }
     }
 }

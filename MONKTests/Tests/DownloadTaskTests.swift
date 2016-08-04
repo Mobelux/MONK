@@ -23,7 +23,7 @@ class DownloadTaskTests: XCTestCase {
         
         let url = URL(string: "https://httpbin.org/image/jpeg")!
         let requestedLocalURL = URL(fileURLWithPath: NSTemporaryDirectory() + "image.jpg")
-        
+        let _ = try? FileManager.default.removeItem(at: requestedLocalURL)
         let dummyFileURL = DataHelper.imageURL(for: .compiling)
         try! FileManager.default.copyItem(at: dummyFileURL, to: requestedLocalURL)
         
@@ -41,14 +41,14 @@ class DownloadTaskTests: XCTestCase {
             case .success(let statusCode, let localURL):
                 XCTAssert(statusCode == 200, "Invalid status code found")
                 XCTAssert(localURL == requestedLocalURL, "File not saved to URL we requested")
-                let fileExists = FileManager.default.fileExists(atPath: localURL.path!)
+                let fileExists = FileManager.default.fileExists(atPath: localURL.path)
                 XCTAssert(fileExists, "File doesn't exist")
                 XCTAssert(progressCalled, "Progress was never called")
                 
-                let image = UIImage(contentsOfFile: localURL.path!)
+                let image = UIImage(contentsOfFile: localURL.path)
                 XCTAssertNotNil(image, "Image didn't load successfully")
                 
-                DispatchQueue.main.after(when: DispatchTime.now() + 0.1, execute: {
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1, execute: {
                     let mutableTask = task as! MutableDownloadTask
                     XCTAssert(mutableTask.completionHandlers.count == 0, "Completion handlers aren't dealocated")
                     XCTAssert(mutableTask.progressHandlers.count == 0, "Progress handlers aren't dealocated")
@@ -82,9 +82,9 @@ class DownloadTaskTests: XCTestCase {
         let request = DownloadRequest(url: url, httpMethod: .get, localURL: requestedLocalURL)
         let task = networkController.download(with: request)
     
-        XCTAssert(FileManager.default.fileExists(atPath: requestedLocalURL.path!), "Dummy file isn't at requestedLocalURL")
+        XCTAssert(FileManager.default.fileExists(atPath: requestedLocalURL.path), "Dummy file isn't at requestedLocalURL")
         task.resume()
         task.cancel()
-        XCTAssertFalse(FileManager.default.fileExists(atPath: requestedLocalURL.path!), "File at requestedLocalURL wasn't cleaned up")
+        XCTAssertFalse(FileManager.default.fileExists(atPath: requestedLocalURL.path), "File at requestedLocalURL wasn't cleaned up")
     }
 }

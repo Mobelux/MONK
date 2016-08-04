@@ -50,7 +50,7 @@ class UploadTaskTests: XCTestCase {
                 XCTAssert(downloadProgressCalled, "Download progress was never called")
                 XCTAssert(uploadProgressCalled, "Upload progress was never called")
                 
-                DispatchQueue.main.after(when: DispatchTime.now() + 0.1, execute: {
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1, execute: { 
                     let mutableTask = task as! MutableDataTask
                     XCTAssert(mutableTask.completionHandlers.count == 0, "Completion handlers aren't dealocated")
                     XCTAssert(mutableTask.progressHandlers.count == 0, "Progress handlers aren't dealocated")
@@ -116,7 +116,7 @@ class UploadTaskTests: XCTestCase {
                 XCTAssert(downloadProgressCalled, "Download progress was never called")
                 XCTAssert(uploadProgressCalled, "Upload progress was never called")
                 
-                DispatchQueue.main.after(when: DispatchTime.now() + 0.1, execute: {
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1, execute: {
                     let mutableTask = task as! MutableDataTask
                     XCTAssert(mutableTask.completionHandlers.count == 0, "Completion handlers aren't dealocated")
                     XCTAssert(mutableTask.progressHandlers.count == 0, "Progress handlers aren't dealocated")
@@ -186,7 +186,7 @@ class UploadTaskTests: XCTestCase {
                 XCTAssert(downloadProgressCalled, "Download progress was never called")
                 XCTAssert(uploadProgressCalled, "Upload progress was never called")
                 
-                DispatchQueue.main.after(when: DispatchTime.now() + 0.1, execute: {
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1, execute: {
                     let mutableTask = task as! MutableDataTask
                     XCTAssert(mutableTask.completionHandlers.count == 0, "Completion handlers aren't dealocated")
                     XCTAssert(mutableTask.progressHandlers.count == 0, "Progress handlers aren't dealocated")
@@ -257,7 +257,7 @@ class UploadTaskTests: XCTestCase {
                 XCTAssert(downloadProgressCalled, "Download progress was never called")
                 XCTAssert(uploadProgressCalled, "Upload progress was never called")
                 
-                DispatchQueue.main.after(when: DispatchTime.now() + 1, execute: {
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1, execute: {
                     let mutableTask = task as! MutableDataTask
                     XCTAssert(mutableTask.completionHandlers.count == 0, "Completion handlers aren't dealocated")
                     XCTAssert(mutableTask.progressHandlers.count == 0, "Progress handlers aren't dealocated")
@@ -320,7 +320,7 @@ class UploadTaskTests: XCTestCase {
                 XCTAssert(downloadProgressCalled, "Download progress was never called")
                 XCTAssert(uploadProgressCalled, "Upload progress was never called")
                 
-                DispatchQueue.main.after(when: DispatchTime.now() + 0.1, execute: {
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1, execute: { 
                     let mutableTask = task as! MutableDataTask
                     XCTAssert(mutableTask.completionHandlers.count == 0, "Completion handlers aren't dealocated")
                     XCTAssert(mutableTask.progressHandlers.count == 0, "Progress handlers aren't dealocated")

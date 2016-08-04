@@ -12,7 +12,7 @@ public typealias JSONKey = NSObject
 public typealias JSONValue = AnyObject
 public typealias JSON = [JSONKey : JSONValue]
 
-public enum JSONError: ErrorProtocol {
+public enum JSONError: Error {
     case notValidJSON
     case couldNotCreateData
     case couldNotCreateJSON

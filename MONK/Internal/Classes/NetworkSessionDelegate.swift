@@ -72,7 +72,7 @@ extension NetworkSessionDelegate: URLSessionDelegate {
 typealias NetworkSessionTaskDelegate = NetworkSessionDelegate
 extension NetworkSessionTaskDelegate: URLSessionTaskDelegate {
     
-    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: NSError?) {
+    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
         guard let internalTask = tasks.task(fromURLTask: task) else { return }
         let statusCode: Int? = {
             let response = task.response as? HTTPURLResponse

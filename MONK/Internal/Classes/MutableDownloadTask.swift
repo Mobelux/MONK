@@ -43,7 +43,7 @@ final class MutableDownloadTask: DownloadTask, CompletableTask {
     func didFinishDownloading(to url: URL) {
         do {
             // incoming URL is a temporary location decided by URLSession. We have to move it to our final destination before the end of `urlSession(_, downloadTask:, didFinishDownloadingTo location)` or else the system will delete it out from under us
-            if let path = downloadRequest.localURL.path, FileManager.default.fileExists(atPath: path) {
+            if FileManager.default.fileExists(atPath: downloadRequest.localURL.path) {
                 let _ = try? FileManager.default.removeItem(at: downloadRequest.localURL)
             }
             try FileManager.default.moveItem(at: url, to: downloadRequest.localURL)

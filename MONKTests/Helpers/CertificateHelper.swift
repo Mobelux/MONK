@@ -15,7 +15,7 @@ enum CertificateHelper: String {
     
     var certificateURL: URL {
         let bundle = Bundle(for: Dummy.self)
-        return bundle.urlForResource(rawValue, withExtension: "cer")!
+        return bundle.url(forResource: rawValue, withExtension: "cer")!
     }
 }
 
