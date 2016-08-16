@@ -23,12 +23,12 @@ public struct ServerTrustSettings {
         case defaultPolicy
         case pinCertificates(certificates: [FileDataType])
         case pinPublicKeys(certificates: [FileDataType])
-        case custom(handler: (challange: URLAuthenticationChallenge, completionHandler: (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void)
+        case custom(handler: (_ challange: URLAuthenticationChallenge, _ completionHandler: (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void)
         case disabled
     }
     
     public typealias Host = String
-    private let policies: [Host : ServerTrustPolicy]
+    fileprivate let policies: [Host : ServerTrustPolicy]
     
     /**
         Initialize a server trust settings
@@ -79,7 +79,7 @@ extension ServerTrustSettings {
         case .defaultPolicy:
             ServerTrustSettings.evaluateChallange(challange: challange, forDefaultPolicyWithCompletionHandler: completionHandler)
         case .custom(let handler):
-            handler(challange: challange, completionHandler: completionHandler)
+            handler(challange, completionHandler)
         case .pinCertificates(let certificates):
             ServerTrustSettings.evaluateChallange(challange: challange, forCertificates: certificates, completionHandler: completionHandler)
         case .pinPublicKeys(let certificates):
@@ -136,7 +136,7 @@ extension ServerTrustSettings {
     }
     
     private static func evaluateHost(host: Host, serverTrust: SecTrust) -> Bool {
-        let secPolicy = SecPolicyCreateSSL(true, host)
+        let secPolicy = SecPolicyCreateSSL(true, host as CFString)
         SecTrustSetPolicies(serverTrust, secPolicy)
         
         return serverTrust.isValid
@@ -168,7 +168,7 @@ extension ServerTrustSettings {
         
         let pinnedCertificates = certificates(for: certificatesFileData)
         
-        SecTrustSetAnchorCertificates(serverTrust, pinnedCertificates)
+        SecTrustSetAnchorCertificates(serverTrust, pinnedCertificates as CFArray)
         SecTrustSetAnchorCertificatesOnly(serverTrust, true)
         if serverTrust.isValid {
             successHandling(completionHandler: completionHandler, serverTrust: serverTrust)

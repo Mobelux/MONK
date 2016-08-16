@@ -16,5 +16,5 @@ protocol CompletableTask: Task {
      - parameter statusCode: If the task finished successfully then a `non-nil` HTTP status code
      - parameter error:      If the task finished without successfully connecting to the server, then a hopefully `non-nil` error
     */
-    func didComplete(statusCode: Int?, error: NSError?)
+    func didComplete(statusCode: Int?, error: Error?)
 }

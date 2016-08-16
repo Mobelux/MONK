@@ -20,9 +20,9 @@ final class NetworkSessionDelegate: NSObject {
     /// The active `Tasks` managed by this object. Any access to this should be done when on the `queue`
     let tasks: ActiveTasks
     
-    private let serverTrustSettings: ServerTrustSettings?
+    fileprivate let serverTrustSettings: ServerTrustSettings?
     
-    private weak var delegate: NetworkControllerDelegate?
+    fileprivate weak var delegate: NetworkControllerDelegate?
     
     /// The `NetworkController` that this is the delegate for
     weak var networkController: NetworkController?
@@ -59,7 +59,7 @@ extension NetworkSessionDelegate: URLSessionDelegate {
         }
     }
     
-    func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+    func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
         guard let serverTrustSettings = serverTrustSettings else {
             completionHandler(.performDefaultHandling, nil)
             return
@@ -88,14 +88,14 @@ extension NetworkSessionTaskDelegate: URLSessionTaskDelegate {
         guard let internalTask = tasks.task(fromURLTask: task) as? MutableDataTask else { return }
         
         let percentProgress = Double(totalBytesSent).progress(of: Double(totalBytesExpectedToSend))
-        let progress = (totalBytesExpectedToSend, totalBytesSent, percentProgress)
-        internalTask.uploadProgress = progress
+        
+        internalTask.uploadProgress = (totalBytesExpectedToSend, totalBytesSent, percentProgress)
         for handler in internalTask.uploadProgressHandlers {
-            handler(progress: progress)
+            handler(totalBytes: totalBytesExpectedToSend, completeBytes: totalBytesSent, progress: percentProgress)
         }
     }
     
-    func urlSession(_ session: URLSession, task: URLSessionTask, didReceive challenge: URLAuthenticationChallenge, completionHandler: (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+    func urlSession(_ session: URLSession, task: URLSessionTask, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
         urlSession(session, didReceive: challenge, completionHandler: completionHandler)
     }
     
@@ -119,10 +119,9 @@ extension NetworkSessionDataDelegate: URLSessionDataDelegate {
         }
         
         let percentProgress = Double(task.task.countOfBytesReceived).progress(of: Double(task.task.countOfBytesExpectedToReceive))
-        let progress = (task.task.countOfBytesExpectedToReceive, task.task.countOfBytesReceived, percentProgress)
-        task.downloadProgress = progress
+        task.downloadProgress = (task.task.countOfBytesExpectedToReceive, task.task.countOfBytesReceived, percentProgress)
         for handler in task.progressHandlers {
-            handler(progress: progress)
+            handler(totalBytes: task.task.countOfBytesExpectedToReceive, completeBytes: task.task.countOfBytesReceived, progress: percentProgress)
         }
     }
 }
@@ -133,10 +132,9 @@ extension NetworkSessionDownloadDelegate: URLSessionDownloadDelegate {
         guard let task = tasks.downloadTask(fromURLTask: downloadTask) else { return }
         
         let percentProgress = Double(totalBytesWritten).progress(of: Double(totalBytesExpectedToWrite))
-        let progress = (totalBytesExpectedToWrite, totalBytesWritten, percentProgress)
-        task.downloadProgress = progress
+        task.downloadProgress = (totalBytesExpectedToWrite, totalBytesWritten, percentProgress)
         for handler in task.progressHandlers {
-            handler(progress: progress)
+            handler(totalBytes: totalBytesExpectedToWrite, completeBytes: totalBytesWritten, progress: percentProgress)
         }
     }
     

@@ -51,7 +51,7 @@ final class MutableDataTask: DataTask, CompletableTask {
         completionHandlers.append(handler)
     }
     
-    func didComplete(statusCode: Int?, error: NSError?) {
+    func didComplete(statusCode: Int?, error: Error?) {
         let taskResult: TaskResult = {
             if let statusCode = statusCode {
                 return .success(statusCode: statusCode, responseData: data)
@@ -60,7 +60,7 @@ final class MutableDataTask: DataTask, CompletableTask {
             }
         }()
         result = taskResult
-        completionHandlers.forEach { $0(result: taskResult) }
+        completionHandlers.forEach { $0(taskResult) }
         removeHandlers()
     }
     

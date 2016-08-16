@@ -37,7 +37,7 @@ extension SecTrust {
 
 func SecCertificateCreateWithData(fileData: FileDataType) -> SecCertificate? {
     guard let data = try? fileData.readData() else { return nil }
-    return SecCertificateCreateWithData(nil, data)
+    return SecCertificateCreateWithData(nil, data as CFData)
 }
 
 extension SecCertificate {

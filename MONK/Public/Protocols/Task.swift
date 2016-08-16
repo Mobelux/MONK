@@ -21,7 +21,7 @@ public enum TaskState {
     case waiting
     case running
     case completed
-    case failed(error: NSError)
+    case failed(error: Error)
     case cancelled
 }
 
@@ -33,7 +33,7 @@ public enum TaskState {
  */
 public enum TaskResult {
     case success(statusCode: Int, responseData: Data?)
-    case failure(error: NSError?)
+    case failure(error: Error?)
 }
 
 /**
@@ -44,7 +44,7 @@ public enum TaskResult {
  */
 public enum DownloadTaskResult {
     case success(statusCode: Int, localURL: URL)
-    case failure(error: NSError?)
+    case failure(error: Error?)
 }
 
 /**
@@ -57,13 +57,13 @@ public enum DownloadTaskResult {
 public typealias BytesProgress = (totalBytes: Int64, completeBytes: Int64, progress: Double?)
 
 /// A handler that will be called when `BytesProgress` changes
-public typealias BytesProgressHandler = (progress: BytesProgress) -> Void
+public typealias BytesProgressHandler = (_ progress: BytesProgress) -> Void
 
 /// A handler that will be called when a `DataTask` completes
-public typealias CompletionHandler = (result: TaskResult) -> Void
+public typealias CompletionHandler = (_ result: TaskResult) -> Void
 
 /// A handler that will be called when a `DownloadTask` completes
-public typealias DownloadCompletionHandler = (result: DownloadTaskResult) -> Void
+public typealias DownloadCompletionHandler = (_ result: DownloadTaskResult) -> Void
 
 
 /// Basic task that defines the shared interface for a network task
