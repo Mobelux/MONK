@@ -8,7 +8,7 @@
 
 import Foundation
 
-public typealias JSONKey = NSObject
+public typealias JSONKey = NSString
 public typealias JSONValue = AnyObject
 public typealias JSON = [JSONKey : JSONValue]
 

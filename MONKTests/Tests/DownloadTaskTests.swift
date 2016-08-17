@@ -64,8 +64,8 @@ class DownloadTaskTests: XCTestCase {
             XCTAssert(progress.completeBytes == task.downloadProgress!.completeBytes, "Complete bytes don't match")
             XCTAssert(progress.progress == task.downloadProgress!.progress, "Progresses don't match")
             XCTAssertNotNil(progress.progress, "Progress was nil")
-            XCTAssert(progress.progress >= 0, "Progress % is less then 0")
-            XCTAssert(progress.progress <= 1, "Progress % is greater then 1")
+            XCTAssert(progress.progress! >= 0, "Progress % is less then 0")
+            XCTAssert(progress.progress! <= 1, "Progress % is greater then 1")
             progressCalled = true
         }
         

@@ -11,8 +11,8 @@ import Foundation
 /// A simple networking controller. The goal isn't to handle all networking tasks, but to provide a very simple and safe controller that can be used in 95% of use cases.
 public final class NetworkController {
     
-    private let session: URLSession
-    private let sessionDelegate: NetworkSessionDelegate
+    fileprivate let session: URLSession
+    fileprivate let sessionDelegate: NetworkSessionDelegate
     
     /// The number of tasks that are active on this network controller. This includes paused/suspended tasks.
     public var activeTasksCount: Int {
