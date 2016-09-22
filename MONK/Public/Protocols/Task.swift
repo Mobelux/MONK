@@ -88,7 +88,7 @@ public protocol Task: class {
      
         - parameter handler: A handler that will be called after `downloadProgress` changes.
     */
-    func addProgress(handler: BytesProgressHandler)
+    func addProgress(handler: @escaping BytesProgressHandler)
     
     /// This will take a task that is in the `waiting` state, and move it into the `running` state, allowing it to do it's thing
     func resume()
@@ -114,7 +114,7 @@ public protocol DataTask: Task {
      
      - parameter handler: A handler that will be called after `uploadProgress` changes.
      */
-    func addUploadProgress(handler: BytesProgressHandler)
+    func addUploadProgress(handler: @escaping BytesProgressHandler)
     
     /**
      Add a handler to be notified when the task is complete
@@ -123,7 +123,7 @@ public protocol DataTask: Task {
      
      - parameter handler: A handler that will be called when the task completes
      */
-    func addCompletion(handler: CompletionHandler)
+    func addCompletion(handler: @escaping CompletionHandler)
     
     /// The underlying system data task. Since `URLSessionDataTask` is a superclass of `URLSessionUploadTask`, this property and `uploadTask` may point to the same task. `task` will also point to the same task as this
     var dataTask: URLSessionDataTask { get }
@@ -143,7 +143,7 @@ public protocol DownloadTask: Task {
      
      - parameter handler: A handler that will be called when the task completes
      */
-    func addCompletion(handler: DownloadCompletionHandler)
+    func addCompletion(handler: @escaping DownloadCompletionHandler)
     
     /// The request that was used to create this task, this will be a duplicate of `request` but with additional download specific stuff added
     var downloadRequest: DownloadRequestType { get }

@@ -39,15 +39,15 @@ final class MutableDataTask: DataTask, CompletableTask {
     }
     
     
-    func addProgress(handler: BytesProgressHandler) {
+    func addProgress(handler: @escaping BytesProgressHandler) {
         progressHandlers.append(handler)
     }
     
-    func addUploadProgress(handler: BytesProgressHandler) {
+    func addUploadProgress(handler: @escaping BytesProgressHandler) {
         uploadProgressHandlers.append(handler)
     }
     
-    func addCompletion(handler: CompletionHandler) {
+    func addCompletion(handler: @escaping CompletionHandler) {
         completionHandlers.append(handler)
     }
     

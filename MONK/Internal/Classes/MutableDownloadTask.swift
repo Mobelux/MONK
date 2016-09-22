@@ -25,11 +25,11 @@ final class MutableDownloadTask: DownloadTask, CompletableTask {
         downloadTask = task
     }
     
-    func addProgress(handler: BytesProgressHandler) {
+    func addProgress(handler: @escaping BytesProgressHandler) {
         progressHandlers.append(handler)
     }
     
-    func addCompletion(handler: DownloadCompletionHandler) {
+    func addCompletion(handler: @escaping DownloadCompletionHandler) {
         completionHandlers.append(handler)
     }
     
