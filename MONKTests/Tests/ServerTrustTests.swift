@@ -364,8 +364,7 @@ class ServerTrustTests: XCTestCase {
             switch result {
             case .success(let statusCode, _):
                 XCTAssert(statusCode == 200, "Invalid status code")
-            case .failure(let error):
-                print(error)
+            case .failure(_):
                 XCTAssert(false, "We failed to process the task")
             }
             expectation.fulfill()
