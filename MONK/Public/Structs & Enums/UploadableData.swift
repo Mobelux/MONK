@@ -32,6 +32,20 @@ public enum UploadableData {
         
         /// The link to the actual data (in memory or on disk)
         public let data: FileDataType
+
+        /// Creates a new FileData
+        ///
+        /// - Parameters:
+        ///   - name: The name/key to be used for this file in the upload
+        ///   - fileName: The fileName to tell the server
+        ///   - mimeType: The MIME type of this file
+        ///   - data: The link to the actual data (in memory or on disk)
+        public init(name: String, fileName: String, mimeType: ContentType, data: FileDataType) {
+            self.name = name
+            self.fileName = fileName
+            self.mimeType = mimeType
+            self.data = data
+        }
     }
     
     case data(data: Data, contentType: ContentType)
