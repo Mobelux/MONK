@@ -67,7 +67,7 @@ private var userAgent: String = {
     let deviceInfo = "(\(modelName()), \(displayScale()), \(osVersionAndBuild))"
     
     guard let info = bundle.infoDictionary,
-        let appName = info["CFBundleDisplayName"],
+        let appName = info["CFBundleDisplayName"] ?? info["CFBundleName"],
         let appVersion = info["CFBundleShortVersionString"],
         let appBuild = info[kCFBundleVersionKey as String] else {
         
