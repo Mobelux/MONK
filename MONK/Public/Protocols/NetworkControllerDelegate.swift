@@ -9,7 +9,14 @@
 import Foundation
 
 public protocol NetworkControllerDelegate: class {
-    
+
+    /// Called when an event is started or finishes. Useful if you wish to show/hide the network activity indicator or something similar
+    ///
+    /// - Parameters:
+    ///   - networkController: The controller who's number of active tasks has changed
+    ///   - numberOfActiveTasks: The new number of active tasks
+    func networkController(networkController: NetworkController, didChangeNumberOfActiveTasksTo numberOfActiveTasks: Int)
+
     /**
      - discussion: In iOS, when a background transfer completes or requires credentials, if your app is no longer running, your app is automatically relaunched in the background, and the app’s `UIApplicationDelegate` is sent an `application(_:handleEventsForBackgroundURLSession:completionHandler:)` message. This call contains the identifier of the session that caused your app to be launched. Your app should then store that completion handler before creating a background configuration object with the same identifier, and creating a session with that configuration. The newly created session is automatically reassociated with ongoing background activity.
      

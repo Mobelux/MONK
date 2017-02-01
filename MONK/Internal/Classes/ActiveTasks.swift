@@ -8,14 +8,33 @@
 
 import Foundation
 
+protocol ActiveTasksDelegate: class {
+    /// Anytime the count of tasks changes, this will be called on the queue for this ActiveTasks object
+    ///
+    /// - Parameters:
+    ///   - activeTasks: The object who's task count changes
+    ///   - count: The new count of tasks
+    func activeTasks(_ activeTasks: ActiveTasks, didChangeCountTo count: Int)
+}
+
 /// Object that keeps track of all of the active `Tasks` for a single `NetworkController` and provides conveinence finding of specifc `Tasks`
 final class ActiveTasks {
 
+    weak var delegate: ActiveTasksDelegate?
+
     /// All `DataTasks` that are active
-    private(set) var dataTasks = [MutableDataTask]()
+    private(set) var dataTasks = [MutableDataTask]() {
+        didSet {
+            delegate?.activeTasks(self, didChangeCountTo: count)
+        }
+    }
     
     /// All `DownloadTasks` that are active
-    private(set) var downloadTasks = [MutableDownloadTask]()
+    private(set) var downloadTasks = [MutableDownloadTask]() {
+        didSet {
+            delegate?.activeTasks(self, didChangeCountTo: count)
+        }
+    }
     
     /// The number of active data & download tasks for this instance
     var count: Int {
