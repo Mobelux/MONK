@@ -13,6 +13,9 @@ class NetworkControllerDelegateTests: XCTestCase {
     
     private lazy var networkController: NetworkController = NetworkController(serverTrustSettings: nil, configuration: URLSessionConfiguration.default, description: "NetworkControllerDelegateTests", delegate: self)
     fileprivate var expectation: XCTestExpectation?
+    fileprivate var expectationNumberOfTasks: XCTestExpectation?
+
+    fileprivate var maximumNumberOfTasks: Int = 0
     
     override func tearDown() {
         super.tearDown()
@@ -51,15 +54,37 @@ class NetworkControllerDelegateTests: XCTestCase {
         task.resume()
         waitForExpectations(timeout: TestConstants.testTimeout, handler: nil)
     }
+
+    func testNumberOfTasks() {
+        expectationNumberOfTasks = self.expectation(description: "Network request")
+
+        let url = URL(string: "http://jsonplaceholder.typicode.com/posts/1")!
+        let request = DataRequest(url: url, httpMethod: .get)
+        let task = networkController.data(with: request)
+        task.resume()
+
+        maximumNumberOfTasks = 2
+        let task2 = networkController.data(with: request)
+        task2.resume()
+        waitForExpectations(timeout: TestConstants.testTimeout, handler: nil)
+    }
 }
 
 extension NetworkControllerDelegateTests: NetworkControllerDelegate {
     func networkControllerDidFinishAllEvents(networkController: NetworkController) {
-        expectation?.fulfill()
+        expectationNumberOfTasks?.fulfill()
     }
     
     func networkController(networkController: NetworkController, task: Task, didFinishCollecting metrics: URLSessionTaskMetrics) {
         print(metrics)
         expectation?.fulfill()
+    }
+
+    func networkController(networkController: NetworkController, didChangeNumberOfActiveTasksTo numberOfActiveTasks: Int) {
+        guard let expectationNumberOfTasks = expectationNumberOfTasks else { return }
+        XCTAssert(numberOfActiveTasks <= maximumNumberOfTasks, "Number of tasks doesn't match expected")
+        if numberOfActiveTasks == 0 {
+            expectationNumberOfTasks.fulfill()
+        }
     }
 }
