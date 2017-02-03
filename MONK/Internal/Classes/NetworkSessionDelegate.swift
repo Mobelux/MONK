@@ -47,6 +47,7 @@ final class NetworkSessionDelegate: NSObject {
         tasks = ActiveTasks()
         
         super.init()
+        tasks.delegate = self
     }
 }
 
@@ -141,5 +142,15 @@ extension NetworkSessionDownloadDelegate: URLSessionDownloadDelegate {
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
         guard let task = tasks.downloadTask(fromURLTask: downloadTask) else { return }
         task.didFinishDownloading(to: location)
+    }
+}
+
+typealias NetworkSessionActiveTasksDelegate = NetworkSessionDelegate
+extension NetworkSessionActiveTasksDelegate: ActiveTasksDelegate {
+    func activeTasks(_ activeTasks: ActiveTasks, didChangeCountTo count: Int) {
+        guard let delegate = delegate, let networkController = networkController else { return }
+        DispatchQueue.main.async {
+            delegate.networkController(networkController: networkController, didChangeNumberOfActiveTasksTo: count)
+        }
     }
 }
