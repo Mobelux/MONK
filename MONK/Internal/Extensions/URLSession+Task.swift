@@ -19,9 +19,9 @@ extension URLSession {
     */
     func dataTask(with request: Request) -> URLSessionDataTask {
         switch request.httpMethod {
-        case .delete, .get, .patch:
+        case .delete, .get:
             return dataTask(with: request.urlRequest())
-        case .post(let bodyData), .put(let bodyData):
+        case .post(let bodyData), .put(let bodyData), .patch(let bodyData):
             do {
                 return try uploadTask(with: request, bodyData: bodyData)
             } catch {
