@@ -14,14 +14,14 @@ import Foundation
     - get:      GET
     - post:     POST, if you supply a `bodyData` then that will be attched to the `Request's` body
     - put:      PUT, if you supply a `bodyData` then that will be attched to the `Request's` body
-    - patch:    PATCH
+    - patch:    PATCH, if you supply a `bodyData` then that will be attched to the `Request's` body
     - delete:   DELETE
 */
 public enum HTTPMethod {
     case get
     case post(bodyData: UploadableData?)
     case put(bodyData: UploadableData?)
-    case patch
+    case patch(bodyData: UploadableData?)
     case delete
     
     var rawValue: String {
@@ -42,9 +42,9 @@ public enum HTTPMethod {
     /// `true` if a request sent with this `HTTPMethod` will be a multipart form message. This is wholy dependent on the contents of `bodyData` if there is any
     public var isMultiPart: Bool {
         switch self {
-        case .get, .patch, .delete:
+        case .get, .delete:
             return false
-        case .post(let bodyData), .put(let bodyData):
+        case .post(let bodyData), .put(let bodyData), .patch(let bodyData):
             return bodyData?.isMultiPart ?? false
         }
     }
