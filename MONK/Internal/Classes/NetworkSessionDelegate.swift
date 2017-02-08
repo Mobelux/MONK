@@ -52,6 +52,8 @@ final class NetworkSessionDelegate: NSObject {
 }
 
 extension NetworkSessionDelegate: URLSessionDelegate {
+
+    #if os(iOS) || os(watchOS) || os(tvOS)
     func urlSessionDidFinishEvents(forBackgroundURLSession session: URLSession) {
         guard let networkController = networkController, let delegate = delegate else { return }
         
@@ -59,6 +61,7 @@ extension NetworkSessionDelegate: URLSessionDelegate {
             delegate.networkControllerDidFinishAllEvents(networkController: networkController)
         }
     }
+    #endif
     
     func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
         guard let serverTrustSettings = serverTrustSettings else {

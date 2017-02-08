@@ -44,8 +44,7 @@ class DownloadTaskTests: XCTestCase {
                 let fileExists = FileManager.default.fileExists(atPath: localURL.path)
                 XCTAssert(fileExists, "File doesn't exist")
                 XCTAssert(progressCalled, "Progress was never called")
-                
-                let image = UIImage(contentsOfFile: localURL.path)
+                let image = CIImage(contentsOf: localURL)
                 XCTAssertNotNil(image, "Image didn't load successfully")
                 
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1, execute: {
