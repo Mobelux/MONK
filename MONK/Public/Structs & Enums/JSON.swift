@@ -44,4 +44,13 @@ public extension Data {
         guard let json = (try? JSONSerialization.jsonObject(with: self, options: .allowFragments)) as? JSON else { throw JSONError.couldNotCreateJSON }
         return json
     }
+
+    /// Creates an array of JSON dictionaries
+    ///
+    /// - Returns: An array of JSON dictionaries
+    /// - Throws: A JSONError.couldNotCreateJSON if unable to get an array of JSON
+    public func arrayJSON() throws -> [JSON] {
+        guard let jsonArray = (try? JSONSerialization.jsonObject(with: self, options: .allowFragments)) as? [JSON] else { throw JSONError.couldNotCreateJSON }
+        return jsonArray
+    }
 }
