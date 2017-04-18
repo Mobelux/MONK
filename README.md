@@ -91,3 +91,6 @@ You can specify the type of traffic for this request, a cache policy, if cellula
 The preferred way to integrate this in your project is to add it as a submodule to your repo, then you can just add it's Xcode project to your app.
 
 Cocoapods is also supported
+
+# Contributing
+Check out our [contribution guide](https://github.com/Mobelux/MONK/master/CONTRIBUTING.md)
