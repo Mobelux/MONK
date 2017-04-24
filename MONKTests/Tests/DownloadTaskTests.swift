@@ -36,7 +36,7 @@ class DownloadTaskTests: XCTestCase {
         task.addCompletion { (result) in
             switch result {
             case .failure(let error):
-                XCTAssert(false, "Error found: \(error)")
+                XCTAssert(false, "Error found: \(String(describing: error))")
                 expectation.fulfill()
             case .success(let statusCode, let localURL):
                 XCTAssert(statusCode == 200, "Invalid status code found")
