@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6B343F5F1EAE54B900DB7C0C /* CacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B343F5E1EAE54B900DB7C0C /* CacheTests.swift */; };
+		6B343F611EAE558300DB7C0C /* CacheEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B343F601EAE558300DB7C0C /* CacheEntry.swift */; };
 		6B50AC8E1D3E787000AC3D77 /* ServerTrustSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B50AC8D1D3E787000AC3D77 /* ServerTrustSettings.swift */; };
 		6B50AC901D3E78F900AC3D77 /* FileDataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B50AC8F1D3E78F900AC3D77 /* FileDataType.swift */; };
 		6B50AC921D3E794600AC3D77 /* FileDataType+Internal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B50AC911D3E794600AC3D77 /* FileDataType+Internal.swift */; };
@@ -15,6 +17,7 @@
 		6B50AC991D3ECCE600AC3D77 /* CertificateHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B50AC981D3ECCE600AC3D77 /* CertificateHelper.swift */; };
 		6B50AC9B1D3ECDCF00AC3D77 /* *.badssl.com.cer in Resources */ = {isa = PBXBuildFile; fileRef = 6B50AC9A1D3ECDCF00AC3D77 /* *.badssl.com.cer */; };
 		6B50AC9D1D3ECF9900AC3D77 /* www.google.com.cer in Resources */ = {isa = PBXBuildFile; fileRef = 6B50AC9C1D3ECF9900AC3D77 /* www.google.com.cer */; };
+		6B6159051EA79A9900947410 /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B6159041EA79A9900947410 /* Cache.swift */; };
 		6B8CEC871D36CDFC00C224A8 /* MONK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B8CEC7D1D36CDFC00C224A8 /* MONK.framework */; };
 		6B8CEC8E1D36CDFC00C224A8 /* MONK.h in Headers */ = {isa = PBXBuildFile; fileRef = 6B8CEC801D36CDFC00C224A8 /* MONK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6BAB2A311D36CEFA00AB6DCF /* ActiveTasks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BAB2A151D36CEFA00AB6DCF /* ActiveTasks.swift */; };
@@ -63,6 +66,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6B343F5E1EAE54B900DB7C0C /* CacheTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheTests.swift; sourceTree = "<group>"; };
+		6B343F601EAE558300DB7C0C /* CacheEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheEntry.swift; sourceTree = "<group>"; };
 		6B50AC8D1D3E787000AC3D77 /* ServerTrustSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerTrustSettings.swift; sourceTree = "<group>"; };
 		6B50AC8F1D3E78F900AC3D77 /* FileDataType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileDataType.swift; sourceTree = "<group>"; };
 		6B50AC911D3E794600AC3D77 /* FileDataType+Internal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FileDataType+Internal.swift"; sourceTree = "<group>"; };
@@ -71,6 +76,7 @@
 		6B50AC981D3ECCE600AC3D77 /* CertificateHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CertificateHelper.swift; sourceTree = "<group>"; };
 		6B50AC9A1D3ECDCF00AC3D77 /* *.badssl.com.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = "*.badssl.com.cer"; sourceTree = "<group>"; };
 		6B50AC9C1D3ECF9900AC3D77 /* www.google.com.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = www.google.com.cer; sourceTree = "<group>"; };
+		6B6159041EA79A9900947410 /* Cache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
 		6B8CEC7D1D36CDFC00C224A8 /* MONK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MONK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B8CEC801D36CDFC00C224A8 /* MONK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MONK.h; sourceTree = "<group>"; };
 		6B8CEC811D36CDFC00C224A8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -186,6 +192,8 @@
 			isa = PBXGroup;
 			children = (
 				6BAB2A151D36CEFA00AB6DCF /* ActiveTasks.swift */,
+				6B6159041EA79A9900947410 /* Cache.swift */,
+				6B343F601EAE558300DB7C0C /* CacheEntry.swift */,
 				6BAB2A161D36CEFA00AB6DCF /* MutableDataTask.swift */,
 				6BAB2A171D36CEFA00AB6DCF /* MutableDownloadTask.swift */,
 				6BAB2A181D36CEFA00AB6DCF /* NetworkSessionDelegate.swift */,
@@ -293,13 +301,14 @@
 		6BAB2A4D1D36CF0300AB6DCF /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				6B343F5E1EAE54B900DB7C0C /* CacheTests.swift */,
 				6BAB2A4E1D36CF0300AB6DCF /* DataTaskTests.swift */,
 				6BAB2A4F1D36CF0300AB6DCF /* DownloadTaskTests.swift */,
 				6BAB2A501D36CF0300AB6DCF /* NetworkControllerDelegateTests.swift */,
 				6BAB2A521D36CF0300AB6DCF /* RequestHeadersTests.swift */,
+				6B50AC951D3EAD4400AC3D77 /* ServerTrustTests.swift */,
 				6BAB2A531D36CF0300AB6DCF /* TaskStateTests.swift */,
 				6BAB2A541D36CF0300AB6DCF /* UploadTaskTests.swift */,
-				6B50AC951D3EAD4400AC3D77 /* ServerTrustTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -429,6 +438,7 @@
 				6BAB2A451D36CEFA00AB6DCF /* UploadableData.swift in Sources */,
 				6B50AC8E1D3E787000AC3D77 /* ServerTrustSettings.swift in Sources */,
 				6BAB2A381D36CEFA00AB6DCF /* CompleteableTask.swift in Sources */,
+				6B6159051EA79A9900947410 /* Cache.swift in Sources */,
 				6B50AC901D3E78F900AC3D77 /* FileDataType.swift in Sources */,
 				6BAB2A351D36CEFA00AB6DCF /* Double+Progress.swift in Sources */,
 				6BAB2A411D36CEFA00AB6DCF /* DownloadRequest.swift in Sources */,
@@ -439,6 +449,7 @@
 				6BAB2A431D36CEFA00AB6DCF /* JSON.swift in Sources */,
 				6BAB2A311D36CEFA00AB6DCF /* ActiveTasks.swift in Sources */,
 				6BAB2A361D36CEFA00AB6DCF /* UploadableData+Internal.swift in Sources */,
+				6B343F611EAE558300DB7C0C /* CacheEntry.swift in Sources */,
 				6BAB2A3C1D36CEFA00AB6DCF /* NetworkControllerDelegate.swift in Sources */,
 				6BAB2A3A1D36CEFA00AB6DCF /* Task+Default.swift in Sources */,
 				6BAB2A331D36CEFA00AB6DCF /* MutableDownloadTask.swift in Sources */,
@@ -457,6 +468,7 @@
 			files = (
 				6BAB2A5F1D36CF0300AB6DCF /* TaskStateTests.swift in Sources */,
 				6BAB2A601D36CF0300AB6DCF /* UploadTaskTests.swift in Sources */,
+				6B343F5F1EAE54B900DB7C0C /* CacheTests.swift in Sources */,
 				6BAC4ECF1D46A81100E223F2 /* TestConstants.swift in Sources */,
 				6BAB2A581D36CF0300AB6DCF /* DataHelper.swift in Sources */,
 				6BAB2A5A1D36CF0300AB6DCF /* DataTaskTests.swift in Sources */,
