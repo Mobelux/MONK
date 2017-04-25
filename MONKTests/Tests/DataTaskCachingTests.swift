@@ -130,7 +130,7 @@ class DataTaskCachingTests: XCTestCase {
         // This site returns the current time in the specified time zone. This way this test will cache data, but our second task will be called twice (cache hit, and updated data from API)
 
         let expectation = self.expectation(description: "cache hit & update network request")
-        let url = URL(string: "https://script.google.com/macros/s/AKfycbyd5AcbAnWi2Yn0xhFRbyzS4qMq1VucMVgVvhul5XqS9HkAyJY/exec?tz=Amarica/New_York")!
+        let url = URL(string: "http://www.unixtimestamp.com")!
         let settings = RequestSettings(cachePolicy: .neverExpires)
         let request = DataRequest(url: url, httpMethod: .get, settings: settings)
         let task = networkController.data(with: request)
