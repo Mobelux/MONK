@@ -12,10 +12,17 @@ import XCTest
 class DownloadTaskTests: XCTestCase {
     
     private let networkController = NetworkController(serverTrustSettings: nil)
-    
+    private let requestedLocalURL = URL(fileURLWithPath: NSTemporaryDirectory() + "image.jpg")
+
+    override func setUp() {
+        super.setUp()
+        try? FileManager.default.removeItem(at: requestedLocalURL)
+    }
+
     override func tearDown() {
         super.tearDown()
         networkController.cancelAllTasks()
+        try? FileManager.default.removeItem(at: requestedLocalURL)
     }
     
     func testDownloadTaskProgress() {
@@ -74,7 +81,6 @@ class DownloadTaskTests: XCTestCase {
     
     func testDownloadTaskCancellation() {
         let url = URL(string: "https://httpbin.org/image/jpeg")!
-        let requestedLocalURL = URL(fileURLWithPath: NSTemporaryDirectory() + "image.jpg")
         let dummyFileURL = DataHelper.imageURL(for: .compiling)
         try! FileManager.default.copyItem(at: dummyFileURL, to: requestedLocalURL)
         
