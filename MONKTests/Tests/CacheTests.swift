@@ -11,46 +11,51 @@ import XCTest
 
 class CacheTests: XCTestCase {
 
-    func testCacheManualPurge() {
-        guard let cache = try? Cache(behavior: .manualPurgeOrExpirationOnly) else {
-            XCTAssert(false, "Could not create cache")
-            return
+    private func validateCache(_ cache: Cache, url: URL, data: Data, statusCode: Int) {
+        let cachedData = cache.cachedObject(for: url)
+        XCTAssertNotNil(cachedData, "No cached data found")
+        if let cachedData = cachedData {
+            XCTAssert(cachedData.data == data, "Data doesn't match")
+            XCTAssert(cachedData.statusCode == statusCode, "Status code doesn't match")
         }
+    }
+
+    func testCacheManualPurge() {
+        let cache = Cache(behavior: .manualPurgeOrExpirationOnly)
 
         let string = "Hello world"
         let data = string.data(using: .utf8)!
         let url = URL(string: "http://mobelux.com")!
+        let statusCode = 200
 
-        cache.add(object: data, url: url, expiration: nil)
-        XCTAssertNotNil(cache.cachedObject(for: url), "Data was not cached")
+        cache.add(object: data, url: url, statusCode: statusCode, expiration: nil)
+        validateCache(cache, url: url, data: data, statusCode: statusCode)
 
         cache.removeObject(for: url)
         XCTAssertNil(cache.cachedObject(for: url), "Data was not purged")
 
-        cache.add(object: data, url: url, expiration: nil)
-        XCTAssertNotNil(cache.cachedObject(for: url), "Data was not cached")
+        cache.add(object: data, url: url, statusCode: statusCode, expiration: nil)
+        validateCache(cache, url: url, data: data, statusCode: statusCode)
 
         cache.removeAll()
         XCTAssertNil(cache.cachedObject(for: url), "Data was not purged")
     }
 
     func testExpiration() {
-        guard let cache = try? Cache(behavior: .manualPurgeOrExpirationOnly) else {
-            XCTAssert(false, "Could not create cache")
-            return
-        }
+        let cache = Cache(behavior: .manualPurgeOrExpirationOnly)
 
         let string = "Hello world"
         let data = string.data(using: .utf8)!
         let url = URL(string: "http://mobelux.com")!
+        let statusCode = 200
         let now = Date()
 
-        cache.add(object: data, url: url, expiration: now)
+        cache.add(object: data, url: url, statusCode: statusCode, expiration: now)
         XCTAssertNil(cache.cachedObject(for: url), "Data was cached, but shouldn't have been")
 
         let timeInterval: TimeInterval = 0.25
         let future = Date(timeIntervalSinceNow: timeInterval)
-        cache.add(object: data, url: url, expiration: future)
+        cache.add(object: data, url: url, statusCode: statusCode, expiration: future)
         XCTAssertNotNil(cache.cachedObject(for: url), "Data was not cached")
 
         let ex = expectation(description: "Cache expiration")
@@ -62,26 +67,21 @@ class CacheTests: XCTestCase {
     }
 
     func testMetaDataSaveLoad() {
-        let behavior: Cache.Behavior = .manualPurgeOrExpirationOnly
+        let behavior: CacheBehavior = .manualPurgeOrExpirationOnly
 
-        guard let cache = try? Cache(behavior: behavior) else {
-            XCTAssert(false, "Could not create cache")
-            return
-        }
+        let cache = Cache(behavior: behavior)
 
         let string = "Hello world"
         let data = string.data(using: .utf8)!
         let url = URL(string: "http://mobelux.com")!
+        let statusCode = 300
 
-        cache.add(object: data, url: url, expiration: nil)
-        XCTAssertNotNil(cache.cachedObject(for: url), "Data was not cached")
+        cache.add(object: data, url: url, statusCode: statusCode, expiration: nil)
+        validateCache(cache, url: url, data: data, statusCode: statusCode)
 
         // Outside of tests, you should NEVER create a duplicate cache with the same behavior as any existing cache. They will stomp all over each other's data
-        guard let cache2 = try? Cache(behavior: behavior) else {
-            XCTAssert(false, "Couldn't create the second cache")
-            return
-        }
-        XCTAssertNotNil(cache2.cachedObject(for: url), "Metadata was not successfully saved or loaded")
+        let cache2 = Cache(behavior: behavior)
+        validateCache(cache2, url: url, data: data, statusCode: statusCode)
 
     }
 }
