@@ -160,4 +160,39 @@ class DataTaskCachingTests: XCTestCase {
         task.resume()
         waitForExpectations(timeout: TestConstants.testTimeout, handler: nil)
     }
+
+    func testCacheNotUsedForPost() {
+        let expectation = self.expectation(description: "cache not used for post network request")
+
+        let settings = RequestSettings(cachePolicy: .neverExpires)
+        let url = URL(string: "http://jsonplaceholder.typicode.com/posts")!
+        let data = UploadableData.json(json: ["hello" as NSString : "world" as NSString])
+        let method: HTTPMethod = .post(bodyData: data)
+        let request = DataRequest(url: url, httpMethod: method, settings: settings)
+        let task = networkController.data(with: request)
+
+        task.addCompletion { (result) in
+            switch result {
+            case .failure(let error):
+                XCTAssert(false, "Error found: \(String(describing: error))")
+                expectation.fulfill()
+            case .success(_, let responseData, let cached):
+                switch cached {
+                case .notFromCache:
+                    if responseData != nil {
+                        let cachedData = task.cache.cachedObject(for: url)
+                        XCTAssertNil(cachedData, "POST data shouldn't be cached")
+                    } else {
+                        XCTAssert(false, "Did not get valid data")
+                    }
+                case .fromCache:
+                    XCTAssert(false, "We should not have a cache hit on a POST")
+                }
+                expectation.fulfill()
+            }
+        }
+
+        task.resume()
+        waitForExpectations(timeout: TestConstants.testTimeout, handler: nil)
+    }
 }

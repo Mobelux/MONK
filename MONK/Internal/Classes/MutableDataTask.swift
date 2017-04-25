@@ -66,7 +66,7 @@ final class MutableDataTask: DataTask, CompletableTask {
                 return
             } else {
                 taskResult = .success(statusCode: statusCode, responseData: data, cached: .notFromCache)
-                if let data = self.data, let settings = request.settings {
+                if let data = self.data, let settings = request.settings, case .get = request.httpMethod {
                     switch settings.cachePolicy {
                     case .expireAt, .headerExpiration, .neverExpires:
                         self.cache.add(object: data, url: self.request.url, statusCode: statusCode, expiration: self.cacheExpiration())
