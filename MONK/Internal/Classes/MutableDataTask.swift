@@ -54,42 +54,35 @@ final class MutableDataTask: DataTask, CompletableTask {
     }
     
     func didComplete(statusCode: Int?, error: Error?, cachedResponse: Bool) {
-        defer {
-            if !cachedResponse, let data = data, let statusCode = statusCode, let settings = request.settings {
-                switch settings.cachePolicy {
-                case .expireAt, .headerExpiration, .neverExpires:
-                    cache.add(object: data, url: request.url, statusCode: statusCode, expiration: cacheExpiration())
-                case .noAdditionalCaching:
-                    break
+        let taskResult: TaskResult
+
+        if cachedResponse {
+            guard let cachedData = cache.cachedObject(for: request.url) else { return }
+            taskResult = .success(statusCode: cachedData.statusCode, responseData: cachedData.data, cached: .fromCache(cachedData.cachedAt))
+        } else if let statusCode = statusCode {
+            if let cachedData = cache.cachedObject(for: request.url), let data = data, cachedData.data == data {
+                // The cached data matches the API's data, so no need to call the handlers again
+                removeHandlers()
+                return
+            } else {
+                taskResult = .success(statusCode: statusCode, responseData: data, cached: .notFromCache)
+                if let data = self.data, let settings = request.settings {
+                    switch settings.cachePolicy {
+                    case .expireAt, .headerExpiration, .neverExpires:
+                        self.cache.add(object: data, url: self.request.url, statusCode: statusCode, expiration: self.cacheExpiration())
+                    case .noAdditionalCaching:
+                        break
+                    }
                 }
             }
+        } else {
+            taskResult = .failure(error: error)
         }
 
-        let taskResult: TaskResult? = {
-            if cachedResponse {
-                guard let cachedData = cache.cachedObject(for: request.url) else { return nil }
-                return .success(statusCode: cachedData.statusCode, responseData: cachedData.data, cached: .fromCache(cachedData.cachedAt))
-            } else {
-                if let statusCode = statusCode {
-                    if let cachedData = cache.cachedObject(for: request.url), let data = data, cachedData.data == data {
-                        // The cached data matches the API's data, so no need to call the handlers again
-                        self.removeHandlers()
-                        return nil
-                    } else {
-                        return .success(statusCode: statusCode, responseData: data, cached: .notFromCache)
-                    }
-                } else {
-                    return .failure(error: error)
-                }
-            }
-        }()
-
-        if let taskResult = taskResult {
-            result = taskResult
-            completionHandlers.forEach { $0(taskResult) }
-            if !cachedResponse {
-                removeHandlers()
-            }
+        result = taskResult
+        completionHandlers.forEach { $0(taskResult) }
+        if !cachedResponse {
+            removeHandlers()
         }
     }
     

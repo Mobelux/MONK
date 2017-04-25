@@ -11,6 +11,7 @@
 		6B343F611EAE558300DB7C0C /* CacheEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B343F601EAE558300DB7C0C /* CacheEntry.swift */; };
 		6B343F671EAF88EA00DB7C0C /* Task+CacheExpiration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B343F661EAF88EA00DB7C0C /* Task+CacheExpiration.swift */; };
 		6B343F691EAF921100DB7C0C /* TaskCacheExpirationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B343F681EAF921100DB7C0C /* TaskCacheExpirationTests.swift */; };
+		6B343F6B1EAF9C3400DB7C0C /* DataTaskCachingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B343F6A1EAF9C3400DB7C0C /* DataTaskCachingTests.swift */; };
 		6B50AC8E1D3E787000AC3D77 /* ServerTrustSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B50AC8D1D3E787000AC3D77 /* ServerTrustSettings.swift */; };
 		6B50AC901D3E78F900AC3D77 /* FileDataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B50AC8F1D3E78F900AC3D77 /* FileDataType.swift */; };
 		6B50AC921D3E794600AC3D77 /* FileDataType+Internal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B50AC911D3E794600AC3D77 /* FileDataType+Internal.swift */; };
@@ -72,6 +73,7 @@
 		6B343F601EAE558300DB7C0C /* CacheEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheEntry.swift; sourceTree = "<group>"; };
 		6B343F661EAF88EA00DB7C0C /* Task+CacheExpiration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Task+CacheExpiration.swift"; sourceTree = "<group>"; };
 		6B343F681EAF921100DB7C0C /* TaskCacheExpirationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskCacheExpirationTests.swift; sourceTree = "<group>"; };
+		6B343F6A1EAF9C3400DB7C0C /* DataTaskCachingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataTaskCachingTests.swift; sourceTree = "<group>"; };
 		6B50AC8D1D3E787000AC3D77 /* ServerTrustSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerTrustSettings.swift; sourceTree = "<group>"; };
 		6B50AC8F1D3E78F900AC3D77 /* FileDataType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileDataType.swift; sourceTree = "<group>"; };
 		6B50AC911D3E794600AC3D77 /* FileDataType+Internal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FileDataType+Internal.swift"; sourceTree = "<group>"; };
@@ -307,6 +309,7 @@
 			isa = PBXGroup;
 			children = (
 				6B343F5E1EAE54B900DB7C0C /* CacheTests.swift */,
+				6B343F6A1EAF9C3400DB7C0C /* DataTaskCachingTests.swift */,
 				6BAB2A4E1D36CF0300AB6DCF /* DataTaskTests.swift */,
 				6BAB2A4F1D36CF0300AB6DCF /* DownloadTaskTests.swift */,
 				6BAB2A501D36CF0300AB6DCF /* NetworkControllerDelegateTests.swift */,
@@ -481,6 +484,7 @@
 				6BAB2A581D36CF0300AB6DCF /* DataHelper.swift in Sources */,
 				6BAB2A5A1D36CF0300AB6DCF /* DataTaskTests.swift in Sources */,
 				6BAB2A5E1D36CF0300AB6DCF /* RequestHeadersTests.swift in Sources */,
+				6B343F6B1EAF9C3400DB7C0C /* DataTaskCachingTests.swift in Sources */,
 				6B50AC991D3ECCE600AC3D77 /* CertificateHelper.swift in Sources */,
 				6BAB2A5C1D36CF0300AB6DCF /* NetworkControllerDelegateTests.swift in Sources */,
 				6BAB2A5B1D36CF0300AB6DCF /* DownloadTaskTests.swift in Sources */,
