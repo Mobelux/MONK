@@ -27,6 +27,14 @@ public extension Task {
     }
     
     public func resume() {
+        if let settings = request.settings, case .get = request.httpMethod, let task = self as? CompletableTask {
+            switch settings.cachePolicy {
+            case .neverExpires, .headerExpiration, .expireAt:
+                task.didComplete(statusCode: nil, error: nil, cachedResponse: true)
+            case .noAdditionalCaching:
+                break
+            }
+        }
         task.resume()
     }
     

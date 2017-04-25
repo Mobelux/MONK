@@ -13,6 +13,7 @@ public final class NetworkController {
     
     fileprivate let session: URLSession
     fileprivate let sessionDelegate: NetworkSessionDelegate
+    fileprivate let cache: Cache
     
     /// The number of tasks that are active on this network controller. This includes paused/suspended tasks.
     public var activeTasksCount: Int {
@@ -27,13 +28,20 @@ public final class NetworkController {
         - parameter description:            A string to be used to label this controller. It will be handy when debugging since it is visible in the stack trace in Xcode.
         - parameter delegate:               An optional delegate that can recieve some basic notifications about metrics and things.
     */
-    public init(serverTrustSettings: ServerTrustSettings?, configuration: URLSessionConfiguration = URLSessionConfiguration.mobeluxDefault, description: String = "com.mobelux.network_controller", delegate: NetworkControllerDelegate? = nil) {
+    public init(serverTrustSettings: ServerTrustSettings?, configuration: URLSessionConfiguration = URLSessionConfiguration.mobeluxDefault, description: String = "com.mobelux.network_controller", cacheBehavior: CacheBehavior = .purgeOnLowDiskSpace, delegate: NetworkControllerDelegate? = nil) {
         
         sessionDelegate = NetworkSessionDelegate(serverTrustSettings: serverTrustSettings, delegate: delegate)
         
         session = URLSession(configuration: configuration, delegate: sessionDelegate, delegateQueue: sessionDelegate.operationQueue)
         session.sessionDescription = description
-        
+
+        switch cacheBehavior {
+        case .purgeOnLowDiskSpace:
+            cache = Cache.purgableCache
+        case .manualPurgeOrExpirationOnly:
+            cache = Cache.persistantCache
+        }
+
         sessionDelegate.networkController = self
     }
     
@@ -67,9 +75,9 @@ public extension NetworkControllerActions {
         let urlDataTask = session.dataTask(with: request)
         let task: MutableDataTask = {
             if let uploadTask = urlDataTask as? URLSessionUploadTask {
-                return MutableDataTask(request: request, task: uploadTask)
+                return MutableDataTask(request: request, task: uploadTask, cache: cache)
             } else {
-                return MutableDataTask(request: request, task: urlDataTask)
+                return MutableDataTask(request: request, task: urlDataTask, cache: cache)
             }
         }()
         sessionDelegate.queue.async { 
@@ -89,7 +97,7 @@ public extension NetworkControllerActions {
      */
     public func download(with request: DownloadRequestType) -> DownloadTask {
         let urlDownloadTask = session.downloadTask(with: request)
-        let task = MutableDownloadTask(request: request, task: urlDownloadTask)
+        let task = MutableDownloadTask(request: request, task: urlDownloadTask, cache: cache)
         sessionDelegate.queue.async { 
             self.sessionDelegate.tasks.activate(task: task)
         }

@@ -37,9 +37,15 @@ class UploadTaskTests: XCTestCase {
             case .failure(let error):
                 XCTAssert(false, "Error found: \(String(describing: error))")
                 expectation.fulfill()
-            case .success(let statusCode, let responseData):
+            case .success(let statusCode, let responseData, let cached):
                 XCTAssert(statusCode == 200, "Invalid status code found")
                 XCTAssertNotNil(responseData, "Data was nil")
+                switch cached {
+                case .notFromCache:
+                    break
+                case .fromCache:
+                    XCTAssert(false, "We should not have used the cache")
+                }
                 guard let responseJSON = try? responseData!.json() else { expectation.fulfill(); return }
                 let responseWhatWePosted = responseJSON["json"]
                 XCTAssertNotNil(responseWhatWePosted, "The JSON we posted is missing")
@@ -103,9 +109,15 @@ class UploadTaskTests: XCTestCase {
             case .failure(let error):
                 XCTAssert(false, "Error found: \(String(describing: error))")
                 expectation.fulfill()
-            case .success(let statusCode, let responseData):
+            case .success(let statusCode, let responseData, let cached):
                 XCTAssert(statusCode == 200, "Invalid status code found")
                 XCTAssertNotNil(responseData, "Data was nil")
+                switch cached {
+                case .notFromCache:
+                    break
+                case .fromCache:
+                    XCTAssert(false, "We should not have used the cache")
+                }
                 guard let responseJSON = try? responseData!.json() else { expectation.fulfill(); return }
                 let responseWhatWePosted = responseJSON["json"]
                 XCTAssertNotNil(responseWhatWePosted, "The JSON we posted is missing")
@@ -170,9 +182,15 @@ class UploadTaskTests: XCTestCase {
             case .failure(let error):
                 XCTAssert(false, "Error found: \(String(describing: error))")
                 expectation.fulfill()
-            case .success(let statusCode, let responseData):
+            case .success(let statusCode, let responseData, let cached):
                 XCTAssert(statusCode == 200, "Invalid status code found")
                 XCTAssertNotNil(responseData, "Data was nil")
+                switch cached {
+                case .notFromCache:
+                    break
+                case .fromCache:
+                    XCTAssert(false, "We should not have used the cache")
+                }
                 guard let responseJSON = try? responseData!.json() else { expectation.fulfill(); return }
                 
                 XCTAssert(FileValidator.validate(files: [file], response: responseJSON), "Uploaded files don't match recieved files")
@@ -237,9 +255,15 @@ class UploadTaskTests: XCTestCase {
             case .failure(let error):
                 XCTAssert(false, "Error found: \(String(describing: error))")
                 expectation.fulfill()
-            case .success(let statusCode, let responseData):
+            case .success(let statusCode, let responseData, let cached):
                 XCTAssert(statusCode == 200, "Invalid status code found")
                 XCTAssertNotNil(responseData, "Data was nil")
+                switch cached {
+                case .notFromCache:
+                    break
+                case .fromCache:
+                    XCTAssert(false, "We should not have used the cache")
+                }
                 guard let responseJSON = try? responseData!.json() else { expectation.fulfill(); return }
                 let responseWhatWePosted = responseJSON["form"] as? JSON
                 XCTAssertNotNil(responseWhatWePosted, "The JSON we posted is missing")
@@ -308,9 +332,15 @@ class UploadTaskTests: XCTestCase {
             case .failure(let error):
                 XCTAssert(false, "Error found: \(String(describing: error))")
                 expectation.fulfill()
-            case .success(let statusCode, let responseData):
+            case .success(let statusCode, let responseData, let cached):
                 XCTAssert(statusCode == 200, "Invalid status code found")
                 XCTAssertNotNil(responseData, "Data was nil")
+                switch cached {
+                case .notFromCache:
+                    break
+                case .fromCache:
+                    XCTAssert(false, "We should not have used the cache")
+                }
                 guard let responseJSON = try? responseData!.json() else { expectation.fulfill(); return }
                 let responseWhatWePosted = responseJSON["form"] as? JSON
                 XCTAssertNotNil(responseWhatWePosted, "The JSON we posted is missing")
@@ -376,9 +406,15 @@ class UploadTaskTests: XCTestCase {
             case .failure(let error):
                 XCTAssert(false, "Error found: \(String(describing: error))")
                 expectation.fulfill()
-            case .success(let statusCode, let responseData):
+            case .success(let statusCode, let responseData, let cached):
                 XCTAssert(statusCode == 200, "Invalid status code found")
                 XCTAssertNotNil(responseData, "Data was nil")
+                switch cached {
+                case .notFromCache:
+                    break
+                case .fromCache:
+                    XCTAssert(false, "We should not have used the cache")
+                }
                 guard let responseJSON = try? responseData!.json() else { expectation.fulfill(); return }
                 
                 XCTAssert(FileValidator.validate(uploadedData: dataToUpload, response: responseJSON), "Uploaded data don't match recieved data")

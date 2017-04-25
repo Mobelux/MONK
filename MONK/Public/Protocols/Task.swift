@@ -25,14 +25,23 @@ public enum TaskState {
     case cancelled
 }
 
+/// Was this response from the cache?
+///
+/// - fromCache: Yep it was from the cache. The associated `Date` is when it was added to the cache
+/// - notFromCache: No, it was not from the cache
+public enum CachedResponse {
+    case fromCache(Date)
+    case notFromCache
+}
+
 /**
  The result of a `DataTask`
  
- - success: The case when a `Task's` `state == .complete`. `statusCode`: the HTTP status code from the server. `responseData`: The data returned from the server (if any)
+ - success: The case when a `Task's` `state == .complete`. `statusCode`: the HTTP status code from the server. `responseData`: The data returned from the server (if any). `cached` indicates if this result was from the cache or not
  - failure: The case when a `Task's` `state == .failed`. This `error` is only for errors in reaching the server. Not for errors that the server might be thrown
  */
 public enum TaskResult {
-    case success(statusCode: Int, responseData: Data?)
+    case success(statusCode: Int, responseData: Data?, cached: CachedResponse)
     case failure(error: Error?)
 }
 
@@ -74,6 +83,9 @@ public protocol Task: class {
     
     /// The underlying system task. You should NEVER use `task.cancel()` on this task or your app will leak memory. Instad call `cancel()` on the `Task`
     var task: URLSessionTask { get }
+
+    /// The cache that this task will use, if the `CachePolicy` dictates
+    var cache: Cache { get }
     
     /// The current state of this task
     var state: TaskState { get }

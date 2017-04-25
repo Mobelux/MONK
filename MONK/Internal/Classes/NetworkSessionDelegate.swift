@@ -85,7 +85,7 @@ extension NetworkSessionTaskDelegate: URLSessionTaskDelegate {
         
         tasks.deactivate(task: internalTask)
         
-        internalTask.didComplete(statusCode: statusCode, error: error)
+        internalTask.didComplete(statusCode: statusCode, error: error, cachedResponse: false)
     }
     
     func urlSession(_ session: URLSession, task: URLSessionTask, didSendBodyData bytesSent: Int64, totalBytesSent: Int64, totalBytesExpectedToSend: Int64) {

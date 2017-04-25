@@ -90,7 +90,7 @@ class ServerTrustTests: XCTestCase {
         
         task.addCompletion { (result) in
             switch result {
-            case .success(let statusCode, _):
+            case .success(let statusCode, _, _):
                 XCTAssert(statusCode == 200, "Invalid status code")
             case .failure:
                 XCTAssert(false, "We failed to process the task")
@@ -121,7 +121,7 @@ class ServerTrustTests: XCTestCase {
         
         task.addCompletion { (result) in
             switch result {
-            case .success(let statusCode, _):
+            case .success(let statusCode, _, _):
                 XCTAssert(statusCode >= 400 && statusCode < 500, "Invalid status code")
             case .failure:
                 XCTAssert(false, "We failed to process the task")
@@ -183,7 +183,7 @@ class ServerTrustTests: XCTestCase {
         
         task.addCompletion { (result) in
             switch result {
-            case .success(let statusCode, _):
+            case .success(let statusCode, _, _):
                 XCTAssert(statusCode == 200, "Invalid status code")
             case .failure:
                 XCTAssert(false, "We failed to process the task")
@@ -210,7 +210,7 @@ class ServerTrustTests: XCTestCase {
         
         task.addCompletion { (result) in
             switch result {
-            case .success(let statusCode, _):
+            case .success(let statusCode, _, _):
                 XCTAssert(statusCode == 200, "Invalid status code")
             case .failure:
                 XCTAssert(false, "We failed to process the task")
@@ -240,7 +240,7 @@ class ServerTrustTests: XCTestCase {
         
         task.addCompletion { (result) in
             switch result {
-            case .success(let statusCode, _):
+            case .success(let statusCode, _, _):
                 XCTAssert(statusCode == 200, "Invalid status code")
             case .failure:
                 XCTAssert(false, "We failed to process the task")
@@ -271,7 +271,7 @@ class ServerTrustTests: XCTestCase {
         
         task.addCompletion { (result) in
             switch result {
-            case .success(let statusCode, _):
+            case .success(let statusCode, _, _):
                 XCTAssert(statusCode == 200, "Invalid status code")
             case .failure:
                 XCTAssert(false, "We failed to process the task")
@@ -362,7 +362,7 @@ class ServerTrustTests: XCTestCase {
         
         task.addCompletion { (result) in
             switch result {
-            case .success(let statusCode, _):
+            case .success(let statusCode, _, _):
                 XCTAssert(statusCode == 200, "Invalid status code")
             case .failure(_):
                 XCTAssert(false, "We failed to process the task")
@@ -393,7 +393,7 @@ class ServerTrustTests: XCTestCase {
         
         task.addCompletion { (result) in
             switch result {
-            case .success(let statusCode, _):
+            case .success(let statusCode, _, _):
                 XCTAssert(statusCode == 200, "Invalid status code")
             case .failure:
                 XCTAssert(false, "We failed to process the task")
