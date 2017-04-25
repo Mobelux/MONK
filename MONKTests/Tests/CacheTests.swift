@@ -11,6 +11,12 @@ import XCTest
 
 class CacheTests: XCTestCase {
 
+    override func tearDown() {
+        super.tearDown()
+        Cache.purgableCache.removeAll()
+        Cache.persistantCache.removeAll()
+    }
+    
     private func validateCache(_ cache: Cache, url: URL, data: Data, statusCode: Int) {
         let cachedData = cache.cachedObject(for: url)
         XCTAssertNotNil(cachedData, "No cached data found")
