@@ -32,10 +32,16 @@ class NetworkControllerDelegateTests: XCTestCase {
         task.addCompletion { (result) in
             switch result {
             case .failure(let error):
-                XCTAssert(false, "Error found: \(error)")
-            case .success(let statusCode, let responseData):
+                XCTAssert(false, "Error found: \(String(describing: error))")
+            case .success(let statusCode, let responseData, let cached):
                 XCTAssert(statusCode == 200, "Invalid status code found")
                 XCTAssertNotNil(responseData, "Data was nil")
+                switch cached {
+                case .notCached:
+                    break
+                case .fromCache, .updatedCache:
+                    XCTAssert(false, "We should not have used the cache")
+                }
                 let expectedData = DataHelper.data(for: .posts1)
                 let expectedJSON = try! expectedData.json()
                 let recievedJSON = try? responseData!.json()

@@ -23,7 +23,7 @@ class RequestHeadersTests: XCTestCase {
         
         let expectation = self.expectation(description: "Network request")
         let additionalHeaders: [String : String] = ["DummyKey" : "DummyValue"]
-        let settings = RequestSettings(additionalHeaders: additionalHeaders, allowsCellularAccess: true, networkServiceType: .default, cachePolicy: .useProtocolCachePolicy)
+        let settings = RequestSettings(additionalHeaders: additionalHeaders, allowsCellularAccess: true, networkServiceType: .default)
         
         let url = URL(string: "http://jsonplaceholder.typicode.com/posts/1")!
         let request = DataRequest(url: url, httpMethod: .get, settings: settings)
@@ -39,9 +39,9 @@ class RequestHeadersTests: XCTestCase {
         task.addCompletion { (result) in
             switch result {
             case .failure(let error):
-                XCTAssert(false, "Error found: \(error)")
+                XCTAssert(false, "Error found: \(String(describing: error))")
                 expectation.fulfill()
-            case .success(let statusCode, _):
+            case .success(let statusCode, _, _):
                 XCTAssert(statusCode == 200, "Invalid status code found")
                 
                 let requestHeaders = task.dataTask.currentRequest?.allHTTPHeaderFields
@@ -67,7 +67,7 @@ class RequestHeadersTests: XCTestCase {
         
         let expectation = self.expectation(description: "Network request")
         let additionalHeaders: [String : String] = ["Accept" : ContentType.plainText.rawValue]
-        let settings = RequestSettings(additionalHeaders: additionalHeaders, allowsCellularAccess: true, networkServiceType: .default, cachePolicy: .useProtocolCachePolicy)
+        let settings = RequestSettings(additionalHeaders: additionalHeaders, allowsCellularAccess: true, networkServiceType: .default)
         
         let url = URL(string: "http://jsonplaceholder.typicode.com/posts/1")!
         let request = DataRequest(url: url, httpMethod: .get, settings: settings)
@@ -84,9 +84,9 @@ class RequestHeadersTests: XCTestCase {
         task.addCompletion { (result) in
             switch result {
             case .failure(let error):
-                XCTAssert(false, "Error found: \(error)")
+                XCTAssert(false, "Error found: \(String(describing: error))")
                 expectation.fulfill()
-            case .success(let statusCode, _):
+            case .success(let statusCode, _, _):
                 XCTAssert(statusCode == 200, "Invalid status code found")
                 
                 let requestHeaders = task.dataTask.currentRequest?.allHTTPHeaderFields

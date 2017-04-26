@@ -32,7 +32,12 @@ extension Request {
         request.httpMethod = httpMethod.rawValue
         if let settings = settings {
             request.networkServiceType = settings.networkServiceType
-            request.cachePolicy = settings.cachePolicy
+            switch settings.cachePolicy {
+            case .noAdditionalCaching(let cachePolicy):
+                request.cachePolicy = cachePolicy
+            case .neverExpires, .headerExpiration, .expireAt:
+                request.cachePolicy = .useProtocolCachePolicy
+            }
             request.allHTTPHeaderFields = settings.additionalHeaders
             request.allowsCellularAccess = settings.allowsCellularAccess
         }
