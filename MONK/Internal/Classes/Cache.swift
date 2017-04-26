@@ -33,7 +33,6 @@ public class Cache {
         let data: Data
         let cachedAt: Date
         let statusCode: Int
-
     }
 
     static var purgableCache: Cache = Cache(behavior: .purgeOnLowDiskSpace)
@@ -76,7 +75,7 @@ public class Cache {
     /// Purges a specific object from the cache, dispite any expiration it may have had. Also triggers a purge of any expired objects in the cache
     ///
     /// - Parameter url: The remote URL that was used to fetch the object
-    func removeObject(for url: URL) {
+    public func removeObject(for url: URL) {
         purgeAnyExpiredObjects()
 
         guard let entry = cacheEntries[url] else {

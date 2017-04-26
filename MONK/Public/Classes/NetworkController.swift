@@ -13,7 +13,7 @@ public final class NetworkController {
     
     fileprivate let session: URLSession
     fileprivate let sessionDelegate: NetworkSessionDelegate
-    fileprivate let cache: Cache
+    public let cache: Cache
     
     /// The number of tasks that are active on this network controller. This includes paused/suspended tasks.
     public var activeTasksCount: Int {
