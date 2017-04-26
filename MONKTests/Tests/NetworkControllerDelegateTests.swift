@@ -37,9 +37,9 @@ class NetworkControllerDelegateTests: XCTestCase {
                 XCTAssert(statusCode == 200, "Invalid status code found")
                 XCTAssertNotNil(responseData, "Data was nil")
                 switch cached {
-                case .notFromCache:
+                case .notCached:
                     break
-                case .fromCache:
+                case .fromCache, .updatedCache:
                     XCTAssert(false, "We should not have used the cache")
                 }
                 let expectedData = DataHelper.data(for: .posts1)

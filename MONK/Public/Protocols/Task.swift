@@ -28,10 +28,12 @@ public enum TaskState {
 /// Was this response from the cache?
 ///
 /// - fromCache: Yep it was from the cache. The associated `Date` is when it was added to the cache
-/// - notFromCache: No, it was not from the cache
+/// - updatedCache: This data just came from the API, and it was different from what was in the cache
+/// - notCached: This data just came from the API, and there was not any cached data for this request
 public enum CachedResponse {
     case fromCache(Date)
-    case notFromCache
+    case updatedCache
+    case notCached
 }
 
 /**

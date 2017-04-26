@@ -71,7 +71,7 @@ class TaskCacheExpirationTests: XCTestCase {
                 XCTAssert(statusCode == 200, "Invalid status code found")
                 XCTAssertNotNil(responseData, "Data was nil")
                 switch cached {
-                case .notFromCache:
+                case .notCached, .updatedCache:
                     XCTAssertNil(task.cacheExpiration(), "Server should respond with `no-cache`, so we wouldn't have an expiration")
                 case .fromCache:
                     XCTAssertNil(task.cacheExpiration(), "We should not have an expiration date yet as the task hasn't finished")
@@ -103,7 +103,7 @@ class TaskCacheExpirationTests: XCTestCase {
                 XCTAssert(statusCode == 200, "Invalid status code found")
                 XCTAssertNotNil(responseData, "Data was nil")
                 switch cached {
-                case .notFromCache:
+                case .notCached, .updatedCache:
                     XCTAssertNotNil(task.cacheExpiration(), "We should have an expiration date now")
                 case .fromCache:
                     XCTAssertNil(task.cacheExpiration(), "We should not have an expiration date yet as the task hasn't finished")
@@ -147,6 +147,5 @@ class TaskCacheExpirationTests: XCTestCase {
         XCTAssert(age3 == maxAge, "Age doesn't match")
         XCTAssert(age4 == maxAge, "Age doesn't match")
         XCTAssert(age5 == maxAge, "Age doesn't match")
-
     }
 }

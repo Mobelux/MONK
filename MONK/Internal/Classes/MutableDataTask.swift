@@ -60,12 +60,18 @@ final class MutableDataTask: DataTask, CompletableTask {
             guard let cachedData = cache.cachedObject(for: request.url) else { return }
             taskResult = .success(statusCode: cachedData.statusCode, responseData: cachedData.data, cached: .fromCache(cachedData.cachedAt))
         } else if let statusCode = statusCode {
-            if let cachedData = cache.cachedObject(for: request.url), let data = data, cachedData.data == data {
-                // The cached data matches the API's data, so no need to call the handlers again
-                removeHandlers()
-                taskResult = .success(statusCode: statusCode, responseData: data, cached: .notFromCache)
+            if let cachedData = cache.cachedObject(for: request.url) {
+                if let data = data, cachedData.data == data {
+                    // The cached data matches the API's data, so no need to call the handlers again
+                    removeHandlers()
+                    taskResult = .success(statusCode: statusCode, responseData: data, cached: .updatedCache)
+                } else {
+                    // The data was cached, but this data is different so it's an update
+                    taskResult = .success(statusCode: statusCode, responseData: data, cached: .updatedCache)
+                }
             } else {
-                taskResult = .success(statusCode: statusCode, responseData: data, cached: .notFromCache)
+                // The data was never in the cache
+                taskResult = .success(statusCode: statusCode, responseData: data, cached: .notCached)
             }
             // Always cache the response even if it's the same as the current cached version, because it will update the expiration and createdAt dates
             if let data = data, let settings = request.settings, case .get = request.httpMethod {

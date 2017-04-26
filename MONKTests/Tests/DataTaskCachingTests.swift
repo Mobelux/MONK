@@ -44,7 +44,7 @@ class DataTaskCachingTests: XCTestCase {
                 switch cached {
                 case .fromCache:
                     XCTAssertNotNil(responseData, "If data is nil, it couldn't be cached")
-                case .notFromCache:
+                case .notCached, .updatedCache:
                     XCTAssert(false, "Cache miss")
                 }
             case .failure(error: let error):
@@ -74,7 +74,7 @@ class DataTaskCachingTests: XCTestCase {
                 expectation.fulfill()
             case .success(let statusCode, let responseData, let cached):
                 switch cached {
-                case .notFromCache:
+                case .notCached:
                     if let responseData = responseData {
                         self.validateCache(task.cache, url: url, data: responseData, statusCode: statusCode)
                     } else {
@@ -82,7 +82,7 @@ class DataTaskCachingTests: XCTestCase {
                     }
 
                     self.runCacheHit(for: request, expectation: expectation)
-                case .fromCache:
+                case .fromCache, .updatedCache:
                     XCTAssert(false, "We should not have a cache hit on the first try")
                     expectation.fulfill()
                 }
@@ -107,9 +107,11 @@ class DataTaskCachingTests: XCTestCase {
                 case .fromCache:
                     XCTAssertNotNil(responseData, "If data is nil, it couldn't be cached")
                     cacheHit = true
-                case .notFromCache:
+                case .updatedCache:
                     XCTAssertNotNil(responseData, "If data is nil, it couldn't be updated")
                     update = true
+                case .notCached:
+                    XCTAssert(false, "On the 2nd request, we should never get a not cached response")
                 }
             case .failure(error: let error):
                 XCTAssert(false, "Error found: \(String(describing: error))")
@@ -142,7 +144,7 @@ class DataTaskCachingTests: XCTestCase {
                 expectation.fulfill()
             case .success(let statusCode, let responseData, let cached):
                 switch cached {
-                case .notFromCache:
+                case .notCached:
                     if let responseData = responseData {
                         self.validateCache(task.cache, url: url, data: responseData, statusCode: statusCode)
                     } else {
@@ -150,7 +152,7 @@ class DataTaskCachingTests: XCTestCase {
                     }
 
                     self.runCacheHitThenUpdate(for: request, expectation: expectation)
-                case .fromCache:
+                case .fromCache, .updatedCache:
                     XCTAssert(false, "We should not have a cache hit on the first try")
                     expectation.fulfill()
                 }
@@ -178,14 +180,14 @@ class DataTaskCachingTests: XCTestCase {
                 expectation.fulfill()
             case .success(_, let responseData, let cached):
                 switch cached {
-                case .notFromCache:
+                case .notCached:
                     if responseData != nil {
                         let cachedData = task.cache.cachedObject(for: url)
                         XCTAssertNil(cachedData, "POST data shouldn't be cached")
                     } else {
                         XCTAssert(false, "Did not get valid data")
                     }
-                case .fromCache:
+                case .fromCache, .updatedCache:
                     XCTAssert(false, "We should not have a cache hit on a POST")
                 }
                 expectation.fulfill()
