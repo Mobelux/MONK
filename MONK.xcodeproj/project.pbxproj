@@ -628,6 +628,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.mobelux.MONK;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "macosx iphonesimulator iphoneos appletvsimulator appletv";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -647,6 +648,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.mobelux.MONK;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "macosx iphonesimulator iphoneos appletvsimulator appletv";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
