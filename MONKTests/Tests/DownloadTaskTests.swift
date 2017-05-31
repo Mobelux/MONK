@@ -2,8 +2,27 @@
 //  DownloadTaskTests.swift
 //  MONK
 //
-//  Created by Jerry Mayers on 7/6/16.
-//  Copyright © 2016 Mobelux. All rights reserved.
+//  MIT License
+//
+//  Copyright (c) 2017 Mobelux
+//
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
+//
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//  THE SOFTWARE.
 //
 
 import XCTest
@@ -12,10 +31,17 @@ import XCTest
 class DownloadTaskTests: XCTestCase {
     
     private let networkController = NetworkController(serverTrustSettings: nil)
-    
+    private let requestedLocalURL = URL(fileURLWithPath: NSTemporaryDirectory() + "image.jpg")
+
+    override func setUp() {
+        super.setUp()
+        try? FileManager.default.removeItem(at: requestedLocalURL)
+    }
+
     override func tearDown() {
         super.tearDown()
         networkController.cancelAllTasks()
+        try? FileManager.default.removeItem(at: requestedLocalURL)
     }
     
     func testDownloadTaskProgress() {
@@ -36,7 +62,7 @@ class DownloadTaskTests: XCTestCase {
         task.addCompletion { (result) in
             switch result {
             case .failure(let error):
-                XCTAssert(false, "Error found: \(error)")
+                XCTAssert(false, "Error found: \(String(describing: error))")
                 expectation.fulfill()
             case .success(let statusCode, let localURL):
                 XCTAssert(statusCode == 200, "Invalid status code found")
@@ -44,8 +70,7 @@ class DownloadTaskTests: XCTestCase {
                 let fileExists = FileManager.default.fileExists(atPath: localURL.path)
                 XCTAssert(fileExists, "File doesn't exist")
                 XCTAssert(progressCalled, "Progress was never called")
-                
-                let image = UIImage(contentsOfFile: localURL.path)
+                let image = CIImage(contentsOf: localURL)
                 XCTAssertNotNil(image, "Image didn't load successfully")
                 
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1, execute: {
@@ -75,7 +100,6 @@ class DownloadTaskTests: XCTestCase {
     
     func testDownloadTaskCancellation() {
         let url = URL(string: "https://httpbin.org/image/jpeg")!
-        let requestedLocalURL = URL(fileURLWithPath: NSTemporaryDirectory() + "image.jpg")
         let dummyFileURL = DataHelper.imageURL(for: .compiling)
         try! FileManager.default.copyItem(at: dummyFileURL, to: requestedLocalURL)
         

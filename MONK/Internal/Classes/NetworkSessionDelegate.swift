@@ -2,8 +2,27 @@
 //  NetworkSessionDelegate.swift
 //  MONK
 //
-//  Created by Jerry Mayers on 6/27/16.
-//  Copyright © 2016 Mobelux. All rights reserved.
+//  MIT License
+//
+//  Copyright (c) 2017 Mobelux
+//
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
+//
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//  THE SOFTWARE.
 //
 
 import Foundation
@@ -47,10 +66,13 @@ final class NetworkSessionDelegate: NSObject {
         tasks = ActiveTasks()
         
         super.init()
+        tasks.delegate = self
     }
 }
 
 extension NetworkSessionDelegate: URLSessionDelegate {
+
+    #if os(iOS) || os(watchOS) || os(tvOS)
     func urlSessionDidFinishEvents(forBackgroundURLSession session: URLSession) {
         guard let networkController = networkController, let delegate = delegate else { return }
         
@@ -58,6 +80,7 @@ extension NetworkSessionDelegate: URLSessionDelegate {
             delegate.networkControllerDidFinishAllEvents(networkController: networkController)
         }
     }
+    #endif
     
     func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
         guard let serverTrustSettings = serverTrustSettings else {
@@ -81,7 +104,7 @@ extension NetworkSessionTaskDelegate: URLSessionTaskDelegate {
         
         tasks.deactivate(task: internalTask)
         
-        internalTask.didComplete(statusCode: statusCode, error: error)
+        internalTask.didComplete(statusCode: statusCode, error: error, cachedResponse: false)
     }
     
     func urlSession(_ session: URLSession, task: URLSessionTask, didSendBodyData bytesSent: Int64, totalBytesSent: Int64, totalBytesExpectedToSend: Int64) {
@@ -141,5 +164,15 @@ extension NetworkSessionDownloadDelegate: URLSessionDownloadDelegate {
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
         guard let task = tasks.downloadTask(fromURLTask: downloadTask) else { return }
         task.didFinishDownloading(to: location)
+    }
+}
+
+typealias NetworkSessionActiveTasksDelegate = NetworkSessionDelegate
+extension NetworkSessionActiveTasksDelegate: ActiveTasksDelegate {
+    func activeTasks(_ activeTasks: ActiveTasks, didChangeCountTo count: Int) {
+        guard let delegate = delegate, let networkController = networkController else { return }
+        DispatchQueue.main.async {
+            delegate.networkController(networkController: networkController, didChangeNumberOfActiveTasksTo: count)
+        }
     }
 }

@@ -2,8 +2,27 @@
 //  DataTaskTests.swift
 //  MONK
 //
-//  Created by Jerry Mayers on 7/5/16.
-//  Copyright © 2016 Mobelux. All rights reserved.
+//  MIT License
+//
+//  Copyright (c) 2017 Mobelux
+//
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
+//
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//  THE SOFTWARE.
 //
 
 import XCTest
@@ -51,11 +70,17 @@ class DataTaskTests: XCTestCase {
         task.addCompletion { (result) in
             switch result {
             case .failure(let error):
-                XCTAssert(false, "Error found: \(error)")
+                XCTAssert(false, "Error found: \(String(describing: error))")
                 expectation.fulfill()
-            case .success(let statusCode, let responseData):
+            case .success(let statusCode, let responseData, let cached):
                 XCTAssert(statusCode == 200, "Invalid status code found")
                 XCTAssertNotNil(responseData, "Data was nil")
+                switch cached {
+                case .notCached:
+                    break
+                case .fromCache, .updatedCache:
+                    XCTAssert(false, "We should not have used the cache")
+                }
                 let expectedData = DataHelper.data(for: .posts1)
                 let expectedJSON = try! expectedData.json()
                 let recievedJSON = try? responseData!.json()
@@ -88,11 +113,17 @@ class DataTaskTests: XCTestCase {
         task.addCompletion { (result) in
             switch result {
             case .failure(let error):
-                XCTAssert(false, "Error found: \(error)")
+                XCTAssert(false, "Error found: \(String(describing: error))")
                 expectation.fulfill()
-            case .success(let statusCode, let responseData):
+            case .success(let statusCode, let responseData, let cached):
                 XCTAssert(statusCode == 200, "Invalid status code found")
                 XCTAssertNotNil(responseData, "Data was nil")
+                switch cached {
+                case .notCached:
+                    break
+                case .fromCache, .updatedCache:
+                    XCTAssert(false, "We should not have used the cache")
+                }
                 XCTAssert(progressCalled, "Progress was never called")
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1, execute: {
                     let mutableTask = task as! MutableDataTask
@@ -130,11 +161,17 @@ class DataTaskTests: XCTestCase {
         task.addCompletion { (result) in
             switch result {
             case .failure(let error):
-                XCTAssert(false, "Error found: \(error)")
+                XCTAssert(false, "Error found: \(String(describing: error))")
                 expectation.fulfill()
-            case .success(let statusCode, let responseData):
+            case .success(let statusCode, let responseData, let cached):
                 XCTAssert(statusCode == 200, "Invalid status code found")
                 XCTAssertNotNil(responseData, "Data was nil")
+                switch cached {
+                case .notCached:
+                    break
+                case .fromCache, .updatedCache:
+                    XCTAssert(false, "We should not have used the cache")
+                }
                 let expectedData = DataHelper.data(for: .posts1)
                 let expectedJSON = try! expectedData.json()
                 let recievedJSON = try? responseData!.json()
@@ -177,14 +214,20 @@ class DataTaskTests: XCTestCase {
         task.addCompletion { (result) in
             switch result {
             case .failure(let error):
-                XCTAssert(false, "Error found: \(error)")
+                XCTAssert(false, "Error found: \(String(describing: error))")
                 expectation.fulfill()
-            case .success(let statusCode, let responseData):
+            case .success(let statusCode, let responseData, let cached):
                 XCTAssert(statusCode == 200, "Invalid status code found")
                 XCTAssertNotNil(responseData, "Data was nil")
+                switch cached {
+                case .notCached:
+                    break
+                case .fromCache, .updatedCache:
+                    XCTAssert(false, "We should not have used the cache")
+                }
                 
                 XCTAssert(self.networkController.activeTasksCount == 0, "Tasks still active")
-                
+
                 XCTAssert(downloadProgressCalled, "Download progress was never called")
                 XCTAssertFalse(uploadProgressCalled, "Upload progress was called")
                 
@@ -236,11 +279,17 @@ class DataTaskTests: XCTestCase {
         task.addCompletion { (result) in
             switch result {
             case .failure(let error):
-                XCTAssert(false, "Error found: \(error)")
+                XCTAssert(false, "Error found: \(String(describing: error))")
                 expectation.fulfill()
-            case .success(let statusCode, let responseData):
+            case .success(let statusCode, let responseData, let cached):
                 XCTAssert(statusCode == 200, "Invalid status code found")
                 XCTAssertNotNil(responseData, "Data was nil")
+                switch cached {
+                case .notCached:
+                    break
+                case .fromCache, .updatedCache:
+                    XCTAssert(false, "We should not have used the cache")
+                }
                 
                 XCTAssert(self.networkController.activeTasksCount == 0, "Tasks still active")
                 

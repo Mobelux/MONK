@@ -2,8 +2,27 @@
 //  MutableDownloadTask.swift
 //  MONK
 //
-//  Created by Jerry Mayers on 7/5/16.
-//  Copyright © 2016 Mobelux. All rights reserved.
+//  MIT License
+//
+//  Copyright (c) 2017 Mobelux
+//
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
+//
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//  THE SOFTWARE.
 //
 
 import Foundation
@@ -14,15 +33,17 @@ final class MutableDownloadTask: DownloadTask, CompletableTask {
     let downloadTask: URLSessionDownloadTask
     
     var result: DownloadTaskResult?
+    var cache: Cache
     
     var downloadProgress: BytesProgress?
     var progressHandlers: [BytesProgressHandler] = []
     
     var completionHandlers: [DownloadCompletionHandler] = []
     
-    init(request: DownloadRequestType, task: URLSessionDownloadTask) {
+    init(request: DownloadRequestType, task: URLSessionDownloadTask, cache: Cache) {
         downloadRequest = request
         downloadTask = task
+        self.cache = cache
     }
     
     func addProgress(handler: @escaping BytesProgressHandler) {
@@ -52,7 +73,9 @@ final class MutableDownloadTask: DownloadTask, CompletableTask {
         }
     }
     
-    func didComplete(statusCode: Int?, error: Error?) {
+    func didComplete(statusCode: Int?, error: Error?, cachedResponse: Bool) {
+        // Download tasks aren't cached
+        guard !cachedResponse else { return }
         let taskResult: DownloadTaskResult = {
             if let existingResult = self.result {
                 // We could already have a failure result from trying to move the file from the temp URL to the localURL. If we do, preserve that result/error.

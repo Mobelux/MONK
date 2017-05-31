@@ -2,8 +2,27 @@
 //  NetworkController.swift
 //  MONK
 //
-//  Created by Jerry Mayers on 6/27/16.
-//  Copyright © 2016 Mobelux. All rights reserved.
+//  MIT License
+//
+//  Copyright (c) 2017 Mobelux
+//
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
+//
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//  THE SOFTWARE.
 //
 
 import Foundation
@@ -13,6 +32,7 @@ public final class NetworkController {
     
     fileprivate let session: URLSession
     fileprivate let sessionDelegate: NetworkSessionDelegate
+    public let cache: Cache
     
     /// The number of tasks that are active on this network controller. This includes paused/suspended tasks.
     public var activeTasksCount: Int {
@@ -27,13 +47,20 @@ public final class NetworkController {
         - parameter description:            A string to be used to label this controller. It will be handy when debugging since it is visible in the stack trace in Xcode.
         - parameter delegate:               An optional delegate that can recieve some basic notifications about metrics and things.
     */
-    public init(serverTrustSettings: ServerTrustSettings?, configuration: URLSessionConfiguration = URLSessionConfiguration.mobeluxDefault, description: String = "com.mobelux.network_controller", delegate: NetworkControllerDelegate? = nil) {
+    public init(serverTrustSettings: ServerTrustSettings?, configuration: URLSessionConfiguration = URLSessionConfiguration.mobeluxDefault, description: String = "com.mobelux.network_controller", cacheBehavior: CacheBehavior = .purgeOnLowDiskSpace, delegate: NetworkControllerDelegate? = nil) {
         
         sessionDelegate = NetworkSessionDelegate(serverTrustSettings: serverTrustSettings, delegate: delegate)
         
         session = URLSession(configuration: configuration, delegate: sessionDelegate, delegateQueue: sessionDelegate.operationQueue)
         session.sessionDescription = description
-        
+
+        switch cacheBehavior {
+        case .purgeOnLowDiskSpace:
+            cache = Cache.purgableCache
+        case .manualPurgeOrExpirationOnly:
+            cache = Cache.persistantCache
+        }
+
         sessionDelegate.networkController = self
     }
     
@@ -67,9 +94,9 @@ public extension NetworkControllerActions {
         let urlDataTask = session.dataTask(with: request)
         let task: MutableDataTask = {
             if let uploadTask = urlDataTask as? URLSessionUploadTask {
-                return MutableDataTask(request: request, task: uploadTask)
+                return MutableDataTask(request: request, task: uploadTask, cache: cache)
             } else {
-                return MutableDataTask(request: request, task: urlDataTask)
+                return MutableDataTask(request: request, task: urlDataTask, cache: cache)
             }
         }()
         sessionDelegate.queue.async { 
@@ -89,7 +116,7 @@ public extension NetworkControllerActions {
      */
     public func download(with request: DownloadRequestType) -> DownloadTask {
         let urlDownloadTask = session.downloadTask(with: request)
-        let task = MutableDownloadTask(request: request, task: urlDownloadTask)
+        let task = MutableDownloadTask(request: request, task: urlDownloadTask, cache: cache)
         sessionDelegate.queue.async { 
             self.sessionDelegate.tasks.activate(task: task)
         }

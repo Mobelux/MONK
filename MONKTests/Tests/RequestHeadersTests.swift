@@ -2,8 +2,27 @@
 //  RequestHeadersTests.swift
 //  MONK
 //
-//  Created by Jerry Mayers on 7/11/16.
-//  Copyright © 2016 Mobelux. All rights reserved.
+//  MIT License
+//
+//  Copyright (c) 2017 Mobelux
+//
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
+//
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//  THE SOFTWARE.
 //
 
 import XCTest
@@ -23,7 +42,7 @@ class RequestHeadersTests: XCTestCase {
         
         let expectation = self.expectation(description: "Network request")
         let additionalHeaders: [String : String] = ["DummyKey" : "DummyValue"]
-        let settings = RequestSettings(additionalHeaders: additionalHeaders, allowsCellularAccess: true, networkServiceType: .default, cachePolicy: .useProtocolCachePolicy)
+        let settings = RequestSettings(additionalHeaders: additionalHeaders, allowsCellularAccess: true, networkServiceType: .default)
         
         let url = URL(string: "http://jsonplaceholder.typicode.com/posts/1")!
         let request = DataRequest(url: url, httpMethod: .get, settings: settings)
@@ -39,9 +58,9 @@ class RequestHeadersTests: XCTestCase {
         task.addCompletion { (result) in
             switch result {
             case .failure(let error):
-                XCTAssert(false, "Error found: \(error)")
+                XCTAssert(false, "Error found: \(String(describing: error))")
                 expectation.fulfill()
-            case .success(let statusCode, _):
+            case .success(let statusCode, _, _):
                 XCTAssert(statusCode == 200, "Invalid status code found")
                 
                 let requestHeaders = task.dataTask.currentRequest?.allHTTPHeaderFields
@@ -67,7 +86,7 @@ class RequestHeadersTests: XCTestCase {
         
         let expectation = self.expectation(description: "Network request")
         let additionalHeaders: [String : String] = ["Accept" : ContentType.plainText.rawValue]
-        let settings = RequestSettings(additionalHeaders: additionalHeaders, allowsCellularAccess: true, networkServiceType: .default, cachePolicy: .useProtocolCachePolicy)
+        let settings = RequestSettings(additionalHeaders: additionalHeaders, allowsCellularAccess: true, networkServiceType: .default)
         
         let url = URL(string: "http://jsonplaceholder.typicode.com/posts/1")!
         let request = DataRequest(url: url, httpMethod: .get, settings: settings)
@@ -84,9 +103,9 @@ class RequestHeadersTests: XCTestCase {
         task.addCompletion { (result) in
             switch result {
             case .failure(let error):
-                XCTAssert(false, "Error found: \(error)")
+                XCTAssert(false, "Error found: \(String(describing: error))")
                 expectation.fulfill()
-            case .success(let statusCode, _):
+            case .success(let statusCode, _, _):
                 XCTAssert(statusCode == 200, "Invalid status code found")
                 
                 let requestHeaders = task.dataTask.currentRequest?.allHTTPHeaderFields

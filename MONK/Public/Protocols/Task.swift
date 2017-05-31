@@ -2,8 +2,27 @@
 //  Task.swift
 //  MONK
 //
-//  Created by Jerry Mayers on 6/27/16.
-//  Copyright © 2016 Mobelux. All rights reserved.
+//  MIT License
+//
+//  Copyright (c) 2017 Mobelux
+//
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
+//
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//  THE SOFTWARE.
 //
 
 import Foundation
@@ -25,14 +44,25 @@ public enum TaskState {
     case cancelled
 }
 
+/// Was this response from the cache?
+///
+/// - fromCache: Yep it was from the cache. The associated `Date` is when it was added to the cache
+/// - updatedCache: This data just came from the API, and it was different from what was in the cache
+/// - notCached: This data just came from the API, and there was not any cached data for this request
+public enum CachedResponse {
+    case fromCache(Date)
+    case updatedCache
+    case notCached
+}
+
 /**
  The result of a `DataTask`
  
- - success: The case when a `Task's` `state == .complete`. `statusCode`: the HTTP status code from the server. `responseData`: The data returned from the server (if any)
+ - success: The case when a `Task's` `state == .complete`. `statusCode`: the HTTP status code from the server. `responseData`: The data returned from the server (if any). `cached` indicates if this result was from the cache or not
  - failure: The case when a `Task's` `state == .failed`. This `error` is only for errors in reaching the server. Not for errors that the server might be thrown
  */
 public enum TaskResult {
-    case success(statusCode: Int, responseData: Data?)
+    case success(statusCode: Int, responseData: Data?, cached: CachedResponse)
     case failure(error: Error?)
 }
 
@@ -74,6 +104,9 @@ public protocol Task: class {
     
     /// The underlying system task. You should NEVER use `task.cancel()` on this task or your app will leak memory. Instad call `cancel()` on the `Task`
     var task: URLSessionTask { get }
+
+    /// The cache that this task will use, if the `CachePolicy` dictates
+    var cache: Cache { get }
     
     /// The current state of this task
     var state: TaskState { get }

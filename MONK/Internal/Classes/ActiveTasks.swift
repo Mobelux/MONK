@@ -2,20 +2,58 @@
 //  ActiveTasks.swift
 //  MONK
 //
-//  Created by Jerry Mayers on 6/30/16.
-//  Copyright © 2016 Mobelux. All rights reserved.
+//  MIT License
+//
+//  Copyright (c) 2017 Mobelux
+//
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
+//
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//  THE SOFTWARE.
 //
 
 import Foundation
 
+protocol ActiveTasksDelegate: class {
+    /// Anytime the count of tasks changes, this will be called on the queue for this ActiveTasks object
+    ///
+    /// - Parameters:
+    ///   - activeTasks: The object who's task count changes
+    ///   - count: The new count of tasks
+    func activeTasks(_ activeTasks: ActiveTasks, didChangeCountTo count: Int)
+}
+
 /// Object that keeps track of all of the active `Tasks` for a single `NetworkController` and provides conveinence finding of specifc `Tasks`
 final class ActiveTasks {
 
+    weak var delegate: ActiveTasksDelegate?
+
     /// All `DataTasks` that are active
-    private(set) var dataTasks = [MutableDataTask]()
+    private(set) var dataTasks = [MutableDataTask]() {
+        didSet {
+            delegate?.activeTasks(self, didChangeCountTo: count)
+        }
+    }
     
     /// All `DownloadTasks` that are active
-    private(set) var downloadTasks = [MutableDownloadTask]()
+    private(set) var downloadTasks = [MutableDownloadTask]() {
+        didSet {
+            delegate?.activeTasks(self, didChangeCountTo: count)
+        }
+    }
     
     /// The number of active data & download tasks for this instance
     var count: Int {
