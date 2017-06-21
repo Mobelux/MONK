@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "MONK"
-  s.version      = "1.1.1"
+  s.version      = "1.1.2"
   s.summary      = "Mobelux Network Kit, a simple networking library based on URLSession in Swift"
   s.homepage     = "https://github.com/Mobelux/MONK"
   s.license      = "MIT"
