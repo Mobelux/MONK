@@ -94,6 +94,7 @@ final class MutableDownloadTask: DownloadTask, CompletableTask {
     func cancel() {
         downloadTask.cancel()
         
+        completionHandlers.forEach { $0(.failure(error: nil)) }
         removeHandlers()
         
         let _ = try? FileManager.default.removeItem(at: downloadRequest.localURL)

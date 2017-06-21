@@ -115,6 +115,7 @@ final class MutableDataTask: DataTask, CompletableTask {
     func cancel() {
         dataTask.cancel()
         
+        completionHandlers.forEach { $0(.failure(error: nil)) }
         removeHandlers()
     }
     
