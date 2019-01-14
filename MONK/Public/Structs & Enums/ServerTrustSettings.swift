@@ -124,8 +124,8 @@ extension ServerTrustSettings {
         let wildcardPrefix = "*."
         let definesPolicyHosts: [Host] = policies.keys.compactMap({ return $0.hasPrefix(wildcardPrefix) ? $0 : nil })
         for definedHost in definesPolicyHosts {
-            if let wildcardRange = definedHost.range(of: wildcardPrefix), definedHost.characters.count > 2 {
-                let baseDefinedHost = definedHost.substring(from: wildcardRange.upperBound)
+            if let wildcardRange = definedHost.range(of: wildcardPrefix), definedHost.count > 2 {
+                let baseDefinedHost = definedHost[wildcardRange.upperBound...]
                 if host.hasSuffix(".\(baseDefinedHost)") {
                     return policies[definedHost]
                 }
