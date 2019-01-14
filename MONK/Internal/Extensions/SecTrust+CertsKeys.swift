@@ -40,7 +40,7 @@ extension SecTrust {
     }
     
     func publicKeys() -> [SecKey] {
-        let publicKeys = certificates().flatMap { $0.publicKey() }
+        let publicKeys = certificates().compactMap { $0.publicKey() }
         return publicKeys
     }
     

@@ -173,7 +173,7 @@ private extension Cache {
         do {
             let data = try Data(contentsOf: cacheMetadataFile)
             if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [JSON] {
-                let entries = json.flatMap({ return CacheEntry(json: $0) })
+                let entries = json.compactMap({ return CacheEntry(json: $0) })
                 for entry in entries {
                     cacheEntries[entry.requestURL] = entry
                 }

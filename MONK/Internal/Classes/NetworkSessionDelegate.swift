@@ -114,7 +114,7 @@ extension NetworkSessionTaskDelegate: URLSessionTaskDelegate {
         
         internalTask.uploadProgress = (totalBytesExpectedToSend, totalBytesSent, percentProgress)
         for handler in internalTask.uploadProgressHandlers {
-            handler(totalBytes: totalBytesExpectedToSend, completeBytes: totalBytesSent, progress: percentProgress)
+            handler((totalBytes: totalBytesExpectedToSend, completeBytes: totalBytesSent, progress: percentProgress))
         }
     }
     
@@ -144,7 +144,7 @@ extension NetworkSessionDataDelegate: URLSessionDataDelegate {
         let percentProgress = Double(task.task.countOfBytesReceived).progress(of: Double(task.task.countOfBytesExpectedToReceive))
         task.downloadProgress = (task.task.countOfBytesExpectedToReceive, task.task.countOfBytesReceived, percentProgress)
         for handler in task.progressHandlers {
-            handler(totalBytes: task.task.countOfBytesExpectedToReceive, completeBytes: task.task.countOfBytesReceived, progress: percentProgress)
+            handler((totalBytes: task.task.countOfBytesExpectedToReceive, completeBytes: task.task.countOfBytesReceived, progress: percentProgress))
         }
     }
 }
@@ -157,7 +157,7 @@ extension NetworkSessionDownloadDelegate: URLSessionDownloadDelegate {
         let percentProgress = Double(totalBytesWritten).progress(of: Double(totalBytesExpectedToWrite))
         task.downloadProgress = (totalBytesExpectedToWrite, totalBytesWritten, percentProgress)
         for handler in task.progressHandlers {
-            handler(totalBytes: totalBytesExpectedToWrite, completeBytes: totalBytesWritten, progress: percentProgress)
+            handler((totalBytes: totalBytesExpectedToWrite, completeBytes: totalBytesWritten, progress: percentProgress))
         }
     }
     
