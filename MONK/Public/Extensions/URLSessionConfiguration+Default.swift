@@ -42,7 +42,7 @@ public extension URLSessionConfiguration {
      
         Modifying the returned session configuration object does not affect any configuration objects returned by future calls to this method, and does not change the default behavior for existing sessions. It is therefore always safe to use the returned object as a starting point for additional customization.
     */
-    public static var mobeluxDefault: URLSessionConfiguration {
+    static var mobeluxDefault: URLSessionConfiguration {
         let config = URLSessionConfiguration.default
         config.configureMobeluxAdditionalHeaders()
         return config
@@ -61,7 +61,7 @@ public extension URLSessionConfiguration {
      
         - returns:  A configuration object that causes upload and download tasks to be performed by the system in a separate process, with `configureMobeluxAdditionalHeaders()` applied to the configuration object.
     */
-    public static func mobeluxBackground(withIdentifier identifier: String) -> URLSessionConfiguration {
+    static func mobeluxBackground(withIdentifier identifier: String) -> URLSessionConfiguration {
         let config = URLSessionConfiguration.background(withIdentifier: identifier)
         config.configureMobeluxAdditionalHeaders()
         return config
@@ -72,7 +72,7 @@ public extension URLSessionConfiguration {
      
         - descussion: The user agent will be set to `<appName> v<appVersion> (<appBuild#>) - (<deviceModelName>, <displayScale>x, <osVersionAndBuild>)`.
     */
-    public func configureMobeluxAdditionalHeaders() {
+    func configureMobeluxAdditionalHeaders() {
         httpAdditionalHeaders = ["Accept" : ContentType.json.rawValue,
                                  "Accept-Language" : "en",
                                  "Accept-Encoding" : "gzip",
@@ -112,13 +112,11 @@ private func displayScale() -> String {
     #if os(iOS) || os(watchOS) || os(tvOS)
         scale = UIScreen.main.scale
     #elseif os(OSX)
-        if let screens = NSScreen.screens() {
-            for screen in screens {
-                if screen.backingScaleFactor > scale {
-                    scale = screen.backingScaleFactor
-                }
-            }
+    for screen in NSScreen.screens {
+        if screen.backingScaleFactor > scale {
+            scale = screen.backingScaleFactor
         }
+    }
     #endif
     
     return String(format: "%0.1fx", scale)

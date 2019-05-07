@@ -74,7 +74,7 @@ typealias NetworkControllerActions = NetworkController
 public extension NetworkControllerActions {
     
     /// Cancels all currently active tasks for this controller.
-    public func cancelAllTasks() {
+    func cancelAllTasks() {
         sessionDelegate.queue.async { 
             self.sessionDelegate.tasks.dataTasks.forEach { $0.cancel() }
             self.sessionDelegate.tasks.downloadTasks.forEach { $0.cancel() }
@@ -90,7 +90,7 @@ public extension NetworkControllerActions {
      
         - returns: A `DataTask` that is ready to start. NOTE: You must call `task.resume()` before the task will start. You should register any progress/completion handlers before calling `resume()` so that you don't miss the completion call.
     */
-    public func data(with request: Request) -> DataTask {
+    func data(with request: Request) -> DataTask {
         let urlDataTask = session.dataTask(with: request)
         let task: MutableDataTask = {
             if let uploadTask = urlDataTask as? URLSessionUploadTask {
@@ -114,7 +114,7 @@ public extension NetworkControllerActions {
      
      - returns: A `DownloadTask` that is ready to start. NOTE: You must call `task.resume()` before the task will start. You should register any progress/completion handlers before calling `resume()` so that you don't miss the completion call.
      */
-    public func download(with request: DownloadRequestType) -> DownloadTask {
+    func download(with request: DownloadRequestType) -> DownloadTask {
         let urlDownloadTask = session.downloadTask(with: request)
         let task = MutableDownloadTask(request: request, task: urlDownloadTask, cache: cache)
         sessionDelegate.queue.async { 

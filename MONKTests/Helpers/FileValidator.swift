@@ -64,13 +64,12 @@ private extension String {
         guard let dataRange = range(of: "data:"),
             let semiColonRange = range(of: ";"),
             let base64Range = range(of: "base64,") else { return nil }
+
+        let mimeType = self[dataRange.upperBound..<semiColonRange.lowerBound]
         
-        let memeTypeRange = dataRange.upperBound..<semiColonRange.lowerBound
-        let mimeType = substring(with: memeTypeRange)
+        let dataString = self[base64Range.upperBound...]
+        guard let data = Data(base64Encoded: String(dataString)) else { return nil }
         
-        let dataString = substring(from: base64Range.upperBound)
-        guard let data = Data(base64Encoded: dataString) else { return nil }
-        
-        return (mimeType, data)
+        return (String(mimeType), data)
     }
 }

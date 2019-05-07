@@ -28,7 +28,7 @@
 import Foundation
 
 public extension Task {
-    public var state: TaskState {
+    var state: TaskState {
         switch task.state {
         case .suspended:
             return .waiting
@@ -42,10 +42,12 @@ public extension Task {
             } else {
                 return .completed
             }
+        @unknown default:
+            fatalError("\(#function)")
         }
     }
     
-    public func resume() {
+    func resume() {
         if let settings = request.settings, case .get = request.httpMethod, let task = self as? CompletableTask {
             switch settings.cachePolicy {
             case .neverExpires, .headerExpiration, .expireAt:
@@ -57,16 +59,16 @@ public extension Task {
         task.resume()
     }
     
-    public func suspend() {
+    func suspend() {
         task.suspend()
     }
 }
 
 public extension DataTask {
-    public var task: URLSessionTask { return dataTask }
+    var task: URLSessionTask { return dataTask }
 }
 
 public extension DownloadTask {
-    public var request: Request { return downloadRequest }
-    public var task: URLSessionTask { return downloadTask }
+    var request: Request { return downloadRequest }
+    var task: URLSessionTask { return downloadTask }
 }

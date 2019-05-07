@@ -94,7 +94,7 @@ final class ActiveTasks {
         let downloadTasks = self.downloadTasks.filter { $0.task == task.task }
         
         for task in dataTasks {
-            let index = self.dataTasks.index(where: { (innerTask) -> Bool in
+            let index = self.dataTasks.firstIndex(where: { (innerTask) -> Bool in
                 innerTask.task == task.task
             })
             
@@ -104,7 +104,7 @@ final class ActiveTasks {
         }
         
         for task in downloadTasks {
-            let index = self.downloadTasks.index(where: { (innerTask) -> Bool in
+            let index = self.downloadTasks.firstIndex(where: { (innerTask) -> Bool in
                 innerTask.task == task.task
             })
             

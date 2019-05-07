@@ -44,7 +44,7 @@ public extension Dictionary where Key: JSONKey, Value: JSONValue {
      
         - returns: a valid `Data` or throws a `JSONError`
     */
-    public func jsonData() throws -> Data {
+    func jsonData() throws -> Data {
         guard JSONSerialization.isValidJSONObject(self) else { throw JSONError.notValidJSON }
         guard let data = try? JSONSerialization.data(withJSONObject: self, options: .prettyPrinted) else { throw JSONError.couldNotCreateData }
         return data
@@ -59,7 +59,7 @@ public extension Data {
      
         - returns: a valid `JSON` or throws a `JSONError.couldNotCreateJSON`
     */
-    public func json() throws -> JSON {
+    func json() throws -> JSON {
         guard let json = (try? JSONSerialization.jsonObject(with: self, options: .allowFragments)) as? JSON else { throw JSONError.couldNotCreateJSON }
         return json
     }
@@ -68,7 +68,7 @@ public extension Data {
     ///
     /// - Returns: An array of JSON dictionaries
     /// - Throws: A JSONError.couldNotCreateJSON if unable to get an array of JSON
-    public func arrayJSON() throws -> [JSON] {
+    func arrayJSON() throws -> [JSON] {
         guard let jsonArray = (try? JSONSerialization.jsonObject(with: self, options: .allowFragments)) as? [JSON] else { throw JSONError.couldNotCreateJSON }
         return jsonArray
     }

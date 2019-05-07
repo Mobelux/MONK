@@ -51,8 +51,6 @@ struct CacheEntry: Equatable, Hashable {
     /// The original status code
     let statusCode: Int
 
-    var hashValue: Int { return cacheURL.hashValue ^ requestURL.hashValue ^ (expiration?.hashValue ?? 0) ^ statusCode.hashValue }
-
     var json: JSON {
         var json: JSON = [Constants.cacheURL : cacheURL.absoluteString as NSString, Constants.requestURL : requestURL.absoluteString as NSString, Constants.cachedAt : "\(cachedAt.timeIntervalSince1970)" as NSString, Constants.statusCode : statusCode as NSNumber]
         if let expiration = expiration {
